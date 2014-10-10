@@ -2,4 +2,3 @@
 *.pyc
 docs/*/_build
 libs/*
-plugins/*/
