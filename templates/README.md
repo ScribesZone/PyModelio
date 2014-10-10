@@ -1,0 +1,11 @@
+Templates
+=========
+Les templates dans ce répertoire permettent de générer le contenu de documents (ou rapports). Ils déterminent la structure du document en indiquant d'une part quels éléments de modélisation seront présentés, d'autres part l'ordre et le mode de présentation. Chaque template est fourni ici sous la forme d'un fichier .jar : il s'agit de la version compilée des templates.
+
+Installation
+------------
+*Télécharger* le fichier .jar en s'assurant que l'extension est bien .jar et en vérifiant que la dernière version du template à été selectionné. Une fois téléchargé à un endroit quelconque, pour *installer* le template, utiliser le menu contextuel "[Document Publisher] > [Install new template]" sur n'importe quel élément de modèle UML (par exemple sur le répertoire contenant les rapports, mais ce n'est pas indispensable). Spécifier ensuite dans la boite de dialogue qui apparaît le fichier de template à installer en indiquant le fichier .jar qui vient d'être téléchargé. Le template est désormais installé. Il se trouve d'ailleurs dans le répertoire $WORKSPACE/$PROJET/data/templates/en (ou fr) (en supposant que $WORKSPACE représente le "workspace" dans lequel se trouve le projet $PROJET en cours). 
+
+Utilisation
+-----------
+Pour qu'il soit utile, une fois le template installé, un document basé sur ce template doit être créé. Si le template a le même nom qu'un template qui était déjà existant et que le rapport existait déjà également, dans ce cas il n'y a rien à faire car il s'agit juste d'une "mise à jour". Ce sera la dernière version qui sera utilisée pour la génération du document. Mais dans le cas général un nouveau document doit être créé avec le menu "[Document Publisher] > [Create a document]" et le template doit être indiqué dans la partie "[Generation] > [Template] " du formulaire "[Document Creation]". Evidement, si un document de type "Book" ou "Livre" regroupe les différents documents, il faudra certainement ajouter le nouveau document ainsi créé dans cette collection de documents. A chaque fois, pour indiquer quelles parties du modèle doit être figurer dans un document, il faut utiliser l'onglet "[Document Publisher] > [Manifestations]" obtenu avec le menu "[Document Publisher] > [Edit Properties]".

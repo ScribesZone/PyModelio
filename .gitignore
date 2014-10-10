@@ -1,0 +1,5 @@
+*$py.class
+*.pyc
+docs/*/_build
+libs/*
+plugins/*/

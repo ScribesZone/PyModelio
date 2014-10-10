@@ -1,0 +1,2331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_45" class="java.beans.XMLDecoder">
+ <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance0">
+  <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+   <string>newChildren</string>
+   <void method="set">
+    <object idref="NodeInstance0"/>
+    <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="8">
+     <void index="0">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance1">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance1"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance1"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance2">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance2"/>
+              <null/>
+             </void>
+            </void>
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance2"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance3">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance3"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                 </void>
+                 <void property="name">
+                  <string></string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance2"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>reference</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object class="java.lang.Enum" id="ParameterTypes0" method="valueOf">
+                      <class>com.modelio.module.documentpublisher.nodes.model.ParameterTypes</class>
+                      <string>STRING</string>
+                     </object>
+                    </void>
+                    <void property="value">
+                     <string>2</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+            </void>
+            <void property="name">
+             <string>SectionNameOfDictionary</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance1"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.production.SectionNode.SectionType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>startOnNewPage</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>FALSE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>text</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>$Name</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>removeEmptySection</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>TRUE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>sectionStyle</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Titre n</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>numbering</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>TRUE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>alternativeText</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string></string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="name">
+        <string>TemplateDictionnaires_1_1</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.RootNode.RootType</string>
+       </void>
+       <void property="values">
+        <void method="put">
+         <string>releaseNotes</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes0"/>
+          </void>
+          <void property="value">
+           <string></string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>creationDate</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes0"/>
+          </void>
+          <void property="value">
+           <string>Fri Feb 29 11:03:18 CET 2008</string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>description</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes0"/>
+          </void>
+          <void property="value">
+           <string>Basé sur le template DictionnaireEtendu fourni par Modelio. Ce template sera modifié pour les besoins de l&apos;UFR IMAG.&#13;
+------&#13;
+&#13;
+Objectif: Glossaire d&apos;un domaine de modèle.&#13;
+Applicable sur: Dictionnaires.&#13;
+Quand: Au début d&apos;un projet.&#13;
+&#13;
+Peut être utilisé comme un glossaire indépendant, ou imbriqué dans un autre document.&#13;
+Plus détaillé que le Dictionnaire Simple.</string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>templateparameters</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object class="java.lang.Enum" id="ParameterTypes1" method="valueOf">
+            <class>com.modelio.module.documentpublisher.nodes.model.ParameterTypes</class>
+            <string>OBJECT</string>
+           </object>
+          </void>
+          <void property="value">
+           <string>rO0ABXNyABNqYXZhLnV0aWwuQXJyYXlMaXN0eIHSHZnHYZ0DAAFJAARzaXpleHAAAAAKdwQAAAAK&#13;
+c3IATWNvbS5tb2RlbGlvLm1vZHVsZS5kb2N1bWVudHB1Ymxpc2hlci5ub2Rlcy50ZW1wbGF0ZS5j&#13;
+b250ZXh0LlRlbXBsYXRlUGFyYW1ldGVyIihydAjuqx0CAAVaAAtwcm9wYWdhdGlvbkwADGRlZmF1&#13;
+bHRWYWx1ZXQAEkxqYXZhL2xhbmcvU3RyaW5nO0wAC2Rlc2NyaXB0aW9ucQB+AANMAA5lZmZlY3Rp&#13;
+dmVWYWx1ZXEAfgADTAAEbmFtZXEAfgADeHABdAAQTm9tRHVTeXN0ZW1lVE9ET3QADkRvY3VtZW50&#13;
+IHRpdGxldAAAdAAFVGl0bGVzcQB+AAIBdAAKR2xvc3NhaXJlc3QAEERvY3VtZW50IHN1YmplY3Rx&#13;
+AH4AB3QAB1N1YmplY3RzcQB+AAIBdAAKR3JvdXBlVE9ET3QAEURvY3VtZW50IGNhdGVnb3J5cQB+&#13;
+AAd0AAhDYXRlZ29yeXNxAH4AAgF0AA1QcsOpbGltaW5haXJldAAPRG9jdW1lbnQgc3RhdHVzcQB+&#13;
+AAd0AAZTdGF0dXNzcQB+AAIBdAANQXV0ZXVyKHMpVE9ET3QAD0RvY3VtZW50IGF1dGhvcnEAfgAH&#13;
+dAAGQXV0aG9yc3EAfgACAXQABzEuMFRPRE90ABBEb2N1bWVudCB2ZXJzaW9ucQB+AAd0AAdWZXJz&#13;
+aW9uc3EAfgACAXQABElNQUd0ABBEb2N1bWVudCBjb21wYW55cQB+AAd0AAdDb21wYW55c3EAfgAC&#13;
+AXQAAHQAEERvY3VtZW50IGFkZHJlc3NxAH4AB3QAB0FkZHJlc3NzcQB+AAIBcQB+AAd0ABJEb2N1&#13;
+bWVudCBjb3B5cmlnaHRxAH4AB3QACUNvcHlyaWdodHNxAH4AAgF0AAEzdAAmTWF4aW11bSBkZXB0&#13;
+aCBvZiB0aGUgdGFibGUgb2YgY29udGVudHNxAH4AB3QACVRPQyBEZXB0aHg=</string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>modificationDate</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes0"/>
+          </void>
+          <void property="value">
+           <string>Tue Apr 01 20:33:00 CEST 2014</string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>version</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes0"/>
+          </void>
+          <void property="value">
+           <string>1.1</string>
+          </void>
+         </object>
+        </void>
+       </void>
+      </object>
+     </void>
+     <void index="1">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance4">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance4"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance4"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="3">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance5">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance5"/>
+              <null/>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+            </void>
+            <void property="name">
+             <string></string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance4"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>reference</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>3</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+          <void index="1">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance6">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance6"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance7">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance7"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                 </void>
+                 <void property="name">
+                  <string>Call</string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance6"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>reference</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>5</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.analyst.Dictionary</class>
+            </void>
+            <void property="name">
+             <string>ForeachTerm</string>
+            </void>
+            <void property="outputMetaclass">
+             <class>org.modelio.metamodel.analyst.Term</class>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance4"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.navigation.SmartNavigationNode.SmartNavigationType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>sort</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>FALSE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>outputStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>relation</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>OwnedTerm</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>sequenceMode</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>TRUE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>inputStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+          <void index="2">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance8">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance8"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance9">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance9"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>newChildren</string>
+                  <void method="set">
+                   <object idref="NodeInstance9"/>
+                   <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+                    <void index="0">
+                     <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance10">
+                      <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                       <string>children</string>
+                       <void method="set">
+                        <object idref="NodeInstance10"/>
+                        <null/>
+                       </void>
+                      </void>
+                      <void property="description">
+                       <string></string>
+                      </void>
+                      <void property="inputMetaclass">
+                       <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                      </void>
+                      <void property="name">
+                       <string></string>
+                      </void>
+                      <void property="parent">
+                       <object idref="NodeInstance9"/>
+                      </void>
+                      <void property="nodeTypeClass">
+                       <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+                      </void>
+                      <void property="values">
+                       <void method="put">
+                        <string>reference</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>2</string>
+                         </void>
+                        </object>
+                       </void>
+                      </void>
+                     </object>
+                    </void>
+                   </array>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                 </void>
+                 <void property="name">
+                  <string>Section</string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance8"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.production.SectionNode.SectionType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>text</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>$Name</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>sectionStyle</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>Titre n+1</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>alternativeText</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string></string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.analyst.Dictionary</class>
+            </void>
+            <void property="name">
+             <string>AllSubDictionaries</string>
+            </void>
+            <void property="outputMetaclass">
+             <class>org.modelio.metamodel.analyst.Dictionary</class>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance4"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.navigation.SmartFinderNode.SmartFinderType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>sort</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>FALSE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>outputStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>sequenceMode</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>TRUE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>parentFilterStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>parentFilterMetaclass</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes1"/>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>inputStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="name">
+        <string>ProcDictionaryContent</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+       <void property="values">
+        <void method="put">
+         <string>sort</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object class="java.lang.Enum" id="ParameterTypes2" method="valueOf">
+            <class>com.modelio.module.documentpublisher.nodes.model.ParameterTypes</class>
+            <string>BOOLEAN</string>
+           </object>
+          </void>
+          <void property="value">
+           <string>FALSE</string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>sequenceMode</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes2"/>
+          </void>
+          <void property="value">
+           <string>TRUE</string>
+          </void>
+         </object>
+        </void>
+       </void>
+      </object>
+     </void>
+     <void index="2">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance11">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance11"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance11"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="3">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance12">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance12"/>
+              <null/>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+            </void>
+            <void property="name">
+             <string>Call</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance11"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>reference</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>7</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+          <void index="1">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance13">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance13"/>
+              <null/>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+            </void>
+            <void property="name">
+             <string>Call</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance11"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>reference</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>4</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+          <void index="2">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance14">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance14"/>
+              <null/>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+            </void>
+            <void property="name">
+             <string>Call</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance11"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>reference</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>8</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="name">
+        <string>DictionnaryDescriptionIndexAndDiagrams</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+      </object>
+     </void>
+     <void index="3">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance15">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance15"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance15"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance16">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance16"/>
+              <null/>
+             </void>
+            </void>
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance16"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance17">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>newChildren</string>
+                  <void method="set">
+                   <object idref="NodeInstance17"/>
+                   <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="2">
+                    <void index="0">
+                     <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance18">
+                      <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                       <string>children</string>
+                       <void method="set">
+                        <object idref="NodeInstance18"/>
+                        <null/>
+                       </void>
+                      </void>
+                      <void property="description">
+                       <string></string>
+                      </void>
+                      <void property="inputMetaclass">
+                       <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                      </void>
+                      <void property="name">
+                       <string>Reference</string>
+                      </void>
+                      <void property="parent">
+                       <object idref="NodeInstance17"/>
+                      </void>
+                      <void property="nodeTypeClass">
+                       <string>com.modelio.module.documentpublisher.nodes.production.ReferenceNode.ReferenceType</string>
+                      </void>
+                      <void property="values">
+                       <void method="put">
+                        <string>text</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>$Name</string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>reference</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>5_1</string>
+                         </void>
+                        </object>
+                       </void>
+                      </void>
+                     </object>
+                    </void>
+                    <void index="1">
+                     <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance19">
+                      <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                       <string>children</string>
+                       <void method="set">
+                        <object idref="NodeInstance19"/>
+                        <null/>
+                       </void>
+                      </void>
+                      <void property="description">
+                       <string></string>
+                      </void>
+                      <void property="inputMetaclass">
+                       <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                      </void>
+                      <void property="name">
+                       <string>Character</string>
+                      </void>
+                      <void property="parent">
+                       <object idref="NodeInstance17"/>
+                      </void>
+                      <void property="nodeTypeClass">
+                       <string>com.modelio.module.documentpublisher.nodes.production.CharacterNode.CharacterType</string>
+                      </void>
+                      <void property="values">
+                       <void method="put">
+                        <string>text</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>   </string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>characterStyle</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>None</string>
+                         </void>
+                        </object>
+                       </void>
+                      </void>
+                     </object>
+                    </void>
+                   </array>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.analyst.Dictionary</class>
+                 </void>
+                 <void property="name">
+                  <string>AllTermsRecursively</string>
+                 </void>
+                 <void property="outputMetaclass">
+                  <class>org.modelio.metamodel.analyst.Term</class>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance16"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.navigation.SmartFinderNode.SmartFinderType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>sort</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>TRUE</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>outputStereotype</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>None</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>parentFilterStereotype</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>None</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>parentFilterMetaclass</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>Dictionary</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>inputStereotype</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>None</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+            </void>
+            <void property="name">
+             <string>Paragraph</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance15"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.production.ParagraphNode.ParagraphType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>text</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Termes :   </string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>paragraphStyle</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Normal</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>characterStyle</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="name">
+        <string>IndexOfDictionnary</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.analyst.Dictionary</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+      </object>
+     </void>
+     <void index="4">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance20">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance20"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance20"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance21">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance21"/>
+              <null/>
+             </void>
+            </void>
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance21"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="3">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance22">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance22"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                 </void>
+                 <void property="name">
+                  <string>DefinitionOfTerm</string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance21"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.production.ParagraphNode.ParagraphType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>text</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>$Definition</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>paragraphStyle</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>Normal</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>characterStyle</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>Policepardfaut</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>removeEmptyParagraph</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>FALSE</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+               <void index="1">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance23">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance23"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                 </void>
+                 <void property="bookmark">
+                  <boolean>true</boolean>
+                 </void>
+                 <void property="name">
+                  <string></string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance21"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>reference</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>7</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+               <void index="2">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance24">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance24"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                 </void>
+                 <void property="name">
+                  <string></string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance21"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.other.NodeCallNode.NodeCallType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>reference</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>6</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+            </void>
+            <void property="bookmark">
+             <boolean>true</boolean>
+            </void>
+            <void property="name">
+             <string>SectionTerm</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance20"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.production.SectionNode.SectionType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>text</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>$Name : $metaclassName()</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>sectionStyle</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Titre n+1</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>alternativeText</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string></string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.analyst.Term</class>
+       </void>
+       <void property="name">
+        <string>Term</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.analyst.Term</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+      </object>
+     </void>
+     <void index="5">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance25">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance25"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance25"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance26">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance26"/>
+              <null/>
+             </void>
+            </void>
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance26"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance27">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>newChildren</string>
+                  <void method="set">
+                   <object idref="NodeInstance27"/>
+                   <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+                    <void index="0">
+                     <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance28">
+                      <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                       <string>newChildren</string>
+                       <void method="set">
+                        <object idref="NodeInstance28"/>
+                        <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="2">
+                         <void index="0">
+                          <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance29">
+                           <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                            <string>children</string>
+                            <void method="set">
+                             <object idref="NodeInstance29"/>
+                             <null/>
+                            </void>
+                           </void>
+                           <void property="description">
+                            <string></string>
+                           </void>
+                           <void property="inputMetaclass">
+                            <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                           </void>
+                           <void property="name">
+                            <string>NameOfProperty</string>
+                           </void>
+                           <void property="parent">
+                            <object idref="NodeInstance28"/>
+                           </void>
+                           <void property="nodeTypeClass">
+                            <string>com.modelio.module.documentpublisher.nodes.production.CharacterNode.CharacterType</string>
+                           </void>
+                           <void property="values">
+                            <void method="put">
+                             <string>text</string>
+                             <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                              <void property="type">
+                               <object idref="ParameterTypes0"/>
+                              </void>
+                              <void property="value">
+                               <string>$PropertyName(): </string>
+                              </void>
+                             </object>
+                            </void>
+                            <void method="put">
+                             <string>characterStyle</string>
+                             <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                              <void property="type">
+                               <object idref="ParameterTypes0"/>
+                              </void>
+                              <void property="value">
+                               <string>Emphaseple</string>
+                              </void>
+                             </object>
+                            </void>
+                           </void>
+                          </object>
+                         </void>
+                         <void index="1">
+                          <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance30">
+                           <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                            <string>children</string>
+                            <void method="set">
+                             <object idref="NodeInstance30"/>
+                             <null/>
+                            </void>
+                           </void>
+                           <void property="description">
+                            <string></string>
+                           </void>
+                           <void property="inputMetaclass">
+                            <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                           </void>
+                           <void property="name">
+                            <string>ValueOfProperty</string>
+                           </void>
+                           <void property="parent">
+                            <object idref="NodeInstance28"/>
+                           </void>
+                           <void property="nodeTypeClass">
+                            <string>com.modelio.module.documentpublisher.nodes.production.CharacterNode.CharacterType</string>
+                           </void>
+                           <void property="values">
+                            <void method="put">
+                             <string>text</string>
+                             <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                              <void property="type">
+                               <object idref="ParameterTypes0"/>
+                              </void>
+                              <void property="value">
+                               <string>$PropertyValue()</string>
+                              </void>
+                             </object>
+                            </void>
+                            <void method="put">
+                             <string>characterStyle</string>
+                             <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                              <void property="type">
+                               <object idref="ParameterTypes0"/>
+                              </void>
+                              <void property="value">
+                               <string>Accentuation</string>
+                              </void>
+                             </object>
+                            </void>
+                           </void>
+                          </object>
+                         </void>
+                        </array>
+                       </void>
+                      </void>
+                      <void property="description">
+                       <string></string>
+                      </void>
+                      <void property="inputMetaclass">
+                       <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                      </void>
+                      <void property="name">
+                       <string>Liste séparée par des virgules</string>
+                      </void>
+                      <void property="parent">
+                       <object idref="NodeInstance27"/>
+                      </void>
+                      <void property="nodeTypeClass">
+                       <string>com.modelio.module.documentpublisher.nodes.production.CommaSeparatedListNode.CommaSeparatedListType</string>
+                      </void>
+                      <void property="values">
+                       <void method="put">
+                        <string>text</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string></string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>startSeparator</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string></string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>characterStyle</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>Emphaseple</string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>separator</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string> - </string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>endSeparator</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string></string>
+                         </void>
+                        </object>
+                       </void>
+                      </void>
+                     </object>
+                    </void>
+                   </array>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.analyst.Term</class>
+                 </void>
+                 <void property="name">
+                  <string>Get properties</string>
+                 </void>
+                 <void property="outputMetaclass">
+                  <class>org.modelio.metamodel.analyst.AnalystItem</class>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance26"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.navigation.PropertyNavigationNode.PropertyNavigationType</string>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+            </void>
+            <void property="name">
+             <string>Paragraph</string>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance25"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.production.ParagraphNode.ParagraphType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>text</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string></string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>paragraphStyle</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Normal</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>characterStyle</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Policepardfaut</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>removeEmptyParagraph</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes2"/>
+               </void>
+               <void property="value">
+                <string>FALSE</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.analyst.Term</class>
+       </void>
+       <void property="name">
+        <string>TermPropertyList</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.analyst.Term</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+       <void property="values">
+        <void method="put">
+         <string>sort</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes2"/>
+          </void>
+          <void property="value">
+           <string>FALSE</string>
+          </void>
+         </object>
+        </void>
+        <void method="put">
+         <string>sequenceMode</string>
+         <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+          <void property="type">
+           <object idref="ParameterTypes2"/>
+          </void>
+          <void property="value">
+           <string>TRUE</string>
+          </void>
+         </object>
+        </void>
+       </void>
+      </object>
+     </void>
+     <void index="6">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance31">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance31"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance31"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="2">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance32">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance32"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance33">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance33"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.uml.infrastructure.Element</class>
+                 </void>
+                 <void property="name">
+                  <string>DictionaryDescription</string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance32"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.production.ParagraphNode.ParagraphType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>text</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>$Content</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>paragraphStyle</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>Normal</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>characterStyle</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>Policepardfaut</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>removeEmptyParagraph</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>FALSE</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+            </void>
+            <void property="name">
+             <string>Descriptions</string>
+            </void>
+            <void property="outputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.Note</class>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance31"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.navigation.NoteNavigationNode.NoteNavigationType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>noteName</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>description</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>sort</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>FALSE</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>sequenceMode</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>TRUE</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+          <void index="1">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance34">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance34"/>
+              <null/>
+             </void>
+            </void>
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance34"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance35">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance35"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.uml.infrastructure.ExternDocument</class>
+                 </void>
+                 <void property="name">
+                  <string>Rich Note</string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance34"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.production.ExternDocumentNode.ExternDocumentType</string>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+            </void>
+            <void property="name">
+             <string>DescriptionRichNotes</string>
+            </void>
+            <void property="outputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.ExternDocument</class>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance31"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.navigation.ExternDocumentNavigationNode.ExternDocumentNavigationType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>externDocName</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>description</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+       </void>
+       <void property="name">
+        <string>Descriptions</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+      </object>
+     </void>
+     <void index="7">
+      <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance36">
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>children</string>
+        <void method="set">
+         <object idref="NodeInstance36"/>
+         <null/>
+        </void>
+       </void>
+       <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+        <string>newChildren</string>
+        <void method="set">
+         <object idref="NodeInstance36"/>
+         <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+          <void index="0">
+           <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance37">
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>children</string>
+             <void method="set">
+              <object idref="NodeInstance37"/>
+              <null/>
+             </void>
+            </void>
+            <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+             <string>newChildren</string>
+             <void method="set">
+              <object idref="NodeInstance37"/>
+              <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="2">
+               <void index="0">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance38">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance38"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.diagrams.AbstractDiagram</class>
+                 </void>
+                 <void property="name">
+                  <string>Diagram</string>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance37"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.production.DiagramNode.DiagramType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>resizingPolicy</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>DOCUMENT</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>caption</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>$Name</string>
+                    </void>
+                   </object>
+                  </void>
+                  <void method="put">
+                   <string>mapping</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string># This function is called when computing hyperlinks on this diagram.&#13;
+# It must return a valid element, or &apos;None&apos;.&#13;
+# elt the element reprensented in the diagram.&#13;
+# diagram the diagram the element is unmasked in.&#13;
+def getMapping(self, elt, diagram):&#13;
+	return elt&#13;
+</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+               <void index="1">
+                <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance39">
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>children</string>
+                  <void method="set">
+                   <object idref="NodeInstance39"/>
+                   <null/>
+                  </void>
+                 </void>
+                 <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                  <string>newChildren</string>
+                  <void method="set">
+                   <object idref="NodeInstance39"/>
+                   <array class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" length="1">
+                    <void index="0">
+                     <object class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" id="NodeInstance40">
+                      <void class="com.modelio.module.documentpublisher.nodes.model.NodeInstance" method="getField">
+                       <string>children</string>
+                       <void method="set">
+                        <object idref="NodeInstance40"/>
+                        <null/>
+                       </void>
+                      </void>
+                      <void property="description">
+                       <string></string>
+                      </void>
+                      <void property="inputMetaclass">
+                       <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+                      </void>
+                      <void property="name">
+                       <string>Paragraph</string>
+                      </void>
+                      <void property="parent">
+                       <object idref="NodeInstance39"/>
+                      </void>
+                      <void property="nodeTypeClass">
+                       <string>com.modelio.module.documentpublisher.nodes.production.ParagraphNode.ParagraphType</string>
+                      </void>
+                      <void property="values">
+                       <void method="put">
+                        <string>text</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>$Content</string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>paragraphStyle</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>Normal</string>
+                         </void>
+                        </object>
+                       </void>
+                       <void method="put">
+                        <string>characterStyle</string>
+                        <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                         <void property="type">
+                          <object idref="ParameterTypes0"/>
+                         </void>
+                         <void property="value">
+                          <string>None</string>
+                         </void>
+                        </object>
+                       </void>
+                      </void>
+                     </object>
+                    </void>
+                   </array>
+                  </void>
+                 </void>
+                 <void property="description">
+                  <string></string>
+                 </void>
+                 <void property="inputMetaclass">
+                  <class>org.modelio.metamodel.diagrams.AbstractDiagram</class>
+                 </void>
+                 <void property="name">
+                  <string>Note Navigation</string>
+                 </void>
+                 <void property="outputMetaclass">
+                  <class>org.modelio.metamodel.uml.infrastructure.Note</class>
+                 </void>
+                 <void property="parent">
+                  <object idref="NodeInstance37"/>
+                 </void>
+                 <void property="nodeTypeClass">
+                  <string>com.modelio.module.documentpublisher.nodes.navigation.NoteNavigationNode.NoteNavigationType</string>
+                 </void>
+                 <void property="values">
+                  <void method="put">
+                   <string>noteName</string>
+                   <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+                    <void property="type">
+                     <object idref="ParameterTypes0"/>
+                    </void>
+                    <void property="value">
+                     <string>description</string>
+                    </void>
+                   </object>
+                  </void>
+                 </void>
+                </object>
+               </void>
+              </array>
+             </void>
+            </void>
+            <void property="description">
+             <string></string>
+            </void>
+            <void property="inputMetaclass">
+             <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+            </void>
+            <void property="name">
+             <string>Diagrams</string>
+            </void>
+            <void property="outputMetaclass">
+             <class>org.modelio.metamodel.diagrams.AbstractDiagram</class>
+            </void>
+            <void property="parent">
+             <object idref="NodeInstance36"/>
+            </void>
+            <void property="nodeTypeClass">
+             <string>com.modelio.module.documentpublisher.nodes.navigation.SmartNavigationNode.SmartNavigationType</string>
+            </void>
+            <void property="values">
+             <void method="put">
+              <string>outputStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>relation</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>Product</string>
+               </void>
+              </object>
+             </void>
+             <void method="put">
+              <string>inputStereotype</string>
+              <object class="com.modelio.module.documentpublisher.nodes.model.NodeParameterValue">
+               <void property="type">
+                <object idref="ParameterTypes0"/>
+               </void>
+               <void property="value">
+                <string>None</string>
+               </void>
+              </object>
+             </void>
+            </void>
+           </object>
+          </void>
+         </array>
+        </void>
+       </void>
+       <void property="description">
+        <string></string>
+       </void>
+       <void property="inputMetaclass">
+        <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+       </void>
+       <void property="name">
+        <string>Diagrams</string>
+       </void>
+       <void property="outputMetaclass">
+        <class>org.modelio.metamodel.uml.infrastructure.ModelElement</class>
+       </void>
+       <void property="parent">
+        <object idref="NodeInstance0"/>
+       </void>
+       <void property="nodeTypeClass">
+        <string>com.modelio.module.documentpublisher.nodes.other.ProcedureNode.ProcedureType</string>
+       </void>
+      </object>
+     </void>
+    </array>
+   </void>
+  </void>
+  <void property="inputMetaclass">
+   <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+  </void>
+  <void property="name">
+   <string>Dummy Node</string>
+  </void>
+  <void property="outputMetaclass">
+   <class>org.modelio.vcore.smkernel.mapi.MObject</class>
+  </void>
+  <void property="nodeTypeClass">
+   <string>com.modelio.module.documentpublisher.nodes.other.DummyNode.DummyNodeType</string>
+  </void>
+ </object>
+</java>

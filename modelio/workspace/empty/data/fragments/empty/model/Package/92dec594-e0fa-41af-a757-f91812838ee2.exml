@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="empty" version="3">
+  <DEPS>
+    <ID name="empty" mc="Package" uid="92dec594-e0fa-41af-a757-f91812838ee2"/>
+    <COMPID name="overview diagram" mc="ClassDiagram" uid="911952cd-397e-4a7f-9a8c-a50e1ccb0c94"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="empty" mc="Package" uid="92dec594-e0fa-41af-a757-f91812838ee2"/>
+    <PID name="empty" mc="Project" uid="1add968a-61e7-4f41-9459-bfa1a984b8f5"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[empty]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Product">
+        <COMPID name="overview diagram" mc="ClassDiagram" uid="911952cd-397e-4a7f-9a8c-a50e1ccb0c94"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

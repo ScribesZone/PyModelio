@@ -1,0 +1,122 @@
+    #--------------------------------------------------------------------------- 
+    #  Localisation of ModelioScribes distribution directory
+    #--------------------------------------------------------------------------  
+
+   
+    
+    def _addModelioScribesToPropertiesFromUserSettings(self):
+        """ 
+        Try to set the value of PYMODELIO_HOME from this property user settings.py.
+
+        Check that there is a .modelioscribes directory.
+        Then import the file settings.py from there.
+        Then get the value of PYMODELIO_HOME from there.
+        Set the property PYMODELIO_HOME
+        If there is an error at some point return an exception.
+        """
+        msuserdir = self.getProperty("USER_PYMODELIO")
+        if not os.path.isdir(msuserdir):
+            raise Exception("no directory %s" % msuserdir)
+        # Add temporarily the .modelioscribe user directory to the path
+        # in order to be able to import settings.py.
+        # It is be remove then from the path (and will be added later on)
+        sys.path.append(msuserdir)
+        try:
+            import settings
+        except:
+            # for some reason we cannot import .modelioscribes/settings.py
+            sys.path = sys.path[:-1]
+            raise Exception("can't import settings from %s" % msuserdir)
+        sys.path = sys.path[:-1]
+        try:
+            pymodelio = settings.PYMODELIO
+        except:
+            raise Exception("Value MODELIOSCRIBES is not defined in %s" % msuserdir)
+        if not os.dir(pymodelio):
+            print "ERROR: %s is not a directory" % pymodelio
+            print "Change the value of PYMODELIO in .modelioscribes/settings.py"
+            raise Exception("Wrong value for PYMODELIO in .modelioscribes/settings.py")
+        self._props["PYMODELIO"] = pymodelio
+        
+    def _createInitialUserSettingsFile(self):
+        """
+        Try to create the initial user settings.
+        
+        This file will include some variables.
+        """
+        
+        defaultSettingFileContent="""# -*- coding: utf-8 -*-
+
+# WARNING: On Windows don't forget to escape \ characters.
+#          For instance "C:\Users\djamila\.modelioscribes"
+
+# Path to the the ModelioScribes distribution directory
+PYMODELIO=%s
+
+# Path to the temporary directory
+TMP=%s
+""" % (self._props["PYMODELIO"], self._props["TMP"])
+
+        msuserdir = self.getProperty("USER_PYHOME")
+        # if .modelioscribes does not exist create it
+        if not os.path.isdir(msuserdir):
+            try:
+                os.mkdir(msuserdir)
+            except:
+                print "WARNING: can't create directory .modelioscribes"
+                return
+        # if the file settings.py does not exist create it
+        settingsfile = os.path.join(msuserdir,"settings.py")
+        if not os.path.isfile(settingsfile):
+            try:
+                file = open(settingsfile,"w")
+                file.write(defaultSettingFileContent)
+                file.close()
+            except:
+                print "WARNING: can't write to file %s" % settingsfile
+                return
+        print "WARNING: You should add the following line to %s" % settingsfile
+        print "   PYMODELIO='%s'" % self._props["PYMODELIO"]
+            
+    
+    def _searchAndAddModelioScribesDirectoryToProperties(self):
+        """ Search ModelioScribes directory and add its path to the property 'home' """    
+        
+        def _ScribeHomeHelpThenFail():
+            msg = """
+The environment variable SCRIBES_HOME is currently not set.
+Its value should be set to the path of the directory  ModelioScribes.
+The expected value might look like C:\\DEV\\ModelioScribes.
+Please set this variable using your operating system and
+restart modelio after doing so.
+
+On Windows environment variables can be changed via the interface
+using something like the following:
+'Settings' > 'System properties' > 'Advanced' > 'Environment variables'."
+On UNIX systems, this could be done in your .bashrc file for instance."
+Check your operating system documentation to see how to set an"
+an environment variable.
+"""
+            print msg
+            raise Exception("Cannot start this macro")
+
+        try: 
+            # (1) Check first the environment variable SCRIBES_HOME
+            home = os.environ['PYMODELIO']
+            if os.path.isdir(home):
+                self._props["PYMODELIO"] = home
+                return
+            else:
+                print "Environment variable PYMODELIO is set to %s but this is not a valid directory."%home
+                _ScribeHomeHelpThenFail()
+        except KeyError:
+            searchorder = [ 'MODELIO_WORKSPACE_MACROS','MODELIO_WORKSPACE', \
+                            'USER_MODELIO','USER_HOME' ]
+            for key in searchorder:
+                home = os.path.join(self.getProperty(key),"ModelioScribes")
+                if os.path.isdir(home):
+                    self._props["PYMODELIO"] = home
+                    return
+            _ScribeHomeHelpThenFail()
+            
+    
