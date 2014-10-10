@@ -1,99 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/pymodelio/core/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/jmfavre.xml" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\modules\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\modules\gui.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\modules\misc.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\modules\modelioscriptor.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\modules\patterns.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\modules\textual_tree.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\docs\JythonInANutshell.pptx" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\docs\ModelioScribes.pptx" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\docs\ModelioScriptor.pptx" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\catalog-entries.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\macro_metascribe_coexplorer.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\macro_oclscribe_generate_ocl.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\macro_sandbox.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\modelioPatches\jython.jar" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\install\modelioscribes_startup.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\AuditScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\ClassScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\DjangoScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\DoxyRevScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\GlossaryScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\modules\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\modules\metascribe.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\modules\metascribe_introspection.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\CompositeRole.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\Dimension.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\IDiagramLink.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\IDiagramNode.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\ILinkPath.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\IStyle.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\IStyleHandle.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\MAttribute.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\MClass.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\MDependency.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\Point.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\Rectangle.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\UUID.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\assoc-1.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\assoc-n.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\atomic.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\bool.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\boolean.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\enumeration.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\float.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\int.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\integer.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\long.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\string.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\MetaScribe\res\unicode.gif" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\docs\OCLScribe.pdf" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\docs\OCLScribe.pptx" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\docs\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\docs\images\OSCLScribeLogoLarge.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\modules\oclscribe.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\modules\oclscribe_generator.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\tests\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\tests\testCases\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\tests\testCases\UMLTestCases-3.zip" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\tests\testResults\Company.use" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\tests\testResults\Employee.use" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\OCLScribe\tests\testResults\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\ProjectScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\ProjectScribe\docs\ProjectScribe.pptx" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\ProjectScribe\tests\HouseBuildingSample.gan" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\ReferenceScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\RequirementScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SQLScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SQLScribe\docs\SQLScribe.pptx" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\googlesheet.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\helloworld.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\ooss.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\oossmapper.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\poitest.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\pydtest.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\sandbox.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\snapshot.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\treetester.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\modules\webbrowser.py" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\res\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SandScribe\res\client_secrets.json" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SequenceScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\SpreadsheetScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\TextScribe\README.md" afterPath="" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\scribes\UseCaseScribe\README.md" afterPath="" />
-    </list>
+    <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="" />
     <ignored path="PyModelio.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -814,29 +722,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/api.old/alaocl.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/api.old/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5162" max-vertical-offset="5984">
-          <caret line="342" column="8" selection-start-line="342" selection-start-column="8" selection-end-line="342" selection-end-column="8" />
-          <folding>
-            <element signature="e#24#34#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
