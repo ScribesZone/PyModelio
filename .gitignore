@@ -1,4 +1,11 @@
-*$py.class
-*.pyc
 docs/*/_build
+docs/_build
 libs/*
+
+
+# Python / Jython
+
+*$py.class
+*.py[cod]
+__pycache__/
+
