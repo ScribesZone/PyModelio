@@ -45,10 +45,10 @@ class USEWindow(object):
 from org.modelio.metamodel.uml.statik import *
 from org.modelio.metamodel.uml.infrastructure import *
 from org.modelio.metamodel.mda import Project
-from oclscribe_generator import compileEnumerations
-from oclscribe_generator import compileClasses
-from oclscribe_generator import compileAssociations
-from oclscribe_generator import compileConstraints
+from generator import compileEnumerations
+from generator import compileClasses
+from generator import compileAssociations
+from generator import compileConstraints
 
 
 def compileSelectedElements(selectedElements):
@@ -77,9 +77,10 @@ def compileSelectedElements(selectedElements):
 #---------------------------------------------------------------------------
 #  Macro definition
 #---------------------------------------------------------------------------
-def macro_generate_ocl(scribeexec): 
-  if (scribeexec.selectedElements.size() > 0):
-    toDisplay = compileSelectedElements(scribeexec.selectedElements)
+def macro_generate_ocl(context):
+  if (context.getSelectedElements().size() > 0):
+    toDisplay = compileSelectedElements(context.getSelectedElements())
+    print context.getSelectedElements()
     USEWindow(title = "USE Generation", toDisplay = toDisplay)
   else:
     USEWindow(title = "USE Code Generation", toDisplay = "No Element has been selected") 

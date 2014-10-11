@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/__init__.py" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\plugins\OCLScribe\oclscribe\oclscribe_generator.py" afterPath="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/generator.py" />
+      <change type="DELETED" beforePath="C:\DEV\PyModelio\plugins\OCLScribe\oclscribe\oclscribe_generator.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/oclscribe.py" afterPath="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/oclscribe.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/core/plugins.py" afterPath="$PROJECT_DIR$/commons/pymodelio/core/plugins.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyModelio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,8 +63,8 @@
           <file leaf-file-name="oclscribe.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/plugins/OCLScribe/oclscribe/oclscribe.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.84753364" vertical-offset="725" max-vertical-offset="1394">
-                  <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
+                <state vertical-scroll-proportion="0.51718986" vertical-offset="742" max-vertical-offset="1411">
+                  <caret line="72" column="25" selection-start-line="72" selection-start-column="25" selection-end-line="72" selection-end-column="25" />
                   <folding />
                 </state>
               </provider>
@@ -164,8 +161,8 @@
         <option value="$USER_HOME$/.modelio/3.1/macros/macro_sandbox.py" />
         <option value="$USER_HOME$/.modelio/3.1/macros/macro_oclscribe_generate_ocl.py" />
         <option value="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/__init__.py" />
-        <option value="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/oclscribe.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/core/plugins.py" />
+        <option value="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/oclscribe.py" />
       </list>
     </option>
   </component>
@@ -815,8 +812,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plugins/OCLScribe/oclscribe/oclscribe.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84753364" vertical-offset="725" max-vertical-offset="1394">
-          <caret line="84" column="49" selection-start-line="84" selection-start-column="49" selection-end-line="84" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.51718986" vertical-offset="742" max-vertical-offset="1411">
+          <caret line="72" column="25" selection-start-line="72" selection-start-column="25" selection-end-line="72" selection-end-column="25" />
           <folding />
         </state>
       </provider>
