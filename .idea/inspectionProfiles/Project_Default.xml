@@ -93,7 +93,7 @@
       </option>
     </inspection_tool>
     <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="INFO" enabled_by_default="true" />
     <inspection_tool class="PyPropertyAccessInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="PyPropertyDefinitionInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="PyProtectedMemberInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
@@ -123,9 +123,11 @@
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <value>
-          <list size="2">
+          <list size="4">
             <item index="0" class="java.lang.String" itemvalue="commons.pymodelio.setup.java" />
             <item index="1" class="java.lang.String" itemvalue="pymodelio.core.plugins.java" />
+            <item index="2" class="java.lang.String" itemvalue="pymodelio.core.env.PyModelioEnv.MAIN_PLUGINS" />
+            <item index="3" class="java.lang.String" itemvalue="pymodelio.core.env.PyModelioEnv.LOCAL_PLUGINS" />
           </list>
         </value>
       </option>

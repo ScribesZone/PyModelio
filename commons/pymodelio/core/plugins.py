@@ -23,7 +23,7 @@ class Plugin(object):
     Constants specific to this plugin are with the "PLUGIN" prefix. In the plugin
     this prefix is used to avoid having to refer to the name of the plugin.
 
-    - PLUGIN                : the root directory of the plugin
+    - PLUGIN                : the  directory of the plugin
     - PLUGIN_NAME           : the name of the plugin
     - PLUGIN_ROOT           : either "MAIN" or "LOCAL"
     - PLUGIN_RES            : directory for resources
@@ -50,12 +50,14 @@ class Plugin(object):
         :param "MAIN"|"LOCAL" root: either "MAIN" or "LOCAL"
         :return: a Plugin object
         """
+        print "        Registering plugin %s.%s ..." %(root,pluginName),
         self.ENV = pyModelioEnv         #: environment
-        self.ROOT = root
+        self.PLUGIN_ROOT = root
         self.PLUGIN_NAME = pluginName
-        self.PLUGIN_CONSTANT_PREFIX = self.ROOT+"_"+self.PLUGIN_NAME.upper()+"_"
-        self.__registerPluginDirectories(self,"PLUGIN_")
+        self.PLUGIN_CONSTANT_PREFIX = self.PLUGIN_ROOT+"_"+self.PLUGIN_NAME.upper()
+        self.__registerPluginDirectories(self,"PLUGIN")
         self.__registerPluginDirectories(self.ENV,self.PLUGIN_CONSTANT_PREFIX)
+        print 'done'
 
     #====================================================================
     #                          Class Implementation
@@ -81,9 +83,9 @@ class Plugin(object):
         :return: none
         """
 
-        subdirectory_map = {
+        SUBDIRECTORY_MAP = {
             # Constant Suffix directories path_key
-            ''              : ('',''),
+            ''              : ('',None),
             '<PLUGIN_NAME>' : (None,'PYTHON'),
             'RES'           : ('res',None),
             'TESTS'         : ('tests','PYTHON'),
@@ -93,38 +95,46 @@ class Plugin(object):
             }
 
         # initialize the different path element lists to []
-        path_keys = set([path_key for (x,path_key) in self.subdirectory_map.values()]).discard(None)
+        path_keys = set([path_key for (x,path_key) in SUBDIRECTORY_MAP.values()
+                         if path_key is not None])
         path_elements = {}
         for path_key in path_keys:
             path_elements[path_key]=[]
 
-        # deal with plugin directories listed in subdirectory_map
-        for (constant_suffix,(subdir_string,path_key)) in self.subdirectory_map.items():
+        # deal with plugin directories listed in SUBDIRECTORY_MAP
+        for (constant_suffix,(subdir_string,path_key)) in SUBDIRECTORY_MAP.items():
             # define the constant (either in this class
             if constant_suffix == "<PLUGIN_NAME>":
-                constant = constantPrefix+"PACKAGE"
+                constant = constantPrefix+"_PACKAGE"
                 subdir_elements = ['plugins',self.PLUGIN_NAME,self.PLUGIN_NAME.lower()]
             else:
-                constant = constantPrefix+constant_suffix
+                constant = constantPrefix+("_" if constant_suffix else "")+constant_suffix
                 subdir_elements = ['plugins',self.PLUGIN_NAME]+subdir_string.split(' ')
-            directory = self.ENV.fromRoot(self.ROOT,subdir_elements)
+            directory = self.ENV.fromRoot(self.PLUGIN_ROOT,subdir_elements)
             setattr(objectToChange,constant,directory)
             # add the directory to the corresponding path if any
             if path_key is not None:
-                path_elements[path_key].append(directory)
-
+                if path_key=='JAVA':
+                    # In case of java, jar files are to be added, not the directory
+                    jar_files = self.ENV._searchJarFiles(directory)
+                    path_elements[path_key].extend(jar_files)
+                else:
+                    # In other cases, we add simply the directory
+                    path_elements[path_key].append(directory)
         # update the different paths constant with the information collected
         for path_key in path_keys:
-            path_constant = constantPrefix+path_key+"_PATH_ELEMENTS"
+            path_constant = constantPrefix+"_PATH_"+path_key
             setattr(objectToChange,path_constant,path_elements[path_key])
 
     def __str__(self):
-        r = "Plugin "+self.ROOT+"."+self.PLUGIN_NAME+"\n"
+        r = "Plugin "+self.PLUGIN_ROOT+"."+self.PLUGIN_NAME+"\n"
         for attribute in self.__attrs__:
             if attribute.startsWith("PLUGIN_"):
                 r += "    %s = %s\n" % (getattr(self,attribute,"*No Value*"))
         return r
 
+    def __repr__(self):
+        return "Plugin(%s.%s:%s)" %(self.PLUGIN_ROOT,self.PLUGIN_NAME,self.PLUGIN)
 
 
 

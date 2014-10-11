@@ -38,8 +38,8 @@ The parameter is one of the following key:
 - "MODELIO_WORKSPACE_MACROS"    : macros directory in workspace
 - "MODELIO_VERSION_SIMPLE"      : modelio version like "3.2"
 - "MODELIO_VERSION_FULL"        : modelio version like "3.2.02.0"
-- "PYMODELIO_MAIN"              : ModelioScribes distribution directory
-- "PYMODELIO_LOCAL"             : local directory for the user to add features
+- "MAIN"                        : ModelioScribes distribution directory
+- "LOCAL"                       : local directory for the user to add features
 - "PYMODELIO_PATHS_FILE"        : name of the .modelio/pymodelio_paths.py
 - "<ROOT>_LIBS_PYTHON"          : directory containing external python libs
 - "<ROOT>_LIBS_JAVA"            : directory containing external java libs
@@ -53,13 +53,8 @@ The parameter is one of the following key:
 
 import os
 import sys
-# noinspection PyUnresolvedReferences
-import java.lang
-# noinspection PyUnresolvedReferences
-import java.net
-# noinspection PyUnresolvedReferences
-from org.modelio.api.modelio import Modelio
 from pymodelio.core.plugins import Plugin
+from pymodelio.core.misc import getConstantMap
 
 
 class PyModelioEnv(object):
@@ -78,14 +73,14 @@ class PyModelioEnv(object):
         and with correct values for Python & Java paths.
         """
         self.INITIAL_PYTHON_PATH = initialPythonPath    #: Initial python path
-        self.PYMODELIO_MAIN = pyModelioMain             #: "PyModelio" Directory
+        self.MAIN = pyModelioMain                       #: "PyModelio" Directory
         # The following value will be processed in this class.
         # It can have None currently but then a default place will be given.
-        self.PYMODELIO_LOCAL = pyModelioLocal           #: "PyModelioLocal" Directory
+        self.LOCAL = pyModelioLocal                     #: "PyModelioLocal" Directory
         self.WITH_MODELIO = withModelio                 #: Is the execution in the context of modelio?
-        # noinspection PyUnresolvedReferences
         if self.WITH_MODELIO:
-            self.INITIAL_JAVA_CLASS_LOADER = sys.getClassLoader()   #! Initial class loader
+            # noinspection PyUnresolvedReferences
+            self.INITIAL_JAVA_CLASS_LOADER = sys.getClassLoader()   #: Initial class loader
         else:
             self.INITIAL_JAVA_CLASS_LOADER = None
         # Many other constants are defined. See documentation
@@ -98,21 +93,22 @@ class PyModelioEnv(object):
         Use this method if new directories, plugins, etc. are added.
         Otherwise these changes will not be taken into consideration.
         """
-        self.PYTHON_PATH_DIRECTORIES = []               # will be updated by some methods below
         self.__registerSystemDirectories()              # define constants
         if self.WITH_MODELIO:
             self.__registerModelioProperties()              # define constants
         self.__registerUserDirectoriesToProperties()    # define constants
         self.__managePyModelioLocal()                   # constants + directory structure
         self.__registerRootsCommonsAndLibs()            # define constants
-        self.__registerPlugins()
-        # add common modules and python libraries to the path
-        dirsAddedToPath = self._addAllModulesAndPythonLibraryDirectoriesToPythonPath()
-        # FIXME:! self.PYTHON_PATH_ADDED_DIRS = user_dirsAddedToPath
-
-        self.scribe = None      # set in scribe. Is it really useful?
-        print ("ModelioScribes framework initialized from %s" % self.PYMODELIO_MAIN)
-
+        print '    Registering plugins'
+        self.__registerPlugins()                        # register all plugins
+        print '    %i plugin(s) registered' % len(self.PLUGIN_NAMES)
+        self.__setPythonPath()
+        print '    %i directories added to python path' % len(self.PATH_PYTHON)
+        if self.WITH_MODELIO:
+            self.__setJavaPath()
+            print '    %i jar files added to java path' % len(self.PATH_JAVA)
+        self.__setDocsPath()
+        print '    %i directories added to docs path' % len(self.PATH_DOCS)
 
     def fromRoot(self,root,pathElements=()):
         """
@@ -121,13 +117,13 @@ class PyModelioEnv(object):
 
         If nothing is provided then return the *root* directory.
         :param "MAIN"|"ROOT" root: the root directory used as a reference.
-        :param [str] patheElements: a list (or tuple) of directory/file names.
+        :param [str] pathElements: a list (or tuple) of directory/file names.
             Only only the last element could be file.
         """
         if root=="MAIN":
-            root = self.PYMODELIO_MAIN
+            root = self.MAIN
         elif root=="LOCAL":
-            root = self.PYMODELIO_LOCAL
+            root = self.LOCAL
         else:
             raise ValueError("%s given. Must be either MAIN or LOCAL"%root)
         return os.path.join(* [root]+pathElements)
@@ -168,19 +164,7 @@ class PyModelioEnv(object):
                 except:pass
             exec( "import "+moduleName )
 
-    def setJavaPath(self,pathEntries,baseDirectory=None):
-        urls = []
-        for pe in pathEntries:
-            urls.append(java.net.URL("file:"+pe))
-        sys.setClassLoader(java.net.URLClassLoader(urls,self.INITIAL_JAVA_CLASS_LOADER))
-        
-    def restoreJavaPath(self):
-        sys.setClassLoader(self.INITIAL_JAVA_CLASS_LOADER)
-    # def __str__(self):
-    #    sep = java.lang.System.getProperty("path.separator")
-    #    urls = sys.getClassLoader().getURLs()
-    #    return sep.join([url.getPath() for url in urls])    
-        
+
 
     #-----------------------------------------------------------------
     # Access to modelio changing variables
@@ -196,25 +180,18 @@ class PyModelioEnv(object):
         return modelingSession     
 
 
+    def __str__(self):
+        r = "PyModelioEnv\n"
+        for (constant,value) in getConstantMap(self).items():
+            r += "    %s = %s\n" % (constant,value)
+        return r
 
         
     #====================================================================
     #                          Class Implementation
     #====================================================================
     
-    # use to build the mapping between constants and paths
-    # keep it to make evolution of mapping possible
-    _STRUCTURE_MAPPING = {
-        "COMMONS": "commons",
-        "LIBS_PYTHON": "libs python",
-        "LIBS_JAVA": "libs java",
-        }
-        
-    _IN_PYTHON_PATH = ["COMMONS","LIBS_PYTHON"]
-    
 
-        
-        
     
     def __registerSystemDirectories(self):
         """ add system directories to properties 
@@ -224,6 +201,9 @@ class PyModelioEnv(object):
         self.TMP = tempfile.gettempdir()
     
     def __registerModelioProperties(self):
+        # noinspection PyUnresolvedReferences
+        from org.modelio.api.modelio import Modelio
+
         context = Modelio.getInstance().getContext()
         workspaceDir = context.getWorkspacePath().toString()
         self.MODELIO_WORKSPACE = workspaceDir
@@ -246,18 +226,18 @@ class PyModelioEnv(object):
         """ Check if there is a local structure or create it otherwise """
         # check if there was a setting by the user in .modelio
         # otherwise use the directory .modelio/PyModelioLocal
-        if self.PYMODELIO_LOCAL is None:
+        if self.LOCAL is None:
             # The user has not specified any value in its file
             # By default this will be a directory in in the .modelio directory
-            self.PYMODELIO_LOCAL = os.path.join(self.USER_MODELIO,"PyModelioLocal")
-        if not os.path.isdir(self.PYMODELIO_LOCAL):
+            self.LOCAL = os.path.join(self.USER_MODELIO,"PyModelioLocal")
+        if not os.path.isdir(self.LOCAL):
             # There is no directory for the local structure
             # initialize it
             self.__initializePyModelioLocal()
         
     def __initializePyModelioLocal(self):
         """ Create an initial PyModelioLocal directory structure """
-        os.mkdir(self.PYMODELIO_LOCAL)
+        os.mkdir(self.LOCAL)
         # TODO: copy the structure from an existing place
             
     def __registerRootsCommonsAndLibs(self):
@@ -269,31 +249,60 @@ class PyModelioEnv(object):
         - <ROOT>/libs/java
         :return:
         """
-        for (key,spaced_path) in self._STRUCTURE_MAPPING.items():
-            for root in ["MAIN", "LOCAL"]:
-                constant = root+"_"+key
-                # print "%s = %s(%s)" % (constant,spaced_path,spaced_path.split(" "))
-                value = self.fromRoot(root,spaced_path.split(" "))
-                setattr(self,constant,value)
-                if key in self._IN_PYTHON_PATH:
-                    print "PATH ",
-                print "%s ROOTS %s = %s" % (key,constant,value)
+
+
+        # use to build the mapping between constants and paths
+        # keep it to make evolution of mapping possible
+        SUBDIRECTORY_MAP = {
+            "COMMONS": ("commons","PYTHON"),
+            'RES'           : ('res',None),
+            'TESTS'         : ('tests','PYTHON'),
+            'DOCS'          : ('docs','DOCS'),
+            "LIBS_PYTHON": ("libs python","PYTHON"),
+            "LIBS_JAVA": ("libs java","JAVA"),
+        }
+
+        # initialize the different path element lists to []
+        path_keys = set([path_key for (x,path_key) in SUBDIRECTORY_MAP.values()
+                         if path_key is not None])
+        path_elements = {}
+        for path_key in path_keys:
+            path_elements[path_key]=[]
+
+        # deal with directories listed in SUBDIRECTORY_MAP
+        for root in ["LOCAL", "MAIN"]:
+            for path_key in path_keys:
+                path_elements[path_key]=[]
+            for (constant_suffix,(subdir,path_key)) in SUBDIRECTORY_MAP.items():
+                constant = root+"_"+constant_suffix
+                directory = self.fromRoot(root,subdir.split(" "))
+                setattr(self,constant,directory)
+                # add the directory to the corresponding path if any
+                if path_key is not None:
+                    if path_key=='JAVA':
+                        # In case of java, jar files are to be added, not the directory
+                        jar_files = self._searchJarFiles(directory)
+                        path_elements[path_key].extend(jar_files)
+                    else:
+                        # In other cases, we add simply the directory
+                        path_elements[path_key].append(directory)
+            # update the different paths constant with the information collected
+            for path_key in path_keys:
+                path_constant = root+"_PATH_"+path_key
+                setattr(self,path_constant,path_elements[path_key])
 
 
     def __registerPlugins(self):
         """
-        Add directories following these patterns to the path:
-
-        - <ROOT>/plugins/<PLUGIN_NAME>/<PLUGIN_NAME>
-        - <ROOT>/plugins/<PLUGIN_NAME>/libs/python
-        - <ROOT>/plugins/<PLUGIN_NAME>/libs/java
+        Register the various plugins with LOCAL plugins taking precedence over MAIN plugins.
         """
         # Add the directories in an order that make
         # that plugin defined locally will override
         # plugins with the same name in the main root.
         for root in ["MAIN","LOCAL"]:  # DO NOT change this order!
-            plugin_dir = root+os.sep+"plugins"
-            setattr(self,root+"_PLUGINS",plugin_dir)
+            plugin_dir = self.fromRoot(root,["plugins"])
+            plugins = {}
+            setattr(self,root+"_PLUGINS_ROOT",plugin_dir)
             if os.path.isdir(plugin_dir):
                 plugin_names = os.listdir(plugin_dir)
             else:
@@ -302,52 +311,95 @@ class PyModelioEnv(object):
 
             for plugin_name in plugin_names:
                 plugin = Plugin(self,root,plugin_name)
+                plugins[plugin_name] = plugin
 
-        raise Exception("Hello - directory has to be added to the path, check variables")
-        # add these directory to python path
-        for directory in directories:
-            if os.path.isdir(directory):
-                self.__addDirectoryToPythonPath(directory)
-            else:
-                raise Exception("%s is not a directory. Cannot add it to python path"%directory)
-
+            setattr(self,root+"_PLUGINS",plugins)
+        all_plugins = self.MAIN_PLUGINS.copy()
+        all_plugins.update(self.LOCAL_PLUGINS)
+        self.PLUGINS = all_plugins
+        self.PLUGIN_NAMES = all_plugins.keys()
 
 
-    #-----------------------------------------------------------------------
-    #  Module Management and python library management.
-    #-----------------------------------------------------------------------
+
+
+    def __registerPathElements(self,pathKey):
+        path_elements = []
+        for plugin in self.PLUGINS.values():
+            path_elements += getattr(plugin,"PLUGIN_PATH_"+pathKey)
+        for root in ["LOCAL","MAIN"]:
+            path_elements += getattr(self,root+'_PATH_'+pathKey)
+        setattr(self,'PATH_'+pathKey,path_elements)
+
+    def __setPythonPath(self):
+        self.__registerPathElements('PYTHON')
+        # noinspection PyUnresolvedReferences
+        for directory in self.PATH_PYTHON:
+            self.__addDirectoryToPythonPath(directory)
+
 
     def __addDirectoryToPythonPath(self,directory):
-        """ 
-        Add the directory to the python path if it does not exist already.
-        
-        Check that the directory is valid. Otherwise a message is simply issued.
-        Returns a boolean indicating if this was a success or not but no
-        exception is raised.
-        """
+        """ Add the directory to the python path if it does not exist already. """
         if not directory in sys.path:
-            if os.path.isdir(directory):
-                sys.path.append(directory)
-        else:
-            print \
-               "WARNING: %s was notadded to python path. Not a valid directory!"%directory
-    
+            sys.path.append(directory)
 
 
 
+    def _searchJarFiles(self,directory):
+        """
+        Return the list of .jar files in the given directory.
+
+        If the name given is not a directory or in any case of error
+        just return an empty list but do not fail.
+        :param directory: the full path to the directory to explore
+        :type directory: str
+        :return: the list of .jar files
+        :rtype: list[str]
+        """
+        jars = []
+        if os.path.isdir(directory):
+            try:
+                files = os.listdir(directory)
+            except:
+                return []
+            for file in files:
+                file_path = directory+os.sep+file
+                try:
+                  is_jar = file.endswith('.jar') and os.path.isfile(file_path)
+                except:
+                    is_jar = False
+                if is_jar:
+                    jars.append(file_path)
+        return jars
 
 
-    #TODO: use this in reading configuration settings
-    def isGlobalConstant(self,name):
-        import re
-        return re.match(r"^[A-Z][A-Z_]*$",name) is not None
 
-    def getGlobalConstants(self,entity):
-        return [(name,value) for (name,value) in entity.__dict__.items() if self.isGlobalConstant(name)]
+    def __setJavaPath(self):
+        # Having these import here instead that at the global level
+        # avoid problems with importing this module in python rather
+        # then jython. Useful for sphinx and so on.
+
+        # noinspection PyUnresolvedReferences
+        import java.net
+
+        self.__registerPathElements('JAVA')
+        urls = []
+        # noinspection PyUnresolvedReferences
+        for jar_file in self.PATH_JAVA:
+            self.__addDirectoryToPythonPath(jar_file)
+            urls.append(java.net.URL("file:"+jar_file))
+        newClassLoader = java.net.URLClassLoader(urls,self.INITIAL_JAVA_CLASS_LOADER)
+        # noinspection PyUnresolvedReferences
+        sys.setClassLoader(newClassLoader)
+
+    # def __restoreJavaPath(self):
+    #    sys.setClassLoader(self.INITIAL_JAVA_CLASS_LOADER)
+    # def __str__(self):
+    #    sep = java.lang.System.getProperty("path.separator")
+    #    urls = sys.getClassLoader().getURLs()
+    #    return sep.join([url.getPath() for url in urls])
 
 
-
-
-
+    def __setDocsPath(self):
+        self.__registerPathElements('DOCS')
 
 
