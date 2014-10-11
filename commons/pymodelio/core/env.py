@@ -67,7 +67,8 @@ class PyModelioEnv(object):
     (see the end of this file). 
     """
 
-    def __init__(self, initialPythonPath, pyModelioMain, pyModelioLocal, withModelio=True):
+    def __init__(self, initialPythonPath, pyModelioMain, pyModelioLocal,
+                 withModelio=True, withJython=True):
         """
         Create the PyModelio environment with a bunch of constants towards relevant directories
         and with correct values for Python & Java paths.
@@ -78,7 +79,8 @@ class PyModelioEnv(object):
         # It can have None currently but then a default place will be given.
         self.LOCAL = pyModelioLocal                     #: "PyModelioLocal" Directory
         self.WITH_MODELIO = withModelio                 #: Is the execution in the context of modelio?
-        if self.WITH_MODELIO:
+        self.WITH_JYTHON =  withJython                  #: Is the execution on the Jython platform?
+        if self.WITH_JYTHON:
             # noinspection PyUnresolvedReferences
             self.INITIAL_JAVA_CLASS_LOADER = sys.getClassLoader()   #: Initial class loader
         else:
@@ -103,11 +105,14 @@ class PyModelioEnv(object):
         self.__registerPlugins()                        # register all plugins
         print '    %i plugin(s) registered' % len(self.PLUGIN_NAMES)
         self.__setPythonPath()
+        # noinspection PyUnresolvedReferences
         print '    %i directories added to python path' % len(self.PATH_PYTHON)
-        if self.WITH_MODELIO:
+        if self.WITH_JYTHON:
             self.__setJavaPath()
+            # noinspection PyUnresolvedReferences
             print '    %i jar files added to java path' % len(self.PATH_JAVA)
         self.__setDocsPath()
+        # noinspection PyUnresolvedReferences
         print '    %i directories added to docs path' % len(self.PATH_DOCS)
 
     def fromRoot(self,root,pathElements=()):
@@ -185,6 +190,10 @@ class PyModelioEnv(object):
         for (constant,value) in getConstantMap(self).items():
             r += "    %s = %s\n" % (constant,value)
         return r
+
+    def __repr__(self):
+        return self.__str__()
+
 
         
     #====================================================================
@@ -314,12 +323,16 @@ class PyModelioEnv(object):
                 plugins[plugin_name] = plugin
 
             setattr(self,root+"_PLUGINS",plugins)
+
+        # Compute the list of plugins. Some "MAIN" plugins can be hidden
+        # because of "LOCAL" plugins.
         all_plugins = self.MAIN_PLUGINS.copy()
         all_plugins.update(self.LOCAL_PLUGINS)
         self.PLUGINS = all_plugins
         self.PLUGIN_NAMES = all_plugins.keys()
 
-
+        for (name,plugin) in all_plugins.items():
+            setattr(self,'PLUGIN_'+(name.upper()),plugin)
 
 
     def __registerPathElements(self,pathKey):

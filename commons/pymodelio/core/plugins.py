@@ -5,15 +5,8 @@
 
 
 """
-
-import os
 import sys
-
-import java.lang
-import java.net
-
-
-
+from pymodelio.core.misc import getConstantMap
 
 
 class Plugin(object):
@@ -78,12 +71,14 @@ class Plugin(object):
         on the environment (and this depending on the first parameter).
         In each case a distinct prefix will be used for the constants.
         Create also constants for the various path.
-        :param objectToChange PuModelioEnv|Plugin: either self or the environment.
-        :param constantPrefix str: the prefix to be add to constant.
+        :param objectToChange: either self or the environment.
+        :type objectToChange: PyModelioEnv|Plugin
+        :param constantPrefix: the prefix to be add to constant.
+        :type constantPrefix: str
         :return: none
         """
 
-        SUBDIRECTORY_MAP = {
+        subdirectory_map = {
             # Constant Suffix directories path_key
             ''              : ('',None),
             '<PLUGIN_NAME>' : (None,'PYTHON'),
@@ -95,14 +90,14 @@ class Plugin(object):
             }
 
         # initialize the different path element lists to []
-        path_keys = set([path_key for (x,path_key) in SUBDIRECTORY_MAP.values()
+        path_keys = set([path_key for (x,path_key) in subdirectory_map.values()
                          if path_key is not None])
         path_elements = {}
         for path_key in path_keys:
             path_elements[path_key]=[]
 
         # deal with plugin directories listed in SUBDIRECTORY_MAP
-        for (constant_suffix,(subdir_string,path_key)) in SUBDIRECTORY_MAP.items():
+        for (constant_suffix,(subdir_string,path_key)) in subdirectory_map.items():
             # define the constant (either in this class
             if constant_suffix == "<PLUGIN_NAME>":
                 constant = constantPrefix+"_PACKAGE"
@@ -127,10 +122,11 @@ class Plugin(object):
             setattr(objectToChange,path_constant,path_elements[path_key])
 
     def __str__(self):
-        r = "Plugin "+self.PLUGIN_ROOT+"."+self.PLUGIN_NAME+"\n"
-        for attribute in self.__attrs__:
-            if attribute.startsWith("PLUGIN_"):
-                r += "    %s = %s\n" % (getattr(self,attribute,"*No Value*"))
+        r = "Plugin "+self.PLUGIN_ROOT+"."+self.PLUGIN_NAME+"(\n"
+        for (constant,value) in getConstantMap(self).items():
+            if constant.startswith("PLUGIN_"):
+                r += "        %s = %s\n" % (constant,value)
+        r += '        )'
         return r
 
     def __repr__(self):
@@ -140,38 +136,48 @@ class Plugin(object):
 
 
 
-class PluginExecution(Plugin):
-    def __init__(self, plugin_name, entryFunName, modules=[], debug=None):
-        """ Execute a particular plugin entry point.
+class PluginExecution(object):
+    """
+    Execution of a Plugin.
+    """
+    def __init__(self, entryFunctionName, modules=(), debug=True):
+        """
+          Execute a particular plugin entry point.
         """
 
-        global PLUGIN
-        super(PluginExecution, self).__init__(self, plugin_name)
-        self.env.plugin = self  # set the current plugin just for information
-        PLUGIN = self
+        # extract elements from the name given
+        try:
+            (plugin_name,module_name,function_name)=entryFunctionName.split('.')
+        except ValueError:
+            sys.stderr.write("ERROR: expecting <plugin>.<module>.<function>, found: %s\n"
+                             % entryFunctionName)
+            raise
+
+        plugin_name
+
 
         # --- collect selectedElements, modelingSession, selection from modelio variables
-        global selectedElements  #RO
-        self.selectedElements = selectedElements
-        global modelingSession  #RO
-        self.modelingSession = modelingSession
-        global selection  #RO
-        self.selection = selection
+        # global selectedElements  #RO
+        # self.selectedElements = selectedElements
+        # global modelingSession  #RO
+        # self.modelingSession = modelingSession
+        # global selection  #RO
+        # self.selection = selection
 
         #--- compute debug flag, based on the parameter or DEBUG global variable otherwise
-        if debug is None:
-            try:
-                global DEBUG
-                self.debug = DEBUG
-            except:
-                self.debug = DEBUG
-        else:
-            self.debug = debug
+        # if debug is None:
+        #     try:
+        #         global DEBUG
+        #         self.debug = DEBUG
+        #     except:
+        #         self.debug = DEBUG
+        # else:
+        #     self.debug = debug
 
         #--- compute
-        (m, f) = self._computeEntry(plugin_name, entryFunName)
-        self.entryModule = m
-        self.entryFunName = f
+        # (m, f) = self._computeEntry(plugin_name, entryFunName)
+        # self.entryModule = m
+        # self.entryFunName = f
 
         #-- load the list of modules specified (plus the entry modules)
         self.modules = modules
@@ -189,16 +195,16 @@ class PluginExecution(Plugin):
                + self.entryFunName + "(self)" )
 
 
-    def _computeEntry(self, pluginname, entryFunName):
-        """ compute the name of the entryModule from the entry function name provided
-        """
-        lastDotIndex = entryFunName.rfind('.')
-        if lastDotIndex == -1:
-            # if the entry function is not qualified, then deduce the module from pluginname
-            entryModule = pluginname.lower()
-            entryFunName = entryModule + "." + entryFunName
-        else:
-            # take the qualifier
-            entryModule = entryFunName[0:lastDotIndex]
-            entryFunName = entryFunName
-        return (entryModule, entryFunName)
+    # def _computeEntry(self, pluginname, entryFunName):
+    #     """ compute the name of the entryModule from the entry function name provided
+    #     """
+    #     lastDotIndex = entryFunName.rfind('.')
+    #     if lastDotIndex == -1:
+    #         # if the entry function is not qualified, then deduce the module from pluginname
+    #         entryModule = pluginname.lower()
+    #         entryFunName = entryModule + "." + entryFunName
+    #     else:
+    #         # take the qualifier
+    #         entryModule = entryFunName[0:lastDotIndex]
+    #         entryFunName = entryFunName
+    #     return (entryModule, entryFunName)
