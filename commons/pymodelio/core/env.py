@@ -19,11 +19,13 @@ This very small framework supports the following features:
 - support for directory management allowing to develop code independently from execution.
 - finding the ModelioScribes directory where more features can be installed.
 - extension of the python path and java path to reuse existing python or java libraries.
+- access to modelio global variables (selection, selectedElements, modelingSession from
+  modules.
 
 The framework provides 3 classes:
 
 - PyModelioEnv
-- Scribe
+- Plugin
 - PluginExecution 
 
 
@@ -53,7 +55,7 @@ The parameter is one of the following key:
 
 import os
 import sys
-from pymodelio.core.plugins import Plugin
+from pymodelio.core.plugins import Plugin,PluginExecution
 from pymodelio.core.misc import getConstantMap
 
 
@@ -68,6 +70,7 @@ class PyModelioEnv(object):
     """
 
     def __init__(self, initialPythonPath, pyModelioMain, pyModelioLocal,
+                 modelioGlobalFunctions,
                  withModelio=True, withJython=True):
         """
         Create the PyModelio environment with a bunch of constants towards relevant directories
@@ -86,7 +89,13 @@ class PyModelioEnv(object):
         else:
             self.INITIAL_JAVA_CLASS_LOADER = None
         # Many other constants are defined. See documentation
+
+        # define the modelio global function on this very class
+        for function in modelioGlobalFunctions:
+            setattr(self,function.__name__,function)
+
         self.restart()
+
 
     def restart(self):
         """ 
@@ -95,6 +104,7 @@ class PyModelioEnv(object):
         Use this method if new directories, plugins, etc. are added.
         Otherwise these changes will not be taken into consideration.
         """
+        self.PLUGIN_EXECUTIONS = []
         self.__registerSystemDirectories()              # define constants
         if self.WITH_MODELIO:
             self.__registerModelioProperties()              # define constants
@@ -114,6 +124,38 @@ class PyModelioEnv(object):
         self.__setDocsPath()
         # noinspection PyUnresolvedReferences
         print '    %i directories added to docs path' % len(self.PATH_DOCS)
+
+    def getPlugin(self,name):
+        """
+        Get a plugin by name.
+
+        The given name can either be the PluginName (e.g. MetaScribe) or a lower
+        version of it.
+
+        :param name: The name of the plugin or a lowercase version of it.
+        :type name: str
+        :return: a plugin object
+        :rtype: pymodelio.core.plugins.Plugin
+        :raise: ValueError if no such plugin
+        """
+        # try first to get it directly
+        try:
+            return self.PLUGINS[name]
+        except KeyError:
+            # try to search with lower cases
+            for (pluginName,plugin) in self.PLUGINS.items():
+                if name==pluginName.lower():
+                    return plugin
+            # not found
+            raise ValueError('No Plugin named %s' % name)
+
+    def execute(self,entryFunctionName,modules=(),debug=False):
+        name = entryFunctionName.split(".")[0]
+        plugin = self.getPlugin(name)
+        execution = PluginExecution(self,plugin,entryFunctionName,modules,debug)
+        self.PLUGIN_EXECUTIONS.append(execution)
+        plugin._addExecution(execution)
+        execution.run()
 
     def fromRoot(self,root,pathElements=()):
         """
@@ -177,12 +219,10 @@ class PyModelioEnv(object):
         
     def getSelectedElements(self):
         """  Return current selected elements of modelio. """
-        global selectedElements
         return selectedElements
-        
+
     def getModelingSession(self):
-        global modelingSession
-        return modelingSession     
+        return modelingSession
 
 
     def __str__(self):

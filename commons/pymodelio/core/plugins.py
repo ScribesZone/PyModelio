@@ -5,7 +5,6 @@
 
 
 """
-import sys
 from pymodelio.core.misc import getConstantMap
 
 
@@ -48,9 +47,18 @@ class Plugin(object):
         self.PLUGIN_ROOT = root
         self.PLUGIN_NAME = pluginName
         self.PLUGIN_CONSTANT_PREFIX = self.PLUGIN_ROOT+"_"+self.PLUGIN_NAME.upper()
+        self.PLUGIN_EXECUTIONS = []
         self.__registerPluginDirectories(self,"PLUGIN")
         self.__registerPluginDirectories(self.ENV,self.PLUGIN_CONSTANT_PREFIX)
         print 'done'
+
+    def _addExecution(self,execution):
+        """
+        Add an execution to this plugin
+        :param execution: the execution
+        :return: Nothing
+        """
+        self.PLUGIN_EXECUTIONS.append(execution)
 
     #====================================================================
     #                          Class Implementation
@@ -101,7 +109,7 @@ class Plugin(object):
             # define the constant (either in this class
             if constant_suffix == "<PLUGIN_NAME>":
                 constant = constantPrefix+"_PACKAGE"
-                subdir_elements = ['plugins',self.PLUGIN_NAME,self.PLUGIN_NAME.lower()]
+                subdir_elements = ['plugins',self.PLUGIN_NAME]
             else:
                 constant = constantPrefix+("_" if constant_suffix else "")+constant_suffix
                 subdir_elements = ['plugins',self.PLUGIN_NAME]+subdir_string.split(' ')
@@ -140,21 +148,31 @@ class PluginExecution(object):
     """
     Execution of a Plugin.
     """
-    def __init__(self, entryFunctionName, modules=(), debug=True):
+    def __init__(self, pyModelioEnv, plugin, entryFunctionName, modules=(), debug=False):
         """
-          Execute a particular plugin entry point.
+        Object representing plugin execution.
+
+        This object if first created, but only calling the method "run" start execution.
+        :param pyModelioEnv: The PyModelio environment.
+        :param plugin: The plugin to be executed.
+        :param entryFunctionName: The fully qualified name of the function to execute
+        :param modules: The python modules to be loaded/reloaded
+        :param debug: If true python modules will be reloaded
+        :return: An execution object.
         """
 
-        # extract elements from the name given
-        try:
-            (plugin_name,module_name,function_name)=entryFunctionName.split('.')
-        except ValueError:
-            sys.stderr.write("ERROR: expecting <plugin>.<module>.<function>, found: %s\n"
-                             % entryFunctionName)
-            raise
+        self.ENV = pyModelioEnv
+        self.PLUGIN = plugin
+        self.ENTRY_MODULE = '.'.join(entryFunctionName.split('.')[:-1])
+        self.ENTRY_FUNCTION_NAME = entryFunctionName
+        self.MODULES = modules
+        self.DEBUG = debug
 
-        plugin_name
-
+        #-- load the list of modules specified (plus the entry modules)
+        self.modules = modules
+        if self.ENTRY_MODULE  not in modules:
+            self.modules.append(self.ENTRY_MODULE)
+        self.ENV.loadPythonModule(self.modules, self.DEBUG)
 
         # --- collect selectedElements, modelingSession, selection from modelio variables
         # global selectedElements  #RO
@@ -179,20 +197,12 @@ class PluginExecution(object):
         # self.entryModule = m
         # self.entryFunName = f
 
-        #-- load the list of modules specified (plus the entry modules)
-        self.modules = modules
-        if self.entryModule not in modules:
-            self.modules += [self.entryModule]
-        self.env.loadPythonModule(self.modules, self.debug)
-
-        #-- execute the entry function
-        self.runEntryFunction()
 
 
-    def runEntryFunction(self):
-        self.env.plugin = self  # set the current plugin
-        exec ( "import " + self.entryModule + ";"
-               + self.entryFunName + "(self)" )
+    def run(self):
+        code = "import " + self.ENTRY_MODULE + "\n" \
+               + self.ENTRY_FUNCTION_NAME + "(self)"
+        exec ( code )
 
 
     # def _computeEntry(self, pluginname, entryFunName):
