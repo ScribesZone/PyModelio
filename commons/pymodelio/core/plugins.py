@@ -174,30 +174,6 @@ class PluginExecution(object):
             self.modules.append(self.ENTRY_MODULE)
         self.ENV.loadPythonModule(self.modules, self.DEBUG)
 
-        # --- collect selectedElements, modelingSession, selection from modelio variables
-        # global selectedElements  #RO
-        # self.selectedElements = selectedElements
-        # global modelingSession  #RO
-        # self.modelingSession = modelingSession
-        # global selection  #RO
-        # self.selection = selection
-
-        #--- compute debug flag, based on the parameter or DEBUG global variable otherwise
-        # if debug is None:
-        #     try:
-        #         global DEBUG
-        #         self.debug = DEBUG
-        #     except:
-        #         self.debug = DEBUG
-        # else:
-        #     self.debug = debug
-
-        #--- compute
-        # (m, f) = self._computeEntry(plugin_name, entryFunName)
-        # self.entryModule = m
-        # self.entryFunName = f
-
-
 
     def run(self):
         code = "import " + self.ENTRY_MODULE + "\n" \
@@ -205,16 +181,11 @@ class PluginExecution(object):
         exec ( code )
 
 
-    # def _computeEntry(self, pluginname, entryFunName):
-    #     """ compute the name of the entryModule from the entry function name provided
-    #     """
-    #     lastDotIndex = entryFunName.rfind('.')
-    #     if lastDotIndex == -1:
-    #         # if the entry function is not qualified, then deduce the module from pluginname
-    #         entryModule = pluginname.lower()
-    #         entryFunName = entryModule + "." + entryFunName
-    #     else:
-    #         # take the qualifier
-    #         entryModule = entryFunName[0:lastDotIndex]
-    #         entryFunName = entryFunName
-    #     return (entryModule, entryFunName)
+    def __getattr__(self,constant):
+        """ Return a constant defined on this plugin or the environment.
+        :param constant: the constant to read
+        :return: the value of the constant
+        :raise: KeyError if the constant is neither defined in this plugin nor the environment.
+        """
+        return getattr(self.PLUGIN,constant)
+
