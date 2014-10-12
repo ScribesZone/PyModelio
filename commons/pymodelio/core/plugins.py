@@ -108,13 +108,16 @@ class Plugin(object):
         for (constant_suffix,(subdir_string,path_key)) in subdirectory_map.items():
             # define the constant (either in this class
             if constant_suffix == "<PLUGIN_NAME>":
-                constant = constantPrefix+"_PACKAGE"
+                constant = constantPrefix+"_HOME"
                 subdir_elements = ['plugins',self.PLUGIN_NAME]
+                directory = self.ENV.fromRoot(self.PLUGIN_ROOT,subdir_elements)
+                setattr(objectToChange,constant,directory)
+                setattr(objectToChange,constantPrefix+'_PACKAGE',self.PLUGIN_NAME.lower())
             else:
                 constant = constantPrefix+("_" if constant_suffix else "")+constant_suffix
                 subdir_elements = ['plugins',self.PLUGIN_NAME]+subdir_string.split(' ')
-            directory = self.ENV.fromRoot(self.PLUGIN_ROOT,subdir_elements)
-            setattr(objectToChange,constant,directory)
+                directory = self.ENV.fromRoot(self.PLUGIN_ROOT,subdir_elements)
+                setattr(objectToChange,constant,directory)
             # add the directory to the corresponding path if any
             if path_key is not None:
                 if path_key=='JAVA':
