@@ -127,6 +127,7 @@ class PyModelioEnv(object):
         self.__setDocsPath()
         # noinspection PyUnresolvedReferences
         print '    %i directories added to docs path' % len(self.PATH_DOCS)
+        print '    Working directory is %s' % os.getcwd()
 
     def getPlugin(self,name):
         """
