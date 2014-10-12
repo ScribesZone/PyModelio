@@ -381,15 +381,23 @@ class PyModelioEnv(object):
 
     def __setPythonPath(self):
         self.__registerPathElements('PYTHON')
+        print 'Initial python path was: %s' % self.INITIAL_PYTHON_PATH
+        sys.path = list(self.INITIAL_PYTHON_PATH)
         # noinspection PyUnresolvedReferences
-        for directory in self.PATH_PYTHON:
+        l = list(self.PATH_PYTHON)
+        # reverse the list since the directories are added at the beginning.
+        l.reverse()
+        for directory in l:
             self.__addDirectoryToPythonPath(directory)
 
 
     def __addDirectoryToPythonPath(self,directory):
-        """ Add the directory to the python path if it does not exist already. """
+        """
+        Add the directory at the *beginning* of to the python path
+        if it does not exist already.
+        """
         if not directory in sys.path:
-            sys.path.append(directory)
+            sys.path.insert(0,directory)
 
 
 
