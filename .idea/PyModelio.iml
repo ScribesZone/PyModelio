@@ -5,7 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/commons" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/libs/python" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Jython 2.7b2 (C:\S\jython2.7b2\bin\jython.bat)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">

@@ -1,5 +1,5 @@
 #===================================================================================
-# oclscribe_generator
+# OclScribe_generator
 #
 # This module generates USEOCL text for the following uml constructs:
 #  - Enumeration
@@ -9,7 +9,7 @@
 #  - Operation
 #  - TypedElement
 #  - Association
-#  - NAryAssciation
+#  - NAryAssociation
 #  - Constraint
 #  - CommentClass
 #  - CommentAttribute
@@ -36,8 +36,12 @@
 #   Module Implementation
 #-----------------------------------------------------------------------------------
 
+
+# noinspection PyUnresolvedReferences
 from org.modelio.metamodel.uml.statik import *
+# noinspection PyUnresolvedReferences
 from org.modelio.metamodel.uml.infrastructure import *
+# noinspection PyUnresolvedReferences
 from org.modelio.metamodel.mda import Project
 
     
