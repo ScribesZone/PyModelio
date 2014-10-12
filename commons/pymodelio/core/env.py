@@ -21,6 +21,9 @@ This very small framework supports the following features:
 - extension of the python path and java path to reuse existing python or java libraries.
 - access to modelio global variables (selection, selectedElements, modelingSession from
   modules.
+- set the working directory to a local directory so that macros can read and write
+  in a well defined place. By default the local directory is Modelio installation
+  directory, which is definitively not a good place to write files.
 
 The framework provides 3 classes:
 
@@ -56,7 +59,7 @@ The parameter is one of the following key:
 import os
 import sys
 from pymodelio.core.plugins import Plugin,PluginExecution
-from pymodelio.core.misc import getConstantMap
+from pymodelio.core.misc import getConstantMap,ensureDirectory
 
 
 class PyModelioEnv(object):
@@ -213,17 +216,6 @@ class PyModelioEnv(object):
 
 
 
-    #-----------------------------------------------------------------
-    # Access to modelio changing variables
-    #-----------------------------------------------------------------
-        
-    def getSelectedElements(self):
-        """  Return current selected elements of modelio. """
-        return selectedElements
-
-    def getModelingSession(self):
-        return modelingSession
-
 
     def __str__(self):
         r = "PyModelioEnv\n"
@@ -272,22 +264,25 @@ class PyModelioEnv(object):
             os.path.join(userModelio,"pymodelio_paths.py")
 
     def __managePyModelioLocal(self):
-        """ Check if there is a local structure or create it otherwise """
+        """
+        Check if there is a local structure or create it otherwise.
+
+        Set the working directory to LOCAL_WORKING_DIRECTORY.
+        """
         # check if there was a setting by the user in .modelio
         # otherwise use the directory .modelio/PyModelioLocal
         if self.LOCAL is None:
             # The user has not specified any value in its file
             # By default this will be a directory in in the .modelio directory
             self.LOCAL = os.path.join(self.USER_MODELIO,"PyModelioLocal")
-        if not os.path.isdir(self.LOCAL):
-            # There is no directory for the local structure
-            # initialize it
-            self.__initializePyModelioLocal()
-        
-    def __initializePyModelioLocal(self):
-        """ Create an initial PyModelioLocal directory structure """
-        os.mkdir(self.LOCAL)
-        # TODO: copy the structure from an existing place
+        self.LOCAL_WORKING_DIRECTORY = os.path.join(self.LOCAL,'working_directory')
+        self.__ensurePyModelioLocalStructure()
+        os.chdir(self.LOCAL_WORKING_DIRECTORY)
+
+    def __ensurePyModelioLocalStructure(self):
+        """ Ensure that the PyModelioLocal directory structure is ok """
+        ensureDirectory(self.LOCAL)
+        ensureDirectory(self.LOCAL_WORKING_DIRECTORY)
             
     def __registerRootsCommonsAndLibs(self):
         """
