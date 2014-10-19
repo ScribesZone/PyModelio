@@ -52,8 +52,11 @@ def rest(coll):
    
 #----- List functions -------------------------------------------
 
+# noinspection PyUnresolvedReferences
 from java.util import List as JavaList
+# noinspection PyUnresolvedReferences
 from java.util import Collection as JavaCollection
+
 def isList(x):
   # is it enough?
   return isinstance(x,list) \
