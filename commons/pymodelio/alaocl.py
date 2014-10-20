@@ -214,6 +214,28 @@ class Collection(object):
     """
     __metaclass__ = abc.ABCMeta
 
+
+    def __getattr__(self, name):
+        """
+
+        :param name:
+        :return:
+
+        Examples:
+            >>> class P(object):
+            ...      def __init__(self,x):
+            ...         self.a = x
+            >>> P1 = P(1)
+            >>> P4 = P(4)
+            >>> P1.a
+            1
+            >>> P4.a
+            4
+            >>> Set(P1,P4).a == Bag(1,4)
+            True
+        """
+        return self.collect(lambda e:getattr(e,name))
+
     def __len__(self):
         """
         Return the size of the collection.
@@ -443,8 +465,50 @@ class Collection(object):
         pass
 
     def closure(self,expression):
-        # FIXME: Not implemented (See 7.6.5)
-        raise NotImplementedError()
+        """
+        Return the transitive closure of the expression for all element in the collection.
+
+        See OCL (section 7.6.5.
+
+        :param expression: The expression to be applied again and again.
+        :type: X->X
+        :return: A set representing the transitive closure including the source elements/
+        :type: Set[X]
+        Examples:
+
+            >>> def f(x):
+            ...     successors = {1:[2],2:[1,2,3],3:[4],4:[],5:[5],6:[5],7:[5,7]}
+            ...     return successors[x]
+            >>> Set(1).closure(f) == Seq(1,2,3,4)
+            True
+            >>> Set(5).closure(f) == Seq(5)
+            True
+            >>> Bag(6,6,3).closure(f) == Seq(3,4,6,5)
+            True
+        """
+        # from collections import deque
+        sources = list(self)
+        # to_visit = deque(sources)
+        to_visit = sources
+        visited = []
+        while len(to_visit)!=0:
+            # current = to_visit.popleft()
+            current = to_visit.pop()
+            if current not in visited:
+                result = expression(current)
+                if isCollection(result):
+                    successors = result
+                else:
+                    successors = [result]
+                # print "visited %s -> %s" % (current,successors)
+                for s in successors:
+                    if s not in visited:
+                        to_visit.append(s)
+                visited.append(current)
+        return asSeq(visited)
+
+
+
 
     def iterate(self):
         # FIXME: Not implemented (See 7.6.6)
@@ -493,7 +557,10 @@ class Collection(object):
 
 
 def isCollection(x):
-    return isinstance(x,(PYTHON_COLLECTIONS,JAVA_COLLECTIONS,Collection))
+    return  not isinstance(x,basestring) and \
+        (   isinstance(x,PYTHON_COLLECTIONS) \
+        or  isinstance(x,JAVA_COLLECTIONS) \
+        or  isinstance(x,Collection))
 
 
 def asSet(collection):
@@ -703,15 +770,28 @@ class Set(Collection):
         :return: Set
         :rtype: Set
         Examples:
+            >>> Set(Set(2)).flatten() == Set(2)
+            True
+            >>> Set(Set(Set(2)),Set(2)).flatten() == Set(2)
+            True
             >>> Set(Set(2,3),Set(4),Set(),Bag("a"),Bag(2,2)).flatten() == Set(2,3,4,"a")
             True
             >>> Set().flatten() == Set()
             True
+            >>> Set(2,3).flatten() == Set(2,3)
+            True
+            >>> Set(2,Set(3),Set(Set(2))).flatten() == Set(2,3)
+            True
         """
         r = set()
-        for s in self.theSet:
-            r = r | set(s)
-        return asSet(r)
+        for e in self.theSet:
+            if isCollection(e):
+                flat_set = set(e.flatten())
+            else:
+                flat_set = set([e])
+            r = r | flat_set
+        self.theSet = r
+        return self
 
     def select(self,predicate):
         """
@@ -1002,7 +1082,15 @@ class Bag(Collection):
             >>> Bag(Bag(),Bag(),Bag(3,2),Set(3)).flatten()  == Bag(3,2,3)
             True
         """
-        self.theCounter = Counter([e for sub in list(self) for e in sub])
+        counter = Counter()
+        for (e,n) in self.theCounter.items():
+            if isCollection(e):
+                coll = e.flatten()
+            else:
+                coll = [e]
+            for x in coll:
+                counter[x] += n
+        self.theCounter = counter
         return self
 
     def select(self,predicate):
@@ -1227,8 +1315,8 @@ class Seq(Collection):
         self.theList = sorted(self.theList,key=expression)
         return self
 
-    def union(self,seq):
-        self.theList = self.theList + seq.theList
+    def union(self,coll):
+        self.theList = self.theList + list(coll)
         return self
 
     def append(self,value):
@@ -1274,7 +1362,7 @@ class Seq(Collection):
     def __setitem__(self, item, value):
         self.theList[item] = value
 
-    def __delitem__(self, key):
+    def __delitem__(self, item):
         del self.theList[item]
 
     def asSet(self):
