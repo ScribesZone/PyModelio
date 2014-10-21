@@ -74,14 +74,19 @@ print a.select(Attribute.isModifiable)
 
 """
 
-import abc      
+
+
+
+import abc
 
 
 def floor(r):
     """ Return the largest integer which is not greater than the parameter.
     """
     import math
+
     return math.floor(r)
+
 
 def isUndefined(value):
     """
@@ -102,8 +107,10 @@ def isUndefined(value):
     except:
         return True  # see OCL 11.3.4
 
+
 def oclIsUndefined(value):
     return isUndefined(value)
+
 
 class Invalid(Exception):
     def __init__(self,msg):
@@ -141,8 +148,9 @@ def oclIsKindOf(value,aType):
         True
         >>>
     """
-    return isinstance(value,aType)   
-    
+    return isinstance(value,aType)
+
+
 def oclIsTypeOf(value,aType):
     """
     Return True if the type of the value is *exactly* the type given as a second parameter. This function does not take into account sub-typing relationships. If this is what is intended, use oclIsKindOf instead.
@@ -163,46 +171,10 @@ def oclIsTypeOf(value,aType):
         True
     """
     return type(value) == aType
-    
-
-import collections
-PYTHON_COLLECTIONS=\
-    (list,set,tuple,frozenset,collections.Iterable,collections.Counter,)
-# noinspection PyUnresolvedReferences
-from java.util import Collection as JavaCollection
-JAVA_COLLECTIONS=\
-    (JavaCollection,)
 
 
+from collections import deque
 
-
-def flatten(collection):
-    """
-    Flatten a nested collection and return a sequence with all elements at the same level.
-
-    :param collection: The collection to be flatten
-    :rtype collection: iterable[iterable]
-    :return: A flatten collection.
-    :rtype: Seq
-    """
-    try:
-        return collection.flatten()
-    except:
-        return Seq([item for sub_collection in collection for item in sub_collection])
-
-
-def flattenIfNeeded(c):
-	if len(c)==0 or not isCollection(c[0]):
-		return Seq(c)
-	else:
-		return flatten(c)
-
-JavaCollection.flatten = flatten
-JavaCollection.flattenIfNeeded = flattenIfNeeded
-JavaCollection.select = lambda c,f:Seq(filter(f,c))
-JavaCollection.reject  = lambda c,f:Seq(filter(lambda x:not f(x),c))
-JavaCollection.collect = lambda c,f:Seq(map(f,c)).flattenIfNeeded()
-    
 class Collection(object):
     """
     Abstract class trying to mimic OCL collections.
@@ -215,7 +187,7 @@ class Collection(object):
     __metaclass__ = abc.ABCMeta
 
 
-    def __getattr__(self, name):
+    def __getattr__(self,name):
         """
 
         :param name:
@@ -254,14 +226,15 @@ class Collection(object):
         """
         return self.size()
 
+    @abc.abstractmethod
     def size(self):
         """
         Return the total number of elements in the collection.
         """
-        return len(list(self))
+        pass
 
     def isEmpty(self):
-        return self.size(self)==0
+        return self.size() == 0
 
     def notEmpty(self):
         return not self.isEmpty()
@@ -270,7 +243,7 @@ class Collection(object):
     def count(self,element):
         pass
 
-    def includes(self,element):
+    def includes(self,value):
         """
         Return True if the value is in the collection.
         :param value: Any kind of value.
@@ -304,20 +277,20 @@ class Collection(object):
             False
 
         """
-        return self.__contains__(element)
+        return value in self
 
-    def excludes(self,element):
-        return not self.includes(element)
+    def excludes(self,value):
+        return value not in element
 
     def includesAll(self,elements):
         for e in elements:
-            if not self.includes(e):
+            if e not in self:
                 return False
         return True
 
     def excludesAll(self,elements):
         for e in elements:
-            if not self.excludes(e):
+            if e in self:
                 return False
         return True
 
@@ -352,10 +325,10 @@ class Collection(object):
         raise Invalid(".any(...) failed: No such element.")
 
     def max(self):
-        return max(list(self))
+        return max(self)
 
     def min(self):
-        return min(list(self))
+        return min(self)
 
     def sum(self):
         """
@@ -366,7 +339,7 @@ class Collection(object):
             >>> Set().sum()
             0
         """
-        return sum(list(self))
+        return sum(self)
 
     @abc.abstractmethod
     def select(self,expression):
@@ -392,7 +365,7 @@ class Collection(object):
             >>> Set(Set(1,2,3,4),Set()).reject(lambda e:e.size()>3) == Set(Set())
             True
         """
-        return self.select(lambda e: not expression(e))
+        return self.select(lambda e:not expression(e))
 
     @abc.abstractmethod
     def flatten(self):
@@ -407,7 +380,8 @@ class Collection(object):
 
     def forAll(self,predicate):
         """
-        Return True if the predicate given as parameter is satisfied by all elements of the set.
+        Return True if the predicate given as parameter is satisfied by all
+        elements of the collection.
 
         :param predicate: A predicate, that is a function returning a boolean.
         :type predicate: X->bool
@@ -421,16 +395,20 @@ class Collection(object):
             True
             >>> Set().forAll(lambda e:e>=0)
             True
+            >>> Bag(4,4,4).forAll(lambda e:e==4)
+            True
+            >>> Seq(Bag(1),Set(2),Seq(3)).forAll(lambda e:e.size()==1)
+            True
         """
-        # FIXME: check the difference with USEOCL flatten
-        for e in self.theSet:
+        for e in self:
             if not predicate(e):
                 return False
         return True
 
     def exists(self,predicate):
         """
-        Return True if the predicate given as parameter is satisfied by at least one element.
+        Return True if the predicate given as parameter is satisfied by at
+        least one element of the collection.
 
         :param predicate: A predicate, that is a function returning a boolean.
         :type predicate: X->bool
@@ -444,15 +422,40 @@ class Collection(object):
             False
             >>> Set().exists(lambda e:e>=0)
             False
+            >>> Bag(Set(),Set(),Set(2),Set(3)).exists(lambda e:e.size()==1)
+            True
         """
-        for e in self.theSet:
+        for e in self:
             if predicate(e):
                 return True
         return False
 
     def one(self,predicate):
+        """
+        Return True if the predicate given as parameter is satisfied by at
+        one and only one element in the collection.
+
+        :param predicate: A predicate, that is a function returning a boolean.
+        :type predicate: X->bool
+        :return: Whether or not the predicate is satisfied by exactly one element.
+        :rtype bool:
+
+        Examples:
+            >>> Set(2,3,5,-5).one(lambda e:e<0)
+            True
+            >>> Bag(2,3,5,-5,-5).one(lambda e:e<0)
+            False
+            >>> Set().one(lambda e:e>=0)
+            False
+            >>> Seq().one(lambda e:e>=0)
+            False
+            >>> Seq(1).one(lambda e:e>=0)
+            True
+            >>> Bag(Set(2),Set(),Set(3),Set()).one(lambda e:e.size()==0)
+            False
+        """
         foundOne = False
-        for e in self.theSet:
+        for e in self:
             found = predicate(e)
             if found and foundOne:
                 return False
@@ -464,16 +467,20 @@ class Collection(object):
     def sortedBy(self,expression):
         pass
 
+
     def closure(self,expression):
         """
-        Return the transitive closure of the expression for all element in the collection.
+        Return the transitive closure of the expression for all element in
+        the collection.
 
         See OCL (section 7.6.5.
+
+        FIXME: Here closure returns always a sequence, but the type changes in OCL.
 
         :param expression: The expression to be applied again and again.
         :type: X->X
         :return: A set representing the transitive closure including the source elements/
-        :type: Set[X]
+        :type: Seq[X]
         Examples:
 
             >>> def f(x):
@@ -483,21 +490,20 @@ class Collection(object):
             True
             >>> Set(5).closure(f) == Seq(5)
             True
-            >>> Bag(6,6,3).closure(f) == Seq(3,4,6,5)
+            >>> Seq(6,6,3).closure(f) == Seq(6,3,5,4)
             True
         """
-        # from collections import deque
+
+        # We cannot have Counter here. So list is ok (see Converter.listAll)
         sources = list(self)
-        # to_visit = deque(sources)
-        to_visit = sources
+        to_visit = deque(sources)
         visited = []
-        while len(to_visit)!=0:
-            # current = to_visit.popleft()
-            current = to_visit.pop()
+        while len(to_visit) != 0:
+            current = to_visit.popleft()
             if current not in visited:
                 result = expression(current)
-                if isCollection(result):
-                    successors = result
+                if isAnyCollection(result):
+                    successors = Converter.listAll(result)
                 else:
                     successors = [result]
                 # print "visited %s -> %s" % (current,successors)
@@ -506,8 +512,6 @@ class Collection(object):
                         to_visit.append(s)
                 visited.append(current)
         return asSeq(visited)
-
-
 
 
     def iterate(self):
@@ -548,19 +552,12 @@ class Collection(object):
         pass
 
     @abc.abstractmethod
-    def __contains__(self, item):
+    def __contains__(self,item):
         pass
 
     @abc.abstractmethod
     def __iter__(self):
         pass
-
-
-def isCollection(x):
-    return  not isinstance(x,basestring) and \
-        (   isinstance(x,PYTHON_COLLECTIONS) \
-        or  isinstance(x,JAVA_COLLECTIONS) \
-        or  isinstance(x,Collection))
 
 
 def asSet(collection):
@@ -577,6 +574,7 @@ def asSet(collection):
     except AttributeError:
         return Set() | collection
 
+
 class Set(Collection):
     """
     Set of elements.
@@ -585,6 +583,7 @@ class Set(Collection):
     By contrast to OCL Sets, here a set can contain any kind of elements at the same time.
     OCL sets are homogeneous, all elements being of the same type (or at least same supertype).
     """
+
     def __init__(self,*args):
         """
         Create a set from some elements.
@@ -604,6 +603,7 @@ class Set(Collection):
            >>> Set(Set(2),Set(2)).size()
            1
         """
+        # We cannot have Counter here. So list is ok (see Converter.listAll)
         self.theSet = set(list(args))
 
     def size(self):
@@ -636,7 +636,7 @@ class Set(Collection):
             1
         """
         return 1 if value in self.theSet else 0
-        
+
     def includes(self,value):
         return value in self.theSet
 
@@ -672,15 +672,15 @@ class Set(Collection):
         self.theSet.discard(value)
         return self
 
-    def union(self,collection):
+    def union(self,anyCollection):
         """
         Add all elements from the collection given to the set.
-        :param collection: A collection of values to be added to this set.
-        :type collection: collection
+        :param anyCollection: A collection of values to be added to this set.
+        :type anyCollection: collection
         :return: A set including all values added plus previous set elements.
         :rtype: Set
         Examples:
-            >>> Set(1,3,"a").union([2,3,2]) == Set(1,3,"a",2)
+            >>> Set(1,3,'a').union([2,3,2]) == Set(1,3,"a",2)
             True
             >>> Set(1,3,3,3).union(Set(2,1,8)) == Set(1,2,3,8)
             True
@@ -689,18 +689,20 @@ class Set(Collection):
             >>> Set(1,3) | [2,3] == Set(1,2,3)
             True
         """
-        assert isCollection(collection),"Collection expected, found %s"%collection
-        self.theSet = self.theSet | set(collection)
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+        # We don't need to take special care with Counter as we remove duplicates
+        self.theSet = self.theSet | set(anyCollection)
         return self
 
-    def __or__(self,collection):
-        return self.union(collection)
+    def __or__(self,anyCollection):
+        return self.union(anyCollection)
 
-    def intersection(self,collection):
+    def intersection(self,anyCollection):
         """
         Retain only elements in the intersection between this set and the given collection.
-        :param collection: A collection of values to be added to this set.
-        :type collection: collection
+        :param anyCollection: A collection of values to be added to this set.
+        :type anyCollection: collection
         :return: A set including all values added plus previous set elements.
         :rtype: Set
         Examples:
@@ -714,18 +716,20 @@ class Set(Collection):
             True
         """
 
-        assert isCollection(collection),"Collection expected, found %s"%collection
-        self.theSet = self.theSet & set(collection)
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+        # We don't need to take special care with Counter as we remove duplicates
+        self.theSet = self.theSet & set(anyCollection)
         return self
 
-    def __and__(self,collection):
-        return self.intersection(collection)
+    def __and__(self,anyCollection):
+        return self.intersection(anyCollection)
 
-    def difference(self,collection):
+    def difference(self,anyCollection):
         """
         Remove from the set all values in the collection.
-        :param collection: A collection of values to be discarded from this set.
-        :type collection: collection
+        :param anyCollection: Any collection of values to be discarded from this set.
+        :type anyCollection: collection
         :return: This set without the values in the collection.
         :rtype: Set
         Examples:
@@ -739,33 +743,42 @@ class Set(Collection):
             >>> Set(1,3) - [2,3] == Set(1)
             True
         """
-        assert isCollection(collection),"Collection expected, found %s"%collection
-        self.theSet = self.theSet - set(collection)
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+        # We don't need to take special care with Counter as we remove duplicates
+        self.theSet = self.theSet - set(anyCollection)
         return self
 
-    def __sub__(self,collection):
-        return self.difference(collection)
+    def __sub__(self,anyCollection):
+        return self.difference(anyCollection)
 
-    def symmetricDifference(self,set):
+    def symmetricDifference(self,anyCollection):
         """
         Return the elements that are either in one set but not both sets.
+
+        In fact this method accept any collection, but it is first converted
+        to a set.
         
-        :param set: A set to make the difference with.
-        :type set: Set
-        :return: The set augmented with "set" but without elements in both sets.
+        :param anyCollection: A collection to make the difference with.
+        :type anyCollection: collection
+        :return: The symmetric difference.
+        :rtype: Set
         Examples:
             >>> Set(1,2).symmetricDifference(Set(3,2)) == Set(1,3)
             True
             >>> Set(Set()).symmetricDifference(Set()) == Set(Set())
             True
         """
-        assert isinstance(set,Set),"Set expected, found %s"%set
-        self.theSet = (self.theSet | set.theSet) - (self.theSet & set.theSet)
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+        other_set = set(anyCollection)
+        self.theSet = (self.theSet | other_set) - (self.theSet & other_set)
         return self
 
     def flatten(self):
         """
-        If the set is a set of collections, then return the set-union of all its elements.
+        If the set is a set of collections, then return the set-union of all
+        its elements.
 
         :return: Set
         :rtype: Set
@@ -785,10 +798,10 @@ class Set(Collection):
         """
         r = set()
         for e in self.theSet:
-            if isCollection(e):
-                flat_set = set(e.flatten())
+            if isAnyCollection(e):
+                flat_set = set(flatten(e))
             else:
-                flat_set = set([e])
+                flat_set = {e}
             r = r | flat_set
         self.theSet = r
         return self
@@ -829,7 +842,7 @@ class Set(Collection):
             >>> Set(2,3).collectNested(lambda e:Bag(e,e)) == Bag(Bag(2,2),Bag(3,3))
             True
         """
-        return asBag(map(expression,list(self.theSet)))
+        return asBag(map(expression,self.theSet))
 
     def sortedBy(self,expression):
         # FIXME: should return a OrderedSet
@@ -846,7 +859,24 @@ class Set(Collection):
 
 
     def __str__(self):
-        return "Set(%s)" % str(self.theSet)
+        """
+        Return a string representation of the set where elements are separated by ", ".
+
+        The result is non deterministic as there is no ordering between elements.
+
+        :return: A string.
+        :rtype: str
+
+        Examples:
+            >>> str(Set())
+            'Set()'
+            >>> str(Set(3))
+            'Set(3)'
+            >>> str(Set(3,2)).startswith('Set(')
+            True
+        """
+        body = ", ".join(map(str,self.theSet))
+        return "Set(%s)" % body
 
     def __repr__(self):
         return self.__str__()
@@ -894,26 +924,29 @@ class Set(Collection):
         """
         return self.theSet.__iter__()
 
-    def __contains__(self, item):
+    def __contains__(self,item):
         return item in self.theSet
 
-    
-from collections import Counter
 
 
-def asBag(collection):
+
+def asBag(anyCollection):
     """
-    :param collection:
+    :param anyCollection:
     :return:
     """
-    if isinstance(collection,Bag):
-        return collection
+    if isinstance(anyCollection,Bag):
+        return anyCollection
     try:
-        return collection.asBag()
+        return anyCollection.asBag()
     except AttributeError:
-        return Bag() | collection
+        return Bag() | anyCollection
+
+
+from collections import Counter
 
 class Bag(Collection):
+
     def __init__(self,*args):
         """
         Create a bag from some elements.
@@ -930,6 +963,7 @@ class Bag(Collection):
            >>> Bag(Set(2,3),Set(3,2)).size()
            2
         """
+        # We cannot have Counter here. So list is ok (see Converter.listAll)
         self.theCounter = Counter(list(args))
 
     def size(self):
@@ -962,13 +996,13 @@ class Bag(Collection):
         """
         return self.theCounter[value]
 
-    def __getitem__(self, key):
+    def __getitem__(self,key):
         return self.theCounter[key]
 
-    def __setitem__(self, key, value):
+    def __setitem__(self,key,value):
         self.theCounter[key] = value
 
-    def __delitem__(self, key):
+    def __delitem__(self,key):
         del self.theCounter[key]
 
 
@@ -1012,7 +1046,7 @@ class Bag(Collection):
         del self.theCounter[value]
         return self
 
-    def union(self,collection):
+    def union(self,anyCollection):
         """
         Add to the bag all values in the collection given as a parameter.
 
@@ -1025,15 +1059,22 @@ class Bag(Collection):
            True
            >>> Bag(3,3) | Set(3,3,3,2) == Bag(3,3,3,2)
            True
+           >>> Bag(2,3,1) | Bag(3,3,2,4) == Bag(3,3,3,2,2,1,4)
+           True
+           >>> Bag(2,3,1) | Counter([3,3,2,4]) == Bag(3,3,3,2,2,1,4)
+           True
+
         """
-        assert isCollection(collection),"Collection expected, found %s"%collection
-        self.theCounter.update(collection)
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+
+        self.theCounter.update(Converter.listAll(anyCollection))
         return self
 
-    def __or__(self,collection):
-        return self.union(collection)
+    def __or__(self,anyCollection):
+        return self.union(anyCollection)
 
-    def intersection(self,collection):
+    def intersection(self,anyCollection):
         """
         Retain only elements that are in common with the given collection.
 
@@ -1047,12 +1088,13 @@ class Bag(Collection):
             >>> Bag(3,3) & Set(3,3,3,2) == Bag(3)
             True
         """
-        assert isCollection(collection),"Collection expected, found %s"%collection
-        self.theCounter = self.theCounter & Counter(collection)
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+        self.theCounter = self.theCounter & Counter(list(anyCollection))
         return self
 
-    def __and__(self,collection):
-        return self.intersection(collection)
+    def __and__(self,anyCollection):
+        return self.intersection(anyCollection)
 
     def sum(self):
         """
@@ -1067,7 +1109,7 @@ class Bag(Collection):
             >>> Bag(3,3,2,3).sum()
             11
         """
-        return sum([e*n for (e,n) in self.theCounter.items()])
+        return sum([e * n for (e,n) in self.theCounter.items()])
 
     def flatten(self):
         """
@@ -1084,7 +1126,7 @@ class Bag(Collection):
         """
         counter = Counter()
         for (e,n) in self.theCounter.items():
-            if isCollection(e):
+            if isAnyCollection(e):
                 coll = e.flatten()
             else:
                 coll = [e]
@@ -1159,9 +1201,9 @@ class Bag(Collection):
         return False
 
     def sortedBy(self,expression):
-        r =[]
+        r = []
         for key in sorted(self.theCounter.keys(),key=expression):
-            r += [key]*self.theCounter[key]
+            r += [key] * self.theCounter[key]
         return r
 
     def asSet(self):
@@ -1171,7 +1213,8 @@ class Bag(Collection):
         return self
 
     def asSeq(self):
-        return asSeq(list(self.__iter__()))
+        # A list with duplicates is wanted, so use elements().
+        return asSeq(list(self.elements()))
 
     def __str__(self):
         return "Bag(%s)" % str(self.theCounter)
@@ -1218,31 +1261,27 @@ class Bag(Collection):
             >>> sorted(list(Bag(1,1,"a","b",1)))
             [1, 1, 1, 'a', 'b']
         """
-        # We can't use the counter iterator as it does not create duplicates.
-        # There is a "elements" iterator, but it creates some strange bug here.
-        # First create duplicates.
-        # list_with_duplicates = [[e]*n for (e,n) in self.theCounter.items()]
-        # Then flatten the result.
-        duplicates=[[e]*n for (e,n) in self.theCounter.items()]
-        return [e for sublist in duplicates for e in sublist].__iter__()
+        return self.theCounter.elements()
 
     def __contains__(self,value):
         return self.theCounter[value] > 0
 
 
-def asSeq(collection):
+
+
+def asSeq(anyCollection):
     """
     Convert the given collection to a Seq
-    :param collection:
+    :param anyCollection:
     :return:
     :rtype: Seq
     """
-    if isinstance(collection,Seq):
-        return collection
+    if isinstance(anyCollection,Seq):
+        return anyCollection
     try:
-        return collection.asSeq()
+        return anyCollection.asSeq()
     except AttributeError:
-        return Seq().union(collection)
+        return Seq() | anyCollection
 
 
 class Seq(Collection):
@@ -1264,6 +1303,7 @@ class Seq(Collection):
            >>> Seq(Seq(1,2)) == Seq(Seq(1),Seq(2))
            False
         """
+        # no worry with args being a Counter
         self.theList = list(args)
 
     def size(self):
@@ -1290,12 +1330,14 @@ class Seq(Collection):
         :return: A set including this element.
         :rtype: Set
         Examples:
-            >>> Set(1,3,"a").excluding("3") == Set(1,3,"a")
+            >>> Seq(1,3,"a").excluding("3") == Seq(1,3,"a")
             True
-            >>> Set(1,3,3,3).excluding(3) == Set(1)
+            >>> Seq(1,3,3,2,3).excluding(3) == Seq(1,2)
+            True
+            >>> Seq().excluding(23) == Seq()
             True
         """
-        self.theList = [e for e in self.theList if e!=value]
+        self.theList = [e for e in self.theList if e != value]
         return self
 
     def select(self,expression):
@@ -1303,9 +1345,16 @@ class Seq(Collection):
         return self
 
     def flatten(self):
-        self.theList = \
-            [item for sub_collection in self.theList for item in sub_collection]
+        r = []
+        for e in self.theList:
+            if isAnyCollection(e):
+                flat_list = Converter.listAll(flatten(e))
+            else:
+                flat_list = [e]
+            r = r | flat_list
+        self.theList = r
         return self
+
 
     def collectNested(self,expression):
         self.theList = map(expression,self.theList)
@@ -1315,9 +1364,17 @@ class Seq(Collection):
         self.theList = sorted(self.theList,key=expression)
         return self
 
-    def union(self,coll):
-        self.theList = self.theList + list(coll)
+    def union(self,anyCollection):
+        assert isAnyCollection(anyCollection), \
+            'Any collection expected, but found %s' % anyCollection
+        self.theList = self.theList + Converter.listAll(anyCollection)
         return self
+
+    def __or__(self,anyCollection):
+        return self.union(anyCollection)
+
+    def __add__(self,anyCollection):
+        return self.union(anyCollection)
 
     def append(self,value):
         self.theList.append(value)
@@ -1328,7 +1385,10 @@ class Seq(Collection):
         return self
 
     def subSequence(self,lower,upper):
-        self.theList = self.theList[lower-1:upper]
+        try:
+            self.theList = self.theList[lower - 1:upper]
+        except:
+            raise Invalid(".subSequence(%s,%s) failed: No such element."%(lower,upper))
         return self
 
     def at(self,index):
@@ -1354,31 +1414,43 @@ class Seq(Collection):
         :return: The element at that position.
         :rtype: any
         """
-        return self.theList[index-1]
+        try:
+            return self.theList[index - 1]
+        except:
+            raise Invalid(".at(%s) failed: No such element." % index)
 
-    def __getitem__(self, item):
+
+    def __getitem__(self,item):
         return self.theList[item]
 
-    def __setitem__(self, item, value):
+    def __setitem__(self,item,value):
         self.theList[item] = value
 
-    def __delitem__(self, item):
+    def __delitem__(self,item):
         del self.theList[item]
 
     def asSet(self):
         return Set(self.theList)
 
     def asBag(self):
-        return Set(self.theList)
+        return Bag(self.theList)
 
     def asSeq(self):
         return self
 
     def first(self):
-        return self.theList[0]
+        try:
+            return self.theList[0]
+        except:
+            raise Invalid(".first() failed: No such element.")
+
 
     def last(self):
-        return self.theList[-1]
+        try:
+            return self.theList[-1]
+        except:
+            raise Invalid(".last() failed: No such element.")
+
 
     def __str__(self):
         return 'Seq(%s)' % self.theList
@@ -1394,7 +1466,7 @@ class Seq(Collection):
     def __hash__(self):
         return hash(tuple(self.theList))
 
-    def __contains__(self, item):
+    def __contains__(self,item):
         return item in self.theList
 
     def __iter__(self):
@@ -1403,6 +1475,247 @@ class Seq(Collection):
 
 class OrderedSet(Collection):
     pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+import platform
+WITH_JYTHON = (platform.python_implementation() == 'Jython')
+
+if WITH_JYTHON:
+    # noinspection PyUnresolvedReferences
+    import java.util
+    # noinspection PyUnresolvedReferences
+    from java.util import Collection as JavaCollection
+    # noinspection PyUnresolvedReferences
+    from java.util import List as JavaList
+    # noinspection PyUnresolvedReferences
+    from java.util import Set as JavaSet
+    # noinspection PyUnresolvedReferences
+    from java.lang import Iterable as JavaIterable
+
+
+import collections
+
+class Converter(object):
+
+    #--- Python ----------------------------------------------------------
+    PYTHON_CONVERSION_RULES = (
+        (set,Set,asSet),
+        (frozenset,Set,asSet),
+        (collections.Counter,Bag,asBag),
+        (list,Seq,asSeq),
+        (tuple,Seq,asSeq),
+        (collections.deque,Seq,asSeq),
+        (collections.Iterable,Seq,asSeq),
+    )
+    PYTHON_COLLECTIONS = tuple([j for (j,o,c) in PYTHON_CONVERSION_RULES])
+
+
+    #--- Java ------------------------------------------------------------
+    if WITH_JYTHON:
+        # noinspection PyUnresolvedReferences
+        from java.util import Collection as JavaCollection
+        # noinspection PyUnresolvedReferences
+        from java.util import List as JavaList
+        # noinspection PyUnresolvedReferences
+        from java.util import Set as JavaSet
+        # noinspection PyUnresolvedReferences
+        from java.lang import Iterable as JavaIterable
+        JAVA_CONVERSION_RULES = (
+            (JavaSet,Set,asSet),
+            (JavaList,Seq,asSeq),
+            (JavaIterable,Seq,asSeq)
+        )
+    else:
+        JAVA_CONVERSION_RULES = ()
+    JAVA_COLLECTIONS = tuple([j for (j,o,c) in JAVA_CONVERSION_RULES])
+
+
+    #--- OCL -------------------------------------------------------------
+    OCL_CONVERSION_RULES = (
+        (Set,Set,None),
+        (Bag,Bag,None),
+        (Seq,Seq,None),
+    )
+    OCL_COLLECTIONS = tuple([j for (j,o,c) in OCL_CONVERSION_RULES])
+
+    EXTERNAL_CONVERSION_RULES = JAVA_CONVERSION_RULES+PYTHON_CONVERSION_RULES
+    @classmethod
+    def isPythonCollection(cls,value):
+        return not isinstance(value,basestring) \
+               and isinstance(value,cls.PYTHON_COLLECTIONS)
+
+    @classmethod
+    def isJavaCollection(cls,value):
+        return isinstance(value,cls.JAVA_COLLECTIONS)
+
+    @classmethod
+    def isCollection(cls,value):
+        return isinstance(value,Collection)
+
+    @classmethod
+    def isAnyCollection(cls,value):
+        return cls.isCollection(value) \
+               or cls.isJavaCollection(value) \
+               or cls.isPythonCollection(value)
+
+    @classmethod
+    def asCollection(cls,anyCollection):
+        if cls.isCollection(anyCollection):
+            return anyCollection
+        else:
+            for (collection_type,target,fun) in cls.EXTERNAL_CONVERSION_RULES:
+                if isinstance(anyCollection,collection_type):
+                    return fun(anyCollection)
+            raise ValueError("asCollection(): Can't convert a value of type %s." \
+                             % type(anyCollection))
+
+    @classmethod
+    def listAll(cls,anyCollection):
+        """
+        Return all the elements of the collection as a list.
+
+        This takes into account the Counter specificity: instead of using list and the
+        standard enumeration on this collection this function use the "elements()"
+        method. Otherwise occurrences are eliminated.
+        """
+        if isinstance(anyCollection,collections.Counter):
+            return list(anyCollection.elements())
+        else:
+            return list(anyCollection)
+
+
+
+
+def isAnyCollection(value):
+        return Converter.isAnyCollection(value)
+
+def asCollection(anyCollection):
+    """
+    Convert any collection either from python or java, into the proper (OCL) collection.
+
+    :param anyCollection: A python, java or ocl collection.
+    :return: The OCL collection
+    :rtype: Collection
+
+    Examples:
+        >>> asCollection({2,3}) == Set(3,2)
+        True
+        >>> asCollection(frozenset({1,5,1})) == Set(1,5)
+        True
+        >>> asCollection(Counter([1,1,3,1])) == Bag(1,1,1,3)
+        True
+        >>> asCollection(Counter({'hello':2,-1:0})) == Bag('hello','hello')
+        True
+        >>> asCollection([1,2,3,4]) == Seq(1,2,3,4)
+        True
+        >>> asCollection((1,2,3,4)) == Seq(1,2,3,4)
+        True
+        >>> asCollection(deque([1,2,3,4])) == Seq(1,2,3,4)
+        True
+    """
+    return Converter.asCollection(anyCollection)
+
+
+
+
+# def asCollection(anyCollection):
+#     if isCollection(anyCollection):
+#         return anyCollection
+#     elif isJavaCollection(anyCollection):
+#         pass
+
+
+def flatten(collection):
+    """
+    Return an OCL collection with all the elements at the first level.
+
+    :param collection: The collection to be flatten
+    :rtype collection: iterable[iterable]
+    :return: A flatten collection.
+    :rtype: Seq
+    """
+    try:
+        return collection.flatten()
+    except:
+        return Seq([item for sub_collection in collection for item in sub_collection])
+
+
+def flattenIfNeeded(c):
+    if len(c) == 0 or not isAnyCollection(c[0]):
+        return Seq(c)
+    else:
+        return flatten(c)
+
+
+# JavaCollection.flatten = flatten
+# JavaCollection.flattenIfNeeded = flattenIfNeeded
+# JavaCollection.select = lambda c,f:Seq(filter(f,c))
+# JavaCollection.reject = lambda c,f:Seq(filter(lambda x:not f(x),c))
+# JavaCollection.collect = lambda c,f:Seq(map(f,c)).flattenIfNeeded()
+
+if WITH_JYTHON:
+    class JavaCollectionExtension(JavaCollection):
+        # size()  java native
+        # __len__ jython
+        #        empty
+        # isEmpty()  java native
+        # __contains__ jython
+        # contains
+        # containsAll
+        @staticmethod
+        def includes(javaCollection,value):
+            return javaCollection.contains(value)
+        @staticmethod
+        def excludes(javaCollection):
+            return not javaCollection.contains(value)
+        @staticmethod
+        def includesall(javaCollection,anyCollection):
+            return javaCollection.containsAll(anyCollection)
+
+
+def notEmpty(anyCollection):
+    return not anyCollection.isEmpty()
+
+def count(anyCollection):
+    pass
+
+
+def excludesAll(anyCollection,anyCollection2):
+    for value in anyCollection2:
+        if anyCollection.includes(e):
+            return False
+    return True
+
+def excluding(javaCollection,value):
+    collection = asCollection(javaCollection)
+    return collection.excluding(value)
+
+def any(javaCollection,value):
+    pass
+
+
+# add
+# addAll
+# remove
+# removalAll
+# retainAll
+# clear
+#
+# iterator
+# toArray
+# equals
+# hashCode
 
 
 
