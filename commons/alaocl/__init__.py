@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 Collection of classes and functions to ease the translation of OCL expressions into python.
 
@@ -23,7 +22,7 @@ Integer
 Real
 ----
 * x.floor() ->   floor(x)
-* x.round() ->   round(x) 
+* x.round() ->   round(x)
 
 String
 ------
@@ -49,7 +48,7 @@ Collection
 ----------
 * coll                  C(coll)
 * coll->op(...)         C(coll).op(...)
-                    
+
 * Set{ ... }            -> Set( ... )
 * Bag{ ... }            -> Bag( ... )
 * OrderedSet{ ... }     -> OrderedSet( ... )
@@ -122,7 +121,7 @@ def oclIsKindOf(value,aType):
     Evaluates to True if the type of the value is *exactly* the type given as a second parameter
     is an instance of type or one of its subtypes directly or indirectly. Use the method
     oclIsTypeOf if you want to check if a value is exactly of a given type.
-    
+
     :param value: A scalar value, a collection or an object.
     :type value; Any
     :param aType: The type to check the value against
@@ -154,7 +153,7 @@ def oclIsKindOf(value,aType):
 def oclIsTypeOf(value,aType):
     """
     Return True if the type of the value is *exactly* the type given as a second parameter. This function does not take into account sub-typing relationships. If this is what is intended, use oclIsKindOf instead.
-    
+
     :param value: A scalar value, a collection or an object.
     :type value; Any
     :param aType: The type to check the value against
@@ -172,41 +171,16 @@ def oclIsTypeOf(value,aType):
     """
     return type(value) == aType
 
-
-from collections import deque
-
-class Collection(object):
-    """
-    Abstract class trying to mimic OCL collections.
-    Collections are either:
-    * sets (Set),
-    * ordered set (OrderedSet)
-    * bags (Bag),
-    * sequences (Seq)
-    """
-    __metaclass__ = abc.ABCMeta
+#=======================================================================================
+#                                Collections
+#=======================================================================================
 
 
-    def __getattr__(self,name):
-        """
 
-        :param name:
-        :return:
 
-        Examples:
-            >>> class P(object):
-            ...      def __init__(self,x):
-            ...         self.a = x
-            >>> P1 = P(1)
-            >>> P4 = P(4)
-            >>> P1.a
-            1
-            >>> P4.a
-            4
-            >>> Set(P1,P4).a == Bag(1,4)
-            True
-        """
-        return self.collect(lambda e:getattr(e,name))
+
+
+class GenericCollection:
 
     def __len__(self):
         """
@@ -226,22 +200,11 @@ class Collection(object):
         """
         return self.size()
 
-    @abc.abstractmethod
-    def size(self):
-        """
-        Return the total number of elements in the collection.
-        """
-        pass
-
     def isEmpty(self):
         return self.size() == 0
 
     def notEmpty(self):
         return not self.isEmpty()
-
-    @abc.abstractmethod
-    def count(self,element):
-        pass
 
     def includes(self,value):
         """
@@ -294,9 +257,9 @@ class Collection(object):
                 return False
         return True
 
-    @abc.abstractmethod
-    def excluding(self,value):
-        pass
+    def __or__(self,anyCollection):
+        return self.union(anyCollection)
+
 
     def any(self,predicate):
         """
@@ -324,6 +287,7 @@ class Collection(object):
                 return e
         raise Invalid(".any(...) failed: No such element.")
 
+
     def max(self):
         return max(self)
 
@@ -340,10 +304,6 @@ class Collection(object):
             0
         """
         return sum(self)
-
-    @abc.abstractmethod
-    def select(self,expression):
-        pass
 
     def selectByKind(self,aType):
         return self.select(lambda e:oclIsKindOf(aType))
@@ -367,16 +327,29 @@ class Collection(object):
         """
         return self.select(lambda e:not expression(e))
 
-    @abc.abstractmethod
-    def flatten(self):
-        pass
-
-    @abc.abstractmethod
-    def collectNested(self,expression):
-        pass
-
     def collect(self,expression):
         return self.collectNested(expression).flatten()
+
+    def __getattr__(self,name):
+        """
+
+        :param name:
+        :return:
+
+        Examples:
+            >>> class P(object):
+            ...      def __init__(self,x):
+            ...         self.a = x
+            >>> P1 = P(1)
+            >>> P4 = P(4)
+            >>> P1.a
+            1
+            >>> P4.a
+            4
+            >>> Set(P1,P4).a , Bag(1,4)
+            True
+        """
+        return self.collect(lambda e:getattr(e,name))
 
     def forAll(self,predicate):
         """
@@ -463,11 +436,6 @@ class Collection(object):
                 foundOne = True
         return foundOne
 
-    @abc.abstractmethod
-    def sortedBy(self,expression):
-        pass
-
-
     def closure(self,expression):
         """
         Return the transitive closure of the expression for all element in
@@ -493,8 +461,7 @@ class Collection(object):
             >>> Seq(6,6,3).closure(f) == Seq(6,3,5,4)
             True
         """
-
-        # We cannot have Counter here. So list is ok (see Converter.listAll)
+        from collections import deque
         sources = list(self)
         to_visit = deque(sources)
         visited = []
@@ -511,15 +478,72 @@ class Collection(object):
                     if s not in visited:
                         to_visit.append(s)
                 visited.append(current)
-        return asSeq(visited)
-
+        return Seq._(visited)
 
     def iterate(self):
         # FIXME: Not implemented (See 7.6.6)
         raise NotImplementedError()
 
     def isUnique(self,expression):
-        return self.asSet().collect(expression).hasDuplicates()
+        return not self.collect(expression).hasDuplicates()
+
+
+
+from collections import deque
+
+class Collection(object,GenericCollection):
+    """
+    Abstract class trying to mimic OCL collections.
+    Collections are either:
+    * sets (Set),
+    * ordered set (OrderedSet)
+    * bags (Bag),
+    * sequences (Seq)
+    """
+    __metaclass__ = abc.ABCMeta
+
+    @abc.abstractmethod
+    def size(self):
+        """
+        Return the total number of elements in the collection.
+        """
+        pass
+
+    @abc.abstractmethod
+    def count(self,element):
+        pass
+
+    @abc.abstractmethod
+    def including(self,value):
+        pass
+
+    @abc.abstractmethod
+    def excluding(self,value):
+        pass
+
+    @abc.abstractmethod
+    def union(self,value):
+        pass
+
+    @abc.abstractmethod
+    def select(self,expression):
+        pass
+
+    @abc.abstractmethod
+    def flatten(self):
+        pass
+
+    @abc.abstractmethod
+    def collectNested(self,expression):
+        pass
+
+    @abc.abstractmethod
+    def hasDuplicates(self):
+        pass
+
+    @abc.abstractmethod
+    def sortedBy(self,expression):
+        pass
 
     @abc.abstractmethod
     def asSet(self):
@@ -560,6 +584,13 @@ class Collection(object):
         pass
 
 
+
+
+#-------------------------------------------------------------------------------------
+#   OCL Sets
+#-------------------------------------------------------------------------------------
+
+
 def asSet(collection):
     """
     Convert the given collection to a Set
@@ -567,21 +598,20 @@ def asSet(collection):
     :return:
     :rtype: Set
     """
-    if isinstance(collection,Set):
-        return collection
     try:
         return collection.asSet()
     except AttributeError:
-        return Set() | collection
+        return Set._(collection)
 
 
 class Set(Collection):
     """
     Set of elements.
 
-    This class mimics OCL Sets. Being a set, there are no duplicates and no ordering of elements.
-    By contrast to OCL Sets, here a set can contain any kind of elements at the same time.
-    OCL sets are homogeneous, all elements being of the same type (or at least same supertype).
+    This class mimics OCL Sets. Being a set, there are no duplicates and no ordering
+    of elements. By contrast to OCL Sets, here a set can contain any kind of elements
+    at the same time. OCL sets are homogeneous, all elements being of the same type
+    (or at least same supertype).
     """
 
     def __init__(self,*args):
@@ -605,6 +635,12 @@ class Set(Collection):
         """
         # We cannot have Counter here. So list is ok (see Converter.listAll)
         self.theSet = set(list(args))
+
+    @classmethod
+    def _(cls,anyCollection):
+        newSet = cls()
+        newSet.theSet = set(anyCollection)
+        return newSet
 
     def size(self):
         """
@@ -653,8 +689,9 @@ class Set(Collection):
             >>> Set(1,3,3,3).including(3) == Set(3,1)
             True
         """
-        self.theSet.add(value)
-        return self
+        fresh = set(self.theSet)
+        fresh.add(value)
+        return Set._(fresh)
 
     def excluding(self,value):
         """
@@ -669,8 +706,9 @@ class Set(Collection):
             >>> Set(1,3,3,3).excluding(3) == Set(1)
             True
         """
-        self.theSet.discard(value)
-        return self
+        fresh = set(self.theSet)
+        fresh.discard(value)
+        return Set._(fresh)
 
     def union(self,anyCollection):
         """
@@ -692,8 +730,9 @@ class Set(Collection):
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
         # We don't need to take special care with Counter as we remove duplicates
-        self.theSet = self.theSet | set(anyCollection)
-        return self
+        fresh = set(self.theSet)
+        fresh = fresh | set(anyCollection)
+        return Set._(fresh)
 
     def __or__(self,anyCollection):
         return self.union(anyCollection)
@@ -719,11 +758,13 @@ class Set(Collection):
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
         # We don't need to take special care with Counter as we remove duplicates
-        self.theSet = self.theSet & set(anyCollection)
-        return self
+        fresh = set(self.theSet)
+        fresh = fresh & set(anyCollection)
+        return Set._(fresh)
 
     def __and__(self,anyCollection):
         return self.intersection(anyCollection)
+
 
     def difference(self,anyCollection):
         """
@@ -745,9 +786,10 @@ class Set(Collection):
         """
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
+        fresh = set(self.theSet)
         # We don't need to take special care with Counter as we remove duplicates
-        self.theSet = self.theSet - set(anyCollection)
-        return self
+        fresh = fresh - set(anyCollection)
+        return Set._(fresh)
 
     def __sub__(self,anyCollection):
         return self.difference(anyCollection)
@@ -758,7 +800,7 @@ class Set(Collection):
 
         In fact this method accept any collection, but it is first converted
         to a set.
-        
+
         :param anyCollection: A collection to make the difference with.
         :type anyCollection: collection
         :return: The symmetric difference.
@@ -771,9 +813,22 @@ class Set(Collection):
         """
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
+        fresh = set(self.theSet)
         other_set = set(anyCollection)
-        self.theSet = (self.theSet | other_set) - (self.theSet & other_set)
-        return self
+        fresh = (fresh | other_set) - (fresh & other_set)
+        return Set._(fresh)
+
+    def hasDuplicates(self):
+        """
+        Return always False for sets.
+
+        This method is an extension to OCL. It makes is defined on sets just
+        for consistency but is more useful for Bags or Sequences.
+        :return: True
+        :rtype: bool
+        """
+        return False
+
 
     def flatten(self):
         """
@@ -796,15 +851,15 @@ class Set(Collection):
             >>> Set(2,Set(3),Set(Set(2))).flatten() == Set(2,3)
             True
         """
-        r = set()
+
+        fresh = set()
         for e in self.theSet:
             if isAnyCollection(e):
                 flat_set = set(flatten(e))
             else:
                 flat_set = {e}
-            r = r | flat_set
-        self.theSet = r
-        return self
+            fresh = fresh | flat_set
+        return Set._(fresh)
 
     def select(self,predicate):
         """
@@ -820,8 +875,8 @@ class Set(Collection):
             >>> Set(Set(1,2,3,4),Set()).select(lambda e:e.size()>3) == Set(Set(1,2,3,4))
             True
         """
-        self.theSet = set([e for e in self if predicate(e)])
-        return self
+        return Set._(set([e for e in self if predicate(e)]))
+
 
     def collectNested(self,expression):
         """
@@ -842,11 +897,11 @@ class Set(Collection):
             >>> Set(2,3).collectNested(lambda e:Bag(e,e)) == Bag(Bag(2,2),Bag(3,3))
             True
         """
-        return asBag(map(expression,self.theSet))
+        return Bag._(map(expression,self.theSet))
 
     def sortedBy(self,expression):
         # FIXME: should return a OrderedSet
-        return asSeq(sorted(self.theSet,key=expression))
+        return Seq._(sorted(self.theSet,key=expression))
 
     def asSet(self):
         return self
@@ -930,17 +985,21 @@ class Set(Collection):
 
 
 
+#-------------------------------------------------------------------------------------
+#   OCL Sets
+#-------------------------------------------------------------------------------------
+
+
+
 def asBag(anyCollection):
     """
     :param anyCollection:
     :return:
     """
-    if isinstance(anyCollection,Bag):
-        return anyCollection
     try:
         return anyCollection.asBag()
     except AttributeError:
-        return Bag() | anyCollection
+        return Bag._(anyCollection)
 
 
 from collections import Counter
@@ -965,6 +1024,17 @@ class Bag(Collection):
         """
         # We cannot have Counter here. So list is ok (see Converter.listAll)
         self.theCounter = Counter(list(args))
+
+    @classmethod
+    def _(cls,anyCollection):
+        newBag = Bag()
+        if isinstance(anyCollection,Counter):
+            newBag.theCounter = anyCollection.copy()
+        elif isinstance(anyCollection,Bag):
+            newBag.theCounter = anyCollection.theBag.copy()
+        else:
+            newBag.theCounter = Converter.listAll(anyCollection)
+        return newBag
 
     def size(self):
         """
@@ -999,13 +1069,6 @@ class Bag(Collection):
     def __getitem__(self,key):
         return self.theCounter[key]
 
-    def __setitem__(self,key,value):
-        self.theCounter[key] = value
-
-    def __delitem__(self,key):
-        del self.theCounter[key]
-
-
     def including(self,value):
         """
         Add a value into the bag.
@@ -1023,8 +1086,9 @@ class Bag(Collection):
             >>> Bag().including(34) == Bag(34)
             True
         """
-        self.theCounter[value] += 1
-        return self
+        fresh = self.theCounter.copy()
+        fresh[value] += 1
+        return Bag._(fresh)
 
     def excluding(self,value):
         """
@@ -1043,8 +1107,9 @@ class Bag(Collection):
             >>> Bag().excluding(34) == Bag()
             True
         """
-        del self.theCounter[value]
-        return self
+        fresh = self.theCounter.copy()
+        del fresh[value]
+        return Bag._(fresh)
 
     def union(self,anyCollection):
         """
@@ -1067,12 +1132,9 @@ class Bag(Collection):
         """
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
-
-        self.theCounter.update(Converter.listAll(anyCollection))
-        return self
-
-    def __or__(self,anyCollection):
-        return self.union(anyCollection)
+        fresh = self.theCounter.copy()
+        fresh.update(Converter.listAll(anyCollection))
+        return Bag._(fresh)
 
     def intersection(self,anyCollection):
         """
@@ -1090,11 +1152,11 @@ class Bag(Collection):
         """
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
-        self.theCounter = self.theCounter & Counter(list(anyCollection))
-        return self
+        return Bag._(self.theCounter & Counter(list(anyCollection)))
 
     def __and__(self,anyCollection):
         return self.intersection(anyCollection)
+
 
     def sum(self):
         """
@@ -1111,6 +1173,7 @@ class Bag(Collection):
         """
         return sum([e * n for (e,n) in self.theCounter.items()])
 
+
     def flatten(self):
         """
         If the bag is a bag of collection then return the bag union of all its elements.
@@ -1124,6 +1187,20 @@ class Bag(Collection):
             >>> Bag(Bag(),Bag(),Bag(3,2),Set(3)).flatten()  == Bag(3,2,3)
             True
         """
+
+
+
+
+
+
+        return self
+
+
+
+
+
+
+
         counter = Counter()
         for (e,n) in self.theCounter.items():
             if isAnyCollection(e):
@@ -1149,9 +1226,9 @@ class Bag(Collection):
             >>> Bag().select(lambda e:True) == Bag()
             True
         """
-        self.theCounter = \
+        fresh = \
             Counter(dict([(e,n) for (e,n) in self.theCounter.items() if predicate(e)]))
-        return self
+        return Bag._(fresh)
 
     def collectNested(self,expression):
         """
@@ -1174,17 +1251,17 @@ class Bag(Collection):
             True
         """
         results = [(expression(e),n) for (e,n) in self.theCounter.items()]
-        self.theCounter = Counter()
+        fresh = Counter()
         for (r,n) in results:
-            self.theCounter[r] += n
-        return self
+            fresh[r] += n
+        return Bag._(fresh)
 
     def hasDuplicates(self):
         """
         Return True if this bag has at least one element with more than one occurrence.
 
         This is not an OCL operation. It is provided here just for convenience.
-        :return: True if there are some duplicates.
+        :return: True if there are some duplicates in the bag.
         :rtype: bool
 
         Examples:
@@ -1204,17 +1281,18 @@ class Bag(Collection):
         r = []
         for key in sorted(self.theCounter.keys(),key=expression):
             r += [key] * self.theCounter[key]
+        # FIXME: Should be an ordered set
         return r
 
     def asSet(self):
-        return asSet(self.theCounter.keys())
+        return Set._(self.theCounter.keys())
 
     def asBag(self):
         return self
 
     def asSeq(self):
         # A list with duplicates is wanted, so use elements().
-        return asSeq(list(self.elements()))
+        return Seq._(list(self.elements()))
 
     def __str__(self):
         return "Bag(%s)" % str(self.theCounter)
@@ -1269,6 +1347,10 @@ class Bag(Collection):
 
 
 
+#-------------------------------------------------------------------------------------
+#   OCL Sequences
+#-------------------------------------------------------------------------------------
+
 def asSeq(anyCollection):
     """
     Convert the given collection to a Seq
@@ -1276,12 +1358,11 @@ def asSeq(anyCollection):
     :return:
     :rtype: Seq
     """
-    if isinstance(anyCollection,Seq):
-        return anyCollection
+
     try:
         return anyCollection.asSeq()
     except AttributeError:
-        return Seq() | anyCollection
+        return Seq._(anyCollection)
 
 
 class Seq(Collection):
@@ -1305,6 +1386,12 @@ class Seq(Collection):
         """
         # no worry with args being a Counter
         self.theList = list(args)
+
+    @classmethod
+    def _(cls,anyCollection):
+        newSeq = Seq()
+        newSeq.theList = Converter.listAll(anyCollection)
+        return newSeq
 
     def size(self):
         return len(self.theList)
@@ -1337,12 +1424,21 @@ class Seq(Collection):
             >>> Seq().excluding(23) == Seq()
             True
         """
-        self.theList = [e for e in self.theList if e != value]
-        return self
+        return Seq._([e for e in self.theList if e != value])
 
     def select(self,expression):
-        self.theList = [e for e in self.theList if expression(e)]
-        return self
+        return Seq._([e for e in self.theList if expression(e)])
+
+    def hasDuplicates(self):
+        """
+        Indicates if there duplicated elements in the sequence.
+
+        This method is an extension to OCL. I
+        :return: True
+        :rtype: bool
+        """
+        return asBag(self).hasDuplicates()
+
 
     def flatten(self):
         r = []
@@ -1357,39 +1453,34 @@ class Seq(Collection):
 
 
     def collectNested(self,expression):
-        self.theList = map(expression,self.theList)
-        return self
+        return Seq._(map(expression,self.theList))
 
     def sortedBy(self,expression):
-        self.theList = sorted(self.theList,key=expression)
-        return self
+        return Seq._(sorted(self.theList,key=expression))
 
     def union(self,anyCollection):
         assert isAnyCollection(anyCollection), \
             'Any collection expected, but found %s' % anyCollection
-        self.theList = self.theList + Converter.listAll(anyCollection)
-        return self
-
-    def __or__(self,anyCollection):
-        return self.union(anyCollection)
+        return Seq._(self.theList + Converter.listAll(anyCollection))
 
     def __add__(self,anyCollection):
         return self.union(anyCollection)
 
     def append(self,value):
-        self.theList.append(value)
-        return self
+        fresh = self.theList.copy()
+        fresh.append(value)
+        return Seq._(fresh)
 
     def prepend(self,value):
-        self.theList.insert(0,value)
-        return self
+        fresh = self.theList.copy()
+        fresh.insert(0,value)
+        return Seq._(fresh)
 
     def subSequence(self,lower,upper):
         try:
-            self.theList = self.theList[lower - 1:upper]
+            return Seq._(self.theList[lower - 1:upper])
         except:
             raise Invalid(".subSequence(%s,%s) failed: No such element."%(lower,upper))
-        return self
 
     def at(self,index):
         """
@@ -1423,17 +1514,11 @@ class Seq(Collection):
     def __getitem__(self,item):
         return self.theList[item]
 
-    def __setitem__(self,item,value):
-        self.theList[item] = value
-
-    def __delitem__(self,item):
-        del self.theList[item]
-
     def asSet(self):
-        return Set(self.theList)
+        return Set._(self.theList)
 
     def asBag(self):
-        return Bag(self.theList)
+        return Bag._(self.theList)
 
     def asSeq(self):
         return self
@@ -1471,13 +1556,6 @@ class Seq(Collection):
 
     def __iter__(self):
         return self.theList.__iter__()
-
-
-class OrderedSet(Collection):
-    pass
-
-
-
 
 
 
@@ -1570,10 +1648,31 @@ class Converter(object):
                or cls.isPythonCollection(value)
 
     @classmethod
+    def getConversionRule(cls,value):
+        """
+        Return the type of the OCL collection corresponding to the given type.
+
+        Raise an exception if no conversion is possible for the given type
+        :param aType: The type to be converted.
+        :type aType: type
+        :return: A collection type.
+        :rtype: type < Collection
+        :raise: ValueError if there is no correspondance possible.
+        """
+        for (collection_type,target_type,conversion_fun) in \
+                                            cls.EXTERNAL_CONVERSION_RULES:
+            if isinstance(value,collection_type):
+                return (collection_type,targetType,conversionFun)
+        raise ValueError("getConversionRule(): Can't convert a value of type %s." \
+                             % type(anyCollection))
+
+
+    @classmethod
     def asCollection(cls,anyCollection):
         if cls.isCollection(anyCollection):
             return anyCollection
         else:
+            self.getConversion()
             for (collection_type,target,fun) in cls.EXTERNAL_CONVERSION_RULES:
                 if isinstance(anyCollection,collection_type):
                     return fun(anyCollection)
@@ -1615,7 +1714,7 @@ def asCollection(anyCollection):
         True
         >>> asCollection(Counter([1,1,3,1])) == Bag(1,1,1,3)
         True
-        >>> asCollection(Counter({'hello':2,-1:0})) == Bag('hello','hello')
+        >>> asCollection(Counter({'hello':2,-1:0})) , Bag('hello','hello')
         True
         >>> asCollection([1,2,3,4]) == Seq(1,2,3,4)
         True
@@ -1649,73 +1748,6 @@ def flatten(collection):
         return collection.flatten()
     except:
         return Seq([item for sub_collection in collection for item in sub_collection])
-
-
-def flattenIfNeeded(c):
-    if len(c) == 0 or not isAnyCollection(c[0]):
-        return Seq(c)
-    else:
-        return flatten(c)
-
-
-# JavaCollection.flatten = flatten
-# JavaCollection.flattenIfNeeded = flattenIfNeeded
-# JavaCollection.select = lambda c,f:Seq(filter(f,c))
-# JavaCollection.reject = lambda c,f:Seq(filter(lambda x:not f(x),c))
-# JavaCollection.collect = lambda c,f:Seq(map(f,c)).flattenIfNeeded()
-
-if WITH_JYTHON:
-    class JavaCollectionExtension(JavaCollection):
-        # size()  java native
-        # __len__ jython
-        #        empty
-        # isEmpty()  java native
-        # __contains__ jython
-        # contains
-        # containsAll
-        @staticmethod
-        def includes(javaCollection,value):
-            return javaCollection.contains(value)
-        @staticmethod
-        def excludes(javaCollection):
-            return not javaCollection.contains(value)
-        @staticmethod
-        def includesall(javaCollection,anyCollection):
-            return javaCollection.containsAll(anyCollection)
-
-
-def notEmpty(anyCollection):
-    return not anyCollection.isEmpty()
-
-def count(anyCollection):
-    pass
-
-
-def excludesAll(anyCollection,anyCollection2):
-    for value in anyCollection2:
-        if anyCollection.includes(e):
-            return False
-    return True
-
-def excluding(javaCollection,value):
-    collection = asCollection(javaCollection)
-    return collection.excluding(value)
-
-def any(javaCollection,value):
-    pass
-
-
-# add
-# addAll
-# remove
-# removalAll
-# retainAll
-# clear
-#
-# iterator
-# toArray
-# equals
-# hashCode
 
 
 
