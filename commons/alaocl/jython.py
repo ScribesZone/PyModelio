@@ -1,4 +1,6 @@
-from alaocl import *
+# coding=utf-8
+import alaocl
+from alaocl import Set,Bag,Seq,asSet,asBag,asSeq,isCollection,Invalid
 import types
 
 
@@ -16,9 +18,9 @@ def addSuperclass(superclassOrSuperclasses,subclassOrSubclasses):
 
     :param superclassOrSuperclasses: A class or a list of classes to be added as
     superclass(es) to the subclasses.
-    :type superclassOrSuperclasses: objectclass|list[objectclass]
+    :type superclassOrSuperclasses: objectclass|tuple[objeclass]|list[objectclass]
     :param subclassOrSubclasses: A class or a list of classes to be instrumented.
-    :type subclassOrSubclasses: type|tuple[type]
+    :type subclassOrSubclasses: type|tuple[type]|list[type]
     :return: Nothing
     :rtype: NoneType
     """
@@ -57,8 +59,8 @@ def superclassof(subclassOrSubclasses):
     superclass decorated. See the examples provided below.
     :param subclassOrSubclasses: class|tuple[class]|list[class]
 
-    This decorator must be applied to a class that do not inherits *directly* from
-    'object'. In this case just use old class style.
+    This decorator must be applied to a class that do *not* inherits from
+    'object'. In this case just use old class style for the inheritance root.
 
     Example
     -------
@@ -84,6 +86,7 @@ def superclassof(subclassOrSubclasses):
     this is the root class in the library.
 
         >>> @superclassof(Kangaroo)
+        ... #noinspection PyClassicStyleClass
         ... class Animal:                       # not class Animal(object)
         ...     def who(self):
         ...         return "animal"
@@ -152,14 +155,14 @@ def superclassof(subclassOrSubclasses):
 #=====================================================================================
 
 # noinspection PyUnresolvedReferences
+from java.util import Collections
+# noinspection PyUnresolvedReferences
 import java.util
 
 
-
-class JavaCollectionExtension(GenericCollection):
-    """
-
-    """
+# noinspection PyClassicStyleClass
+class JavaCollectionExtension(alaocl.GenericCollection):
+    # Defined in java
     # size()  java native
     # __len__ jython
     #        empty
@@ -167,6 +170,19 @@ class JavaCollectionExtension(GenericCollection):
     # __contains__ jython
     # contains
     # containsAll
+
+    def count(self,element):
+        """
+            >>> java.util.ArrayList([1,1,2,4,1]).count(1)
+            3
+            >>> java.util.ArrayList([1,1,2,4,1]).count(17)
+            0
+            >>> java.util.HashSet([1,1,2,4,1]).count(17)
+            0
+            >>> java.util.HashSet([1,1,2,4,1]).count(1)
+            1
+        """
+        return java.util.Collections.frequency(self,element)
 
     def includes(self,value):
         """
@@ -178,9 +194,6 @@ class JavaCollectionExtension(GenericCollection):
         return self.contains(value)
 
     def excludes(self,value):
-        """
-
-        """
         return not self.contains(value)
 
     def includesAll(self,anyCollection):
@@ -189,88 +202,150 @@ class JavaCollectionExtension(GenericCollection):
         return self.containsAll(anyCollection)
 
     def including(self,value):
-        self.add(value)
-        return self
+        return self.asCollection().including(value)
 
     def excluding(self,value):
-        self.remove(value)
-        return self
+        return self.asCollection().excluding(value)
 
     def union(self,anyCollection):
-        self.addAll(anyCollection)
-        return self
+        return self.asCollection().union(anyCollection)
 
     def intersection(self,anyCollection):
-        self.retainAll(anyCollection)
-        return self
+        return self.asCollection().intersection(anyCollection)
 
     def __and__(self,anyCollection):
         return self.intersection(anyCollection)
 
+    # abstract method
+    def hasDuplicates(self):
+        raise NotImplementedError()
 
-    def count(self,element):
-        pass
+    # abstract method
+    def duplicates(self):
+        raise NotImplementedError()
+
+    def flatten(self):
+        return self.asCollection().flatten()
 
     def select(self,expression):
-        pass
-
-    def flatten(self):
-        pass
+        return self.asCollection().select(expression)
 
     def collectNested(self,expression):
-        pass
+        return self.asCollection().collectNested(expression)
 
     def sortedBy(self,expression):
-        pass
+        return self.asCollection().sortedBy(expression)
 
     def asSet(self):
-        return asSet(self)
+        return Set.new(self)
 
     def asBag(self):
-        return asBag(self)
+        return Bag.new(self)
 
     def asSeq(self):
-        return asSeq(self)
+        return Seq.new(self)
+
+    # abstract method
+    def asCollection(self):
+        raise NotImplementedError()
+
+    # abstract method
+    def emptyCollection(self):
+        raise NotImplementedError()
 
 
+
+
+# noinspection PyClassicStyleClass
 class JavaSetExtension(JavaCollectionExtension):
 
-    def count(self,value):
-        return 1 if value in self.theSet else 0
-
     def difference(self,anyCollection):
-        self.removeAll(anyCollection)
-        return self
+        return self.asSet().difference(anyCollection)
+
+    def __sub__(self,anyCollection):
+        return self.difference(anyCollection)
 
     def symmetricDifference(self,anyCollection):
-        assert isAnyCollection(anyCollection), \
-            'Any collection expected, but found %s' % anyCollection
-        other_set = set(anyCollection)
-        this_set = set(self)
-        self.addAll(other_set)
-        self.removeAll(this_set & other_set)
-        # FIXME: to be checked and tested
-        return self
+        return self.asSet().symmetricDifference(anyCollection)
 
-    def flatten(self):
-        r = set()
-        for e in self:
-            if isAnyCollection(e):
-                flat_set = set(flatten(e))
-            else:
-                flat_set = {e}
-            r = r | flat_set
-        self.theSet = r
-        return self
+    def hasDuplicates(self):
+        return False
+
+    def duplicates(self):
+        return Bag.new()
+
+    def asCollection(self):
+        return Set.new(self)
+
+    def emptyCollection(self):
+        return Set.new()
 
 
+# noinspection PyClassicStyleClass
 class JavaListExtension(JavaCollectionExtension):
-    def toto(self):
-        print "toto"
+
+    def hasDuplicates(self):
+        return Bag.new(self).hasDuplicates()
+
+    def duplicates(self):
+        return Bag.new(self).duplicates()
+
+    def asCollection(self):
+        return Seq.new(self)
+
+    def emptyCollection(self):
+        return Seq.new()
+
+    def append(self,value):
+        return Seq.new(self+[value])
+
+    def prepend(self,value):
+        return Seq.new([value]+self)
+
+    def subSequence(self,lower,upper):
+        try:
+            return Seq.new(list(self)[lower - 1:upper])
+        except:
+            raise Invalid(".subSequence(%s,%s) failed: No such element."%(lower,upper))
+    def at(self,index):
+        try:
+            return self.get(index-1)
+        except:
+            raise Invalid(".at(%s) failed: No such element." % index)
+
+    def first(self):
+        try:
+            return self.get(0)
+        except:
+            raise Invalid(".at(%s) failed: No such element.")
+
+    def last(self):
+        try:
+            return self.get(self.size()-1)
+        except:
+            raise Invalid(".at(%s) failed: No such element.")
+
+
 
 
 # noinspection PyUnresolvedReferences
 import java.util
+# noinspection PyUnresolvedReferences
+import java.lang
+
+# noinspection PyUnresolvedReferences
+# from java.util import List as Java
+# noinspection PyUnresolvedReferences
+# from java.util import Set
+# noinspection PyUnresolvedReferences
+# from java.lang import Iterable
+
+JavaJDKConversionRules = (
+    (java.util.Set,Set),
+    (java.util.List,Seq),
+    (java.lang.Iterable,Seq)
+)
+alaocl.CONVERTER.registerConversionRules('java',JavaJDKConversionRules)
 
 JAVA_JDK_LISTS = [
     java.util.ArrayList,
@@ -286,9 +361,11 @@ JAVA_JDK_SETS = [
 
 JAVA_JDK_COLLECTIONS = JAVA_JDK_SETS + JAVA_JDK_LISTS
 
-# addSuperclass(JavaCollectionExtension,JAVA_JDK_COLLECTIONS)
 addSuperclass(JavaSetExtension,JAVA_JDK_SETS)
 addSuperclass(JavaListExtension,JAVA_JDK_LISTS)
+
+
+
 
 
 

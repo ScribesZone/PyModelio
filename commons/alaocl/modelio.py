@@ -5,7 +5,8 @@ import alaocl.jython
 from org.eclipse.emf.common.util import EList
 # noinspection PyUnresolvedReferences
 from org.modelio.vcore.smkernel import SmList
-
+# noinspection PyUnresolvedReferences
+from org.modelio.vcore.smkernel import SmConstrainedList
 
 
 
@@ -13,12 +14,10 @@ from org.modelio.vcore.smkernel import SmList
 MODELIO_LISTS = [
     # FIXME: in fact this line  useless as addSuperClass does not works with inheritance
     # noinspection PyUnresolvedReferences
-    org.eclipse.emf.common.util.Elist,
+    EList,
 
-    # noinspection PyUnresolvedReferences
-    org.modelio.vcore.smkernel.SmList,
-    # noinspection PyUnresolvedReferences
-    org.modelio.vcore.smkernel.SmConstrainedList,
+    SmList,
+    SmConstrainedList,
 ]
 
 alaocl.jython.addSuperclass(alaocl.jython.JavaListExtension,MODELIO_LISTS)
