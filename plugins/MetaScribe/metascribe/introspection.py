@@ -1,3 +1,5 @@
+# coding=utf-8
+
 #
 # metascribe_introspection
 #
@@ -33,15 +35,14 @@
 #   Interface
 #-----------------------------------------------------------------------------------
 # exported symbols for this module
+
 __all__ = [
+
     "getMetaclassFromName",
     "getNameFromMetaclass",
     "isMetaclass",
     "isEnumeration",
     "getNameFromType",
-    "getImageFromType",
-    "getMetaclassJavadocURL",
-    "getMetaclassMetamodelURL",
     "getSubMetaclasses",
     "getSuperMetaclasses",
     "MetaFeature",
@@ -60,7 +61,6 @@ __all__ = [
     "getElementSignature",
 
     "getMetaclass",
-    "getElementInfo",
     "MetaFeatureSlots",
     "getMetaFeatureSlots",
 
@@ -75,14 +75,6 @@ __all__ = [
     "getElementPath",
 
     "getDiagramContainingElement",
-    "ClassImageProvider",
-    "NAVIGATOR_IMAGE_PROVIDER",
-
-    "show",
-    "explore",
-    "exp"
-
-
 ]
 
 
@@ -90,46 +82,42 @@ __all__ = [
 #-----------------------------------------------------------------------------------
 #   Realisation
 #-----------------------------------------------------------------------------------
-# check if this is modelio 3 because the API has changed
-try:
-    # noinspection PyUnresolvedReferences
-    from org.modelio.api.modelio import Modelio
+# noinspection PyUnresolvedReferences
+from org.modelio.api.modelio import Modelio
 
-    orgVersion = True
-except:
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.modelio import Modelio
+from alaocl import Seq,asSeq
+# important as these modules instrument java classes
+# noinspection PyUnresolvedReferences
+import alaocl.jython # DO NOT REMOVE
+# important as these modules instrument java classes
+# noinspection PyUnresolvedReferences
+import alaocl.modelio # DO NOT REMOVE
 
-    orgVersion = False
 # noinspection PyUnresolvedReferences
 from org.eclipse.core.runtime import IAdaptable
-from pymodelio.misc import reject,excluding,exists,isEmpty,notEmpty,isList,forAll,isString
-from pymodelio.gui import HtmlWindow,TreeWindow,ImageProvider
-from pymodelio.gui import getWebPage
+
 
 
 MODELIO = Modelio.getInstance()
 METAMODEL_SERVICE = MODELIO.getMetamodelService()
 MODELING_SESSION = MODELIO.getModelingSession()
 
-if orgVersion:
-    # noinspection PyUnresolvedReferences
-    from org.modelio.metamodel.uml.infrastructure import Element as ModelioElement
-else:
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.model.uml.infrastructure import IElement as ModelioElement
+# noinspection PyUnresolvedReferences
+from org.modelio.metamodel.uml.infrastructure import Element as ModelioElement
+
+
 
 # useful for python introspection
 def _isPythonBuiltin(name):
     return name.startswith('__') and name.endswith('__')
 
 
-def getMetaclassFromName(metaclassname):
+def getMetaclassFromName(metaclassName):
     """ get the Modelio Metaclass inheriting from ModelioElement and
        corresponding to the given name of a metaclass.
        Return None if the name provided is not the name of a metaclass
     """
-    return METAMODEL_SERVICE.getMetaclass(metaclassname)
+    return METAMODEL_SERVICE.getMetaclass(metaclassName)
 
 # noinspection PyUnresolvedReferences
 from java.lang import Class as JavaLangClass
@@ -169,6 +157,16 @@ def isEnumeration(x):
         return False
 
 
+# noinspection PyUnresolvedReferences
+from java.util import Collection as JavaCollection
+
+# TODO: Generalize this to alaocl any Collection
+def isList(x):
+    # is it enough?
+    return isinstance(x,list) \
+           or isinstance(x,JavaCollection)
+
+
 def getNameFromType(t,noPath=True):
     """ get name from a type, i.e. a metaclass or a basic type
     """
@@ -203,161 +201,6 @@ def getNameFromType(t,noPath=True):
     return unicode(name)
 
 
-#---- Extension of the Modelio' Image Service -----------------------
-# Modelio provide images only for subclass of element
-# Here we provide more images for other types.
-# This includes both basic types, but also graphics, etc.
-
-class ClassImageProvider(ImageProvider):
-    """ Provide some images for types.
-        We first try to check if there is an image corresponding exactly
-        to the name of the type (unqualified). If this is not the case then
-        the we search in a class root path in a sequential order. The first
-        class which is a superclass of return the image. That is, the types
-        given as a path should be from the most specific one, to the most
-        general one.
-    """
-
-    def __init__(self,resourcePath="",classSearchPath=[]):
-        ImageProvider.__init__(self,resourcePath)
-        # the order in which one will select the image. Contains a list of classes
-        self.classSearchPath = classSearchPath
-
-    def appendClassesToSearchPath(self,classes):
-        self.classSearchPath.append(classes)
-
-    def getImageFromType(self,classe):
-        # first try to get the image with the exact name of the type
-        image = self.getImageFromName(getNameFromType(classe,noPath=True))
-        if image is not None:
-            return image
-        else:
-            # not found, then search in the class root path
-            for classroot in self.classSearchPath:
-                if issubclass(classe,classroot):
-                    image = self.getImageFromName(getNameFromType(classroot,noPath=True))
-                    if image is not None:
-                        return image
-            return None
-
-    def getImageFromObject(self,object):
-        return self.getImageFromType(type(object))
-
-# TODO: Other useful classes to consider 
-# LocalPropertyTable
-# MStatus
-# IStyle ?
-# StyleKey ?
-# FactoryStyle ?
-
-if orgVersion:
-    # noinspection PyUnresolvedReferences
-    from org.modelio.api.diagram import IDiagramNode,IDiagramLink,ILinkPath
-    # noinspection PyUnresolvedReferences
-    from org.modelio.api.diagram.style import IStyleHandle
-else:
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.diagram import IDiagramNode,IDiagramLink,ILinkPath
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.diagram.style import IStyleHandle
-# noinspection PyUnresolvedReferences
-from org.eclipse.draw2d.geometry import Rectangle,Dimension,Point
-# noinspection PyUnresolvedReferences
-from java.util import UUID
-
-CLASSES_SEARCH_ORDER = \
-    [IDiagramNode,IDiagramLink,ILinkPath,
-     IStyleHandle,
-     Rectangle,Dimension,Point,
-     UUID]
-if orgVersion:
-    # noinspection PyUnresolvedReferences
-    from org.modelio.vcore.smkernel.mapi import MClass,MAttribute,MDependency
-
-    CLASSES_SEARCH_ORDER.extend([MClass,MAttribute,MDependency])
-
-import os
-
-RES_DIRECTORY = os.path.join(os.path.dirname(__file__),'..','res')
-NAVIGATOR_IMAGE_PROVIDER = ClassImageProvider(
-    resourcePath=RES_DIRECTORY,
-    classSearchPath=CLASSES_SEARCH_ORDER)
-
-
-def getImageFromType(metaclass):
-    """ return the image corresponding to a metaclass or None if no image is available
-    """
-    try:
-        return Modelio.getInstance().getImageService().getMetaclassImage(metaclass)
-    except:
-        return NAVIGATOR_IMAGE_PROVIDER.getImageFromType(metaclass)
-
-
-MODELIO_VERSION = Modelio.getInstance().getContext().getVersion()
-MODELIO_DOC_URL_ROOT = "http://modelio.org/documentation"
-MODELIO_SIMPLE_VERSION = str(MODELIO_VERSION.getMajorVersion()) + '.' + str(
-    MODELIO_VERSION.getMinorVersion())
-MODELIO_JAVADOC_ROOT_URL = MODELIO_DOC_URL_ROOT + "/javadoc-" + MODELIO_SIMPLE_VERSION
-if MODELIO_VERSION.getMajorVersion() <= 2:
-    MODELIO_PACKAGES_PREFIX = "com.modeliosoft."
-else:
-    MODELIO_PACKAGES_PREFIX = "org.modelio."
-
-
-def getMetaclassJavadocURL(metaclass):
-    """ return the url of
-    """
-    try:
-        name = metaclass.getCanonicalName()
-        if name.startswith(MODELIO_PACKAGES_PREFIX):
-            return MODELIO_JAVADOC_ROOT_URL + "/" + name.replace(".","/") + ".html"
-        else:
-            return None
-    except:
-        return None
-
-
-MODELIO_METAMODEL_ROOT_URL = MODELIO_DOC_URL_ROOT + "/metamodel-" + MODELIO_SIMPLE_VERSION
-METAMODEL_INDEX_URL = MODELIO_METAMODEL_ROOT_URL + "/modelbrowser.html"
-METAMODEL_ROOT_ENTRY_REGEXPR = {
-    "2.2":'<img src="img/elt_19293.png"/><a href="([0-9]+\.html#[\-_0-9A-Za-z]+)"> ([A-Za-z0-9]+)</a>',
-    "3.0":'<img src="img/elt_1470811194701554859.png"/><a href="([0-9]+\.html#[\-_0-9A-Za-z]+)"> ([A-Za-z0-9]+)</a>'
-}
-# A map that for each metaclass name return the local url in the metamodel documentation
-# This map is computed by reading the index web page of the metamodel.
-# A resulting entry is something like "Term" : "15.html#_00080b08-0000-1cb6-0000-000000000000"
-# This map is computed on demand and only once
-METACLASSNAME_TO_LOCALPAGE_MAP = None
-
-import re
-
-
-def _getMetaclassNameToLocalPageMap():
-    global METACLASSNAME_TO_LOCALPAGE_MAP
-    if METACLASSNAME_TO_LOCALPAGE_MAP is None:
-        regexpr = METAMODEL_ROOT_ENTRY_REGEXPR[MODELIO_SIMPLE_VERSION]
-        html = getWebPage(METAMODEL_INDEX_URL)
-        METACLASSNAME_TO_LOCALPAGE_MAP = {}
-        for match in re.findall(regexpr,html):
-            (localurl,metaclassname) = match
-            METACLASSNAME_TO_LOCALPAGE_MAP[metaclassname] = localurl
-    return METACLASSNAME_TO_LOCALPAGE_MAP
-
-
-def getMetaclassMetamodelURL(metaclass,relative=False):
-    map = _getMetaclassNameToLocalPageMap()
-    metaclassname = getNameFromMetaclass(metaclass)
-    if metaclassname is None:
-        return None
-    else:
-        if metaclassname in map:
-            url = map[metaclassname]
-            if relative:
-                return url
-            else:
-                return MODELIO_METAMODEL_ROOT_URL + "/" + url
-        else:
-            return None
 
 
 def getSubMetaclasses(metaclass):
@@ -365,18 +208,13 @@ def getSubMetaclasses(metaclass):
     """
     return METAMODEL_SERVICE.getInheritingMetaclasses(metaclass)
 
-
-# FIXME does not work with Modelio 3.0
-# if not orgVersion:
-#  import inspect
 import types
 
 
 def getSuperMetaclasses(metaclass,inclusive=True):
-    """ This function is intentend to be used primarily with Modelio java metaclass,
+    """ This function is intended to be used primarily with Modelio java metaclass,
         either implementation or interface, but in all cases that are below Element.
         If inclusive=True includes the metaclass at the beginning.
-        This function is inte
     """
     metaclasses = [metaclass] if inclusive else []
     if issubclass(metaclass,ModelioElement):
@@ -419,27 +257,34 @@ import java.lang.reflect.Member
 import re
 
 
-def _getJavaMethods(javaclass,inherited=False,regexp=None,argTypes=None,methodFilterFun=None,
+def _getJavaMethods(javaClass,inherited=False,regexp=None,
+                    argTypes=None,methodFilterFun=None,
                     natives=False):
     """ returns java methods from a metaclass
         regexp : None or a regular expression to filter method names (e.g. "^get|is")
         methodFilterFun : None or a predicate on a java.lang.reflect.Method object that will be used to filter methods
     """
     try:
-        javaMethods = javaclass.getMethods() if inherited else javaclass.getDeclaredMethods()
+        javaMethods = Seq.new(javaClass.getMethods()) if inherited \
+                        else Seq.new(javaClass.getDeclaredMethods())
     except:
         # it seems that the code above fail in some case
         javaMethods = []
     if not natives:
         # remove methods starting with _ which seems to be natives ones
         # (should be improved using getModifiers instead ...)
-        javaMethods = reject(lambda m:m.getName().startswith('-'),javaMethods)
+        #-javaMethods = reject(lambda m:m.getName().startswith('-'),javaMethods)
+        javaMethods = javaMethods.reject(
+            lambda m:m.getName().startswith('-'))
     if regexp is not None:
-        javaMethods = filter(lambda m:re.match(regexp,m.getName()),javaMethods)
+        #javaMethods = filter(lambda m:re.match(regexp,m.getName()),javaMethods)
+        javaMethods = javaMethods.select(
+            lambda m:re.match(regexp,m.getName()) is not None)
     if argTypes is not None:
-        javaMethods = filter(lambda m:list(m.getParameterTypes()) == list(argTypes),javaMethods)
+        javaMethods = javaMethods.select(
+            lambda m:list(m.getParameterTypes()) == list(argTypes))
     if methodFilterFun is not None:
-        javaMethods = filter(methodFilterFun,javaMethods)
+        javaMethods = javaMethods.select(methodFilterFun)
     return javaMethods
 
 
@@ -447,23 +292,17 @@ import types
 # noinspection PyUnresolvedReferences
 from java.util import List as JavaUtilList
 
-if orgVersion:
-    # noinspection PyUnresolvedReferences
-    from org.eclipse.emf.common.util import EList
-    # noinspection PyUnresolvedReferences
-    from org.modelio.vcore.smkernel import SmList as ModelioList
-else:
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.utils import ObList as ModelioList
+# noinspection PyUnresolvedReferences
+from org.eclipse.emf.common.util import EList
+# noinspection PyUnresolvedReferences
+from org.modelio.vcore.smkernel import SmList as ModelioList
 
 
 def isCollectionType(x):
     return x in LIST_TYPES
 
 
-LIST_TYPES = [ModelioList,JavaUtilList,types.ListType]
-if orgVersion:
-    LIST_TYPES.append(EList)
+LIST_TYPES = [ModelioList,JavaUtilList,types.ListType,EList]
 
 
 def _getJavaMethodInfo(javaMethod):
@@ -482,11 +321,7 @@ def _getJavaMethodInfo(javaMethod):
     else:
         multiple = False
     return (classe,name,parameterTypes,returnType,multiple)
-    # if isinstance(genericreturntype,ParameterizedType):
-    #  print "  ","this is a generic type"
-    #  print "  ",returntype.getTypeParameters()[0].getBounds()[0]
-    #  if len(genericreturntype.getActualTypeArguments()) != 0:
-    #    print "  ",genericreturntype.getActualTypeArguments()[0]
+
 
 
 from string import Template
@@ -527,20 +362,20 @@ class MetaFeature(object):
     def isMultiple(self):
         return self.multiplicity
 
-    def getSignature(self,ftemplate=None,html=False):
-        if ftemplate is None:
+    def getSignature(self,fTemplate=None,html=False):
+        if fTemplate is None:
             if html:
-                ftemplate = "<b>${fname}</b> : <em>${ftype}</em>${fmult}"
+                fTemplate = "<b>${fname}</b> : <em>${ftype}</em>${fmult}"
             else:
-                ftemplate = "${fname} : ${ftype}${fmult}"
-        return Template(ftemplate).substitute( \
+                fTemplate = "${fname} : ${ftype}${fmult}"
+        return Template(fTemplate).substitute(
             mclass=getNameFromMetaclass(self.metaclass),
             fname=self.getName(),
             ftype=getNameFromType(self.type),
             fmult=("[*]" if self.multiplicity else ""))
 
-    def getText(self,ftemplate=None,html=False):
-        return self.getSignature(ftemplate,html)
+    def getText(self,fTemplate=None,html=False):
+        return self.getSignature(fTemplate,html)
 
     def __unicode__(self):
         return self.getSignature()
@@ -561,103 +396,73 @@ class GetterMetaFeature(MetaFeature):
             return 'ERROR("cannot apply ' + self.name + '")'
 
 
-class FunMetaFeature(MetaFeature):
+
+
+
+def _getMetaFeatureFromJavaMethodInfo(javaMethodInfo):
+    (classe,name,parameters,return_type,multiplicty) = javaMethodInfo
+    return GetterMetaFeature(classe,name,return_type,multiplicty)
+
+#--------------------------------------------------------------------------------
+# This should be in module virtual, but it creates circular dependency
+#
+#
+#
+#
+
+
+
+
+class VirtualMetaFeature(MetaFeature):
     def __init__(self,fun,metaclass,name,type,multiplicity=False):
-        MetaFeature.__init__(self,metaclass,name,type,multiplicity)
+        MetaFeature.__init__(
+            self,metaclass,('<<<%s>>>' % name),type,multiplicity)
         self.fun = fun
 
     def eval(self,element):
         return self.fun(element)
 
-
-def _getMetaFeatureFromJavaMethodInfo(javaMethodInfo):
-    (classe,name,parameters,returntype,multiplicty) = javaMethodInfo
-    return GetterMetaFeature(classe,name,returntype,multiplicty)
+    def accept(self,metaclass):
+        return issubclass(metaclass,self.metaclass)
 
 
-if orgVersion:
-    # noinspection PyUnresolvedReferences
-    from org.modelio.api.diagram import IDiagramGraphic
-    # noinspection PyUnresolvedReferences
-    from org.modelio.api.diagram.dg import IDiagramDG
-    # noinspection PyUnresolvedReferences
-    from org.modelio.metamodel.diagrams import AbstractDiagram as ModelioAbstractDiagram
-else:
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.diagram import IDiagramGraphic
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.diagram.dg import IDiagramDG
-    # noinspection PyUnresolvedReferences
-    from com.modeliosoft.modelio.api.model.diagrams import \
-        IAbstractDiagram as ModelioAbstractDiagram
+class VirtualRegistry(object):
+    virtualMetaFeatures = []
 
-DIAGRAM_SERVICE = Modelio.getInstance().getDiagramService()
-ALL_DIAGRAMS = Modelio.getInstance().getModelingSession().findByClass(ModelioAbstractDiagram)
-# Should this be computed on demand and refreshed when new diagrams are updated?
-ALL_DIAGRAM_HANDLES = map(DIAGRAM_SERVICE.getDiagramHandle,ALL_DIAGRAMS)
+    @classmethod
+    def add(cls,virtualMetaFeature):
+        cls.virtualMetaFeatures.append(virtualMetaFeature)
+
+    @classmethod
+    def getFeatures(cls,metaclass):
+        return [f for f in cls.virtualMetaFeatures if f.accept(metaclass)]
+
+#
+#
+#
+#
+#--------------------------------------------------------------------------------
 
 
-def getDisplayingDiagrams(element):
-    """ Return all diagrams displaying the element in a graphical form
-    """
-    selectedDiagrams = []
-    for diagramHandle in ALL_DIAGRAM_HANDLES:
-        graphicElements = diagramHandle.getDiagramGraphics(element)
-        if len(graphicElements) != 0:
-            selectedDiagrams.append(diagramHandle.getDiagram())
-    return selectedDiagrams
 
-
-def getDiagramGraphics(element):
-    """ Return all diagram graphics (i.e. DiagramLink, DiagramNode) that are used
-        to display this element
-    """
-    diagramGraphics = []
-    for diagramHandle in ALL_DIAGRAM_HANDLES:
-        diagramGraphics.extend(diagramHandle.getDiagramGraphics(element))
-    return diagramGraphics
-
-
-VIRTUAL_META_FEATURES = [
-    ( "<<<getDiagramNode>>> (virtual)",
-      ModelioAbstractDiagram,
-      (lambda d:DIAGRAM_SERVICE.getDiagramHandle(d).getDiagramNode()),
-      IDiagramDG,
-      False ),
-    ( "<<<getDisplayingDiagrams>>> (virtual)",
-      ModelioElement,
-      getDisplayingDiagrams,
-      ModelioAbstractDiagram,
-      True ),
-    ( "<<<getDiagramGraphics>>> (virtual)",
-      ModelioElement,
-      getDiagramGraphics,
-      IDiagramGraphic,
-      True )
-]
 
 
 def getMetaFeatures(metaclass,inherited=True,groupBySuper=False,methodFilterFun=None,
-                    additionalFun=[]):
+                    additionalFun=()):
     """ return the meta features of a metaclass, that is MetaFeature created
         for methods getXXX(), isXXX() and toString() with no arguments
     """
-    javaMethods = _getJavaMethods(metaclass,inherited=inherited,regexp='^get|is|toString',
+    javaMethods = _getJavaMethods(metaclass,inherited=inherited,
+                                  regexp='^get|is|toString',
                                   argTypes=[],methodFilterFun=methodFilterFun)
-    # get the signaturex
+    # get the signatures
     javaMethodInfos = map(_getJavaMethodInfo,javaMethods)
     # in method info the parameters are indicated. Here we skip this as we know that
     # the methods do not have parameters.
     metafeatures = map(_getMetaFeatureFromJavaMethodInfo,javaMethodInfos)
-    # Add virtual thoes virtual meta features that match the given metaclass using subclasses
-    for vFeature in VIRTUAL_META_FEATURES:
-        (vFeatureName,vFeatureClass,vFeatureFun,vFeatureReturnType,vFeatureMultiplicity) = vFeature
-        if issubclass(metaclass,vFeatureClass):
-            metafeatures = metafeatures \
-                           + [
-                FunMetaFeature(vFeatureFun,vFeatureClass,vFeatureName,vFeatureReturnType,
-                               vFeatureMultiplicity)]
-    return metafeatures
+    # Add virtual meta features that match the given metaclass using subclasses
+    virtual_metafeatures = VirtualRegistry.getFeatures(metaclass)
+    return metafeatures + virtual_metafeatures
 
 
 class MetaclassInfo(object):
@@ -680,12 +485,12 @@ class MetaclassInfo(object):
     def getMetaFeatures(self):
         return self.metaFeatures
 
-    def getSignature(self,mcsigtemplate=None,mcsigsep=" > ",html=False):
-        if mcsigtemplate is None:
-            mcsigtemplate = "$mcsig"
-        s = Template(mcsigtemplate).substitute( \
+    def getSignature(self,mcSignatureTemplate=None,Separator=" > ",html=False):
+        if mcSignatureTemplate is None:
+            mcSignatureTemplate = "$mcsig"
+        s = Template(mcSignatureTemplate).substitute(
             mcsig= \
-                mcsigsep.join(map(getNameFromMetaclass,self.getSuperMetaclasses())))
+                Separator.join(map(getNameFromMetaclass,self.getSuperMetaclasses())))
         return unicode(s)
 
     def __repr__(self):
@@ -694,22 +499,23 @@ class MetaclassInfo(object):
     def __unicode__(self):
         return self.getName()
 
-    def getBody(self,fsep=None,ftemplate=None,html=False):
+    def getBody(self,fsep=None,fTemplate=None,html=False):
         if fsep is None:
             fsep = "<br/>" if html else "\n"
-        return fsep.join( \
-            [feature.getSignature(ftemplate=ftemplate,html=html) \
+        return fsep.join(
+            [feature.getSignature(fTemplate=fTemplate,html=html) \
              for feature in self.getMetaFeatures()])
 
-    def getText(self,mctemplate=None,mcsigtemplate=None,ftemplate=None,fsep=None,html=False):
-        if mctemplate is None:
+    def getText(self,mcTemplate=None,mcSignatureTemplate=None,
+                fTemplate=None,fsep=None,html=False):
+        if mcTemplate is None:
             if html:
-                mctemplate = "$mcsig<br/>$mcbody"
+                mcTemplate = "$mcsig<br/>$mcbody"
             else:
-                mctemplate = "$mcsig\n$mcbody"
-        s = Template(mctemplate).substitute( \
-            mcsig=self.getSignature(mcsigtemplate=mcsigtemplate,html=html),
-            mcbody=self.getBody(ftemplate=ftemplate,fsep=fsep,html=html))
+                mcTemplate = "$mcsig\n$mcbody"
+        s = Template(mcTemplate).substitute(
+            mcsig=self.getSignature(mcSignatureTemplate=mcSignatureTemplate,html=html),
+            mcbody=self.getBody(fTemplate=fTemplate,fsep=fsep,html=html))
         return unicode(s)
 
 
@@ -737,6 +543,8 @@ PARENT_FEATURES = {
 }
 
 
+
+
 def getElementParent(element):
     """ return the parent of an element, the notion of parent being defined by
         PARENT_FEATURES
@@ -762,22 +570,35 @@ def getElementParents(element,inclusive=False,reverse=False):
     return reversed(parents) if reverse else parents
 
 
+
+
+
 def getElementPath(element):
     """ return a qualified name for the element if it is possible to compute one
         by concatenating the "name" of parent elements.
         The path is computed according to some appropriate
-        "parentship" association depending on the type of elements.
+        "parent" association depending on the type of elements.
         If it is not possible to get the path, then return the id of the element.
     """
     try:
-        names = map(lambda x:x.getName(),
-                    getElementParents(element,inclusive=True,reverse=True))
-        if exists(isEmpty,names):
+        names = Seq.new(map(lambda x:x.getName(),
+                    getElementParents(element,inclusive=True,reverse=True)))
+        if names.exists(lambda e:e==''):
             return unicode(getElementId(element))
         else:
             return unicode(".".join(names))
     except:
         return unicode(getElementId(element))
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -808,13 +629,13 @@ def isElement(x):
     """ True for objects XXX
     """
     return isinstance(x,ModelioElement) \
-           or (x is not None \
-               and not isAtomic(x) \
+           or (x is not None
+               and not isAtomic(x)
                and not isElementList(x))
 
 
 def isElementList(x):
-    return isList(x) and forAll(isElement,x)
+    return isList(x) and asSeq(x).forAll(isElement)
 
 
 def getElementId(element):
@@ -999,9 +820,9 @@ class StringModelValue(ScalarModelValue):
 
 
 def getModelValueFromValue(value):
-    if isNone(value):
+    if value is None:
         return NoneModelValue()
-    if isString(value):
+    if isinstance(value,basestring):
         return StringModelValue(value)
     elif isEnumerationLiteral(value):
         return EnumerationLiteralModelValue(value)
@@ -1012,28 +833,21 @@ def getModelValueFromValue(value):
     elif isElement(value):
         return ElementModelValue(value)
     else:
-        print "getModelValueFromValue(",value,"): The parameter type is not recognized",type(value)
+        print "getModelValueFromValue(%s). type of parameter not recognized: %s" \
+                % value,type(value)
         return StringModelValue("UNKNOWN, see the console")
 
 
-#--------- introspection at the model/metamodel level ----------
 
-#if orgVersion:
-#  from org.modelio.api.diagram import IDiagramGraphic  
-#else:
-#  from com.modeliosoft.modelio.api.diagram import IDiagramGraphic
 
 
 
 def getMetaclass(element):
     """ returns the metaclass of the given element
     """
-    # XXX TODO check
+    # TODO: check
     if isinstance(element,ModelioElement):
-        if orgVersion:
-            name = element.getMClass().getName()
-        else:
-            name = element.metaclassName
+        name = element.getMClass().getName()
         return getMetaclassFromName(name)
     else:
         return type(element)
@@ -1053,6 +867,9 @@ def getSelectedInstances(metaclass,attributeName,attributeValue):
 
 def getModelRoot():
     return MODELING_SESSION.getModel()
+
+
+
 
 
 class MetaFeatureSlot(object):
@@ -1092,7 +909,7 @@ class MetaFeatureSlot(object):
         if stemplate is None:
             stemplate = "$fsig = $mv"
         mval = self.getModelValue()
-        fsig = self.getMetaFeature().getText(ftemplate=ftemplate)
+        fsig = self.getMetaFeature().getText(fTemplate=ftemplate)
         mvaltext = mval.getText()
         # s = Template(stemplate).substitute( \
         # fsig = self.getMetaFeature().getText(ftemplate=ftemplate),
@@ -1116,7 +933,7 @@ class MetaFeatureSlot(object):
 
 def getMetaFeatureSlots(element,inherited=True):
     metaclass = getMetaclass(element)
-    return [MetaFeatureSlot(element,feature) for feature in getMetaFeatures(metaclass)]
+    return Seq.new([MetaFeatureSlot(element,feature) for feature in getMetaFeatures(metaclass)])
 
 
 class ElementInfo(object):
@@ -1164,7 +981,7 @@ class ElementInfo(object):
     def getSlotList(self,emptySlots=True):
         slots = self._getSlotList()
         if not emptySlots:
-            slots = reject(MetaFeatureSlot.isEmpty,slots)
+            slots = slots.reject(MetaFeatureSlot.isEmpty)
         return slots
 
     def getSlotMap(self):
@@ -1186,7 +1003,7 @@ class ElementInfo(object):
                + " : " + self.metaclassInfo.getSignature()
 
     def getText(self,emptySlots=False):
-        return u'\n'.join( \
+        return u'\n'.join(
             [self.getSignature()] \
             + [u"  " + slot.__repr__() \
                for slot in self.getSlotList(emptySlots)]
@@ -1217,147 +1034,12 @@ class ElementInfo(object):
     # return info
 
 
-def getElementInfo(element):
-    info = ElementInfo(element)
-    return info
 
 
-def show(x,html=False):
-    if isElement(x):
-        print getElementInfo(x).getText()
-    elif isMetaclass(x):
-        if html:
-            ftempl = "<li>${mclass}.<b>${fname}</b> : <em>${ftype}</em>${fmult}</li>"
-            fsep = ""
-            mctempl = "<h3>$mcsig</h3><ul>$mcbody</ul>"
-            html = getMetaclassInfo(x).getText(html=True,ftemplate=ftempl,mctemplate=mctempl,
-                                               fsep="")
-            HtmlWindow(html,width=600,height=800)
-        else:
-            print getMetaclassInfo(x).getText(html=html)
-    elif isList(x):
-        for item in x:
-            show(item)
-    else:
-        print x
 
 
-# noinspection PyUnresolvedReferences
-from org.eclipse.swt.graphics import Color,Image
-# noinspection PyUnresolvedReferences
-from org.eclipse.swt.widgets import Display
 
 
-def explore(x,browser=False,emptySlots=False):
-    if browser:
-        metamodelHtmlWindow = HtmlWindow(title="Modelio Metamodel Guide")
-        javadocHtmlWindow = HtmlWindow(title="Modelio API Javadoc")
-
-    def _getChildren(data):
-        if isinstance(data,ElementInfo):
-            return data.getSlotList(emptySlots=emptySlots)
-        elif isinstance(data,MetaFeatureSlot):
-            mv = data.getModelValue()
-            if mv.isElement():
-                return [getElementInfo(mv.getValue())]
-            elif mv.isElementList():
-                return map(getElementInfo,mv.getValue())
-            else:
-                return []
-
-    def _isLeaf(data):
-        if isinstance(data,ElementInfo):
-            return False
-        elif isinstance(data,MetaFeatureSlot):
-            mv = data.getModelValue()
-            if mv.isElement():
-                return False
-            elif mv.isElementList():
-                return False
-            else:
-                return True
-
-    def _getText(data):
-        if isinstance(data,ElementInfo):
-            return data.getSignature()
-        elif isinstance(data,MetaFeatureSlot):
-            mv = data.getModelValue()
-            if mv.isAtomic():
-                return data.getText()
-            elif mv.isElementContainer():
-                return data.getMetaFeature().getSignature() + " = [" + str(data.getCard()) + "]"
-            else:
-                return "???" + unicode(mv)
-
-    def _getImage(data):
-        if isinstance(data,ElementInfo):
-            metaclass = data.getMetaclass()
-            image = getImageFromType(metaclass)
-            return image
-        elif isinstance(data,MetaFeatureSlot):
-            mv = data.getModelValue()
-            if mv.isElement():
-                return NAVIGATOR_IMAGE_PROVIDER.getImageFromName("assoc-1")
-            elif mv.isElementList():
-                return NAVIGATOR_IMAGE_PROVIDER.getImageFromName("assoc-n")
-            elif mv.isScalar():
-                return getImageFromType(type(mv.getValue()))
-            elif mv.isEnumerationLiteral():
-                return NAVIGATOR_IMAGE_PROVIDER.getImageFromName("enumeration")
-
-    def _getGrayed(data):
-        if isinstance(data,ElementInfo):
-            return False
-        else:
-            return True
-
-    def _getForeground(data):
-        if isinstance(data,ElementInfo):
-            return Color(Display.getCurrent(),0,0,150)
-        elif isinstance(data,MetaFeatureSlot):
-            mv = data.getModelValue()
-            if mv.isElement() or mv.isElementList():
-                return Color(Display.getCurrent(),0,100,0)
-            else:
-                return Color(Display.getCurrent(),0,180,0)
-
-    def onSelection(data):
-        if isinstance(data,ElementInfo):
-            metaclass = data.getMetaclass()
-            message = str(data)
-            metamodelHtmlWindow.setLabel(message)
-            javadocHtmlWindow.setLabel(message)
-            if issubclass(metaclass,ModelioElement):
-                metamodelHtmlWindow.setURL(getMetaclassMetamodelURL(metaclass))
-                javadocHtmlWindow.setURL(getMetaclassJavadocURL(metaclass))
-            else:
-                metamodelHtmlWindow.setText("")
-                javadocHtmlWindow.setText("")
-        elif isinstance(data,MetaFeatureSlot):
-            mv = data.getModelValue()
-            print "slot selected with model value:",mv
-
-    if not isList(x):
-        x = [x]
-    TreeWindow(map(getElementInfo,x),_getChildren,_isLeaf, \
-               getTextFun=_getText,getImageFun=_getImage, \
-               getGrayedFun=_getGrayed, \
-               getForegroundFun=_getForeground,
-               onSelectionFun=onSelection if browser else None,
-               title="Model/Metamodel CoExplorer")
 
 
-#----------------------------------------
-
-def exp(x,emptySlots=False):
-    explore(x,True,emptySlots)
-
-
-NAVIGATION_SERVICE = Modelio.getInstance().getNavigationService()
-
-
-def navigateToElement(element):
-    NAVIGATION_SERVICE.fireNavigate(element)
-
-
-print "module metascribe_introspection loaded from",__file__
+print "module metascribe.introspection loaded from",__file__

@@ -2,13 +2,22 @@
   <dictionary name="jmfavre">
     <words>
       <w>coexplorer</w>
+      <w>eval</w>
       <w>helloworld</w>
+      <w>infos</w>
       <w>iter</w>
       <w>metaclass</w>
+      <w>metaclasse</w>
+      <w>metaclasses</w>
+      <w>metafeature</w>
+      <w>metafeatures</w>
       <w>metamodel</w>
+      <w>multiplicty</w>
       <w>pythonic</w>
+      <w>regexpr</w>
       <w>sphynx</w>
       <w>sublist</w>
+      <w>submenu</w>
       <w>superclassof</w>
       <w>supertype</w>
       <w>useocl</w>

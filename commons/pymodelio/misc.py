@@ -65,6 +65,7 @@ def isList(x):
 def excluding(list,elem):
   return [x for x in list if x != elem]
 
+# FIXME: should be replaced by alaocl
 def flatten(colls):
   """ flatten a collection of collections
   """
