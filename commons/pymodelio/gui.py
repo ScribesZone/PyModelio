@@ -325,7 +325,6 @@ class TreeWindow(object):
             if getImageFun is not None:
                 image = getImageFun(dataObject)
                 if image is not None:
-                    # print "not none"
                     node.setImage(image)
             if getGrayedFun is not None:
                 grayed = getGrayedFun(dataObject)
@@ -344,18 +343,13 @@ class TreeWindow(object):
             def handleEvent(self,event):
                 try:
                     node = event.item
-                    # print "expanding node "+str(node.getData()),
                     items = node.getItems()
-                    # print ": ",len(items),"children"
                     # check if this subtree has already been expanded before
                     # if so there is nothing to do, otherwise remove dummy nodes
                     for item in items:
-                        # print "  object",item.getData(),type(item.getData()),
                         if item.getData() is not None:
-                            # print "already visited. Stop"
                             return
                         else:
-                            # print "remove this node"
                             item.dispose()
                         # get the children and add them to the tree
                     for childDataObject in getChildrenFun(node.getData()):
@@ -370,8 +364,6 @@ class TreeWindow(object):
         class ThisTreeSelectionListener(Listener):
             def handleEvent(self,event):
                 node = event.item
-                # print "item selected",node,type(node)
-                # print "details",event.detail
                 if onSelectionFun is not None:
                     onSelectionFun(node.getData())
 

@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/virtual.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/web.py" />
-      <change type="DELETED" beforePath="C:\DEV\PyModelio\commons\pymodelio\core\setup.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/gui.py" afterPath="$PROJECT_DIR$/commons/pymodelio/gui.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/jmfavre.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/jmfavre.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/misc.py" afterPath="$PROJECT_DIR$/commons/pymodelio/misc.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyModelio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,43 +37,16 @@
     <splitter split-orientation="horizontal" split-proportion="0.48579547">
       <split-first>
         <leaf>
-          <file leaf-file-name="virtual.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="virtual.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/virtual.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="1275">
-                  <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.33264887" vertical-offset="314" max-vertical-offset="1309">
+                  <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
                   <folding>
                     <element signature="e#1156#1496#0" expanded="true" />
                     <element signature="e#1537#1826#0" expanded="true" />
                     <element signature="e#1855#1914#0" expanded="true" />
                     <element signature="e#1956#2451#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.34907597" vertical-offset="0" max-vertical-offset="487">
-                  <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="images.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="18.69697" vertical-offset="1586" max-vertical-offset="2040">
-                  <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#220#263#0" expanded="true" />
-                    <element signature="e#1141#1312#0" expanded="true" />
-                    <element signature="e#1371#1407#0" expanded="true" />
-                    <element signature="e#1456#2041#0" expanded="true" />
-                    <element signature="e#3216#3508#0" expanded="true" />
-                    <element signature="e#3542#3596#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -97,12 +59,12 @@
           <file leaf-file-name="explorer.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="1.1374408" vertical-offset="2053" max-vertical-offset="2839">
-                  <caret line="149" column="21" selection-start-line="149" selection-start-column="21" selection-end-line="149" selection-end-column="21" />
+                <state vertical-scroll-proportion="0.33175355" vertical-offset="421" max-vertical-offset="2839">
+                  <caret line="33" column="13" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="13" />
                   <folding>
                     <element signature="e#239#302#0" expanded="true" />
                     <element signature="e#678#705#0" expanded="true" />
-                    <element signature="e#735#1436#0" expanded="true" />
+                    <element signature="e#1658#5305#0" expanded="true" />
                     <element signature="e#1849#2249#0" expanded="true" />
                     <element signature="e#2282#2596#0" expanded="true" />
                     <element signature="e#2630#3079#0" expanded="true" />
@@ -111,214 +73,6 @@
                     <element signature="e#3881#4242#0" expanded="true" />
                     <element signature="e#4279#4946#0" expanded="true" />
                     <element signature="e#5341#5367#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="gui.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/pymodelio/gui.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.060606" vertical-offset="561" max-vertical-offset="6783">
-                  <caret line="37" column="19" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="19" />
-                  <folding>
-                    <element signature="e#1181#1503#0" expanded="true" />
-                    <element signature="e#1550#1857#0" expanded="true" />
-                    <element signature="e#1961#2494#0" expanded="true" />
-                    <element signature="e#2527#2641#0" expanded="true" />
-                    <element signature="e#2752#3667#0" expanded="true" />
-                    <element signature="e#3705#3733#0" expanded="true" />
-                    <element signature="e#3766#3797#0" expanded="true" />
-                    <element signature="e#3867#4255#0" expanded="true" />
-                    <element signature="e#4373#5232#0" expanded="true" />
-                    <element signature="e#5288#5586#0" expanded="true" />
-                    <element signature="e#5626#5883#0" expanded="true" />
-                    <element signature="e#5923#7090#0" expanded="true" />
-                    <element signature="e#6431#6531#0" expanded="true" />
-                    <element signature="e#7128#7156#0" expanded="true" />
-                    <element signature="e#7480#8241#0" expanded="true" />
-                    <element signature="e#8289#8526#0" expanded="true" />
-                    <element signature="e#8585#8930#0" expanded="true" />
-                    <element signature="e#8971#9411#0" expanded="true" />
-                    <element signature="e#9250#9324#0" expanded="true" />
-                    <element signature="e#9453#9972#0" expanded="true" />
-                    <element signature="e#10010#10102#0" expanded="true" />
-                    <element signature="e#10138#10237#0" expanded="true" />
-                    <element signature="e#10276#10300#0" expanded="true" />
-                    <element signature="e#10835#14593#0" expanded="true" />
-                    <element signature="e#10874#11196#0" expanded="true" />
-                    <element signature="e#11258#12269#0" expanded="true" />
-                    <element signature="e#12376#13629#0" expanded="true" />
-                    <element signature="e#13739#13957#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="web.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/web.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-15.818182" vertical-offset="1025" max-vertical-offset="1887">
-                  <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#686#729#0" expanded="true" />
-                    <element signature="e#928#1042#0" expanded="true" />
-                    <element signature="e#1088#1522#0" expanded="true" />
-                    <element signature="e#1210#1279#0" expanded="true" />
-                    <element signature="e#2179#2250#0" expanded="true" />
-                    <element signature="e#2299#2786#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="introspection.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="197.48485" vertical-offset="14422" max-vertical-offset="15249">
-                  <caret line="465" column="0" selection-start-line="465" selection-start-column="0" selection-end-line="465" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#2128#2171#0" expanded="true" />
-                    <element signature="e#2866#2918#0" expanded="true" />
-                    <element signature="e#2966#3221#0" expanded="true" />
-                    <element signature="e#3349#3670#0" expanded="true" />
-                    <element signature="e#3697#3733#0" expanded="true" />
-                    <element signature="e#3781#4006#0" expanded="true" />
-                    <element signature="e#4035#4175#0" expanded="true" />
-                    <element signature="e#4333#4423#0" expanded="true" />
-                    <element signature="e#4466#5491#0" expanded="true" />
-                    <element signature="e#5534#5676#0" expanded="true" />
-                    <element signature="e#5748#7191#0" expanded="true" />
-                    <element signature="e#7760#9051#0" expanded="true" />
-                    <element signature="e#9363#9385#0" expanded="true" />
-                    <element signature="e#9491#10145#0" expanded="true" />
-                    <element signature="e#10428#10654#0" expanded="true" />
-                    <element signature="e#10692#10713#0" expanded="true" />
-                    <element signature="e#10746#10762#0" expanded="true" />
-                    <element signature="e#10795#10811#0" expanded="true" />
-                    <element signature="e#10848#10880#0" expanded="true" />
-                    <element signature="e#10922#10950#0" expanded="true" />
-                    <element signature="e#10989#11014#0" expanded="true" />
-                    <element signature="e#11050#11074#0" expanded="true" />
-                    <element signature="e#11138#11570#0" expanded="true" />
-                    <element signature="e#11629#11669#0" expanded="true" />
-                    <element signature="e#11706#11732#0" expanded="true" />
-                    <element signature="e#11766#11831#0" expanded="true" />
-                    <element signature="e#11943#12002#0" expanded="true" />
-                    <element signature="e#12040#12240#0" expanded="true" />
-                    <element signature="e#12305#12436#0" expanded="true" />
-                    <element signature="e#12717#12827#0" expanded="true" />
-                    <element signature="e#12865#12889#0" expanded="true" />
-                    <element signature="e#12931#12974#0" expanded="true" />
-                    <element signature="e#13100#13150#0" expanded="true" />
-                    <element signature="e#13213#13279#0" expanded="true" />
-                    <element signature="e#13505#14338#0" expanded="true" />
-                    <element signature="e#14453#14534#0" expanded="true" />
-                    <element signature="e#14567#14610#0" expanded="true" />
-                    <element signature="e#14655#14697#0" expanded="true" />
-                    <element signature="e#14740#14780#0" expanded="true" />
-                    <element signature="e#14821#14845#0" expanded="true" />
-                    <element signature="e#14935#15196#0" expanded="true" />
-                    <element signature="e#15230#15256#0" expanded="true" />
-                    <element signature="e#15293#15314#0" expanded="true" />
-                    <element signature="e#15383#15590#0" expanded="true" />
-                    <element signature="e#15717#16108#0" expanded="true" />
-                    <element signature="e#16175#16391#0" expanded="true" />
-                    <element signature="e#16722#17109#0" expanded="true" />
-                    <element signature="e#17149#17287#0" expanded="true" />
-                    <element signature="e#17356#17481#0" expanded="true" />
-                    <element signature="e#17520#18291#0" expanded="true" />
-                    <element signature="e#18313#18329#0" expanded="true" />
-                    <element signature="e#18353#18524#0" expanded="true" />
-                    <element signature="e#18560#18595#0" expanded="true" />
-                    <element signature="e#18619#18664#0" expanded="true" />
-                    <element signature="e#18689#18868#0" expanded="true" />
-                    <element signature="e#18897#18944#0" expanded="true" />
-                    <element signature="e#18978#19393#0" expanded="true" />
-                    <element signature="e#19524#19746#0" expanded="true" />
-                    <element signature="e#19800#20046#0" expanded="true" />
-                    <element signature="e#20103#20133#0" expanded="true" />
-                    <element signature="e#20404#20429#0" expanded="true" />
-                    <element signature="e#20586#20597#0" expanded="true" />
-                    <element signature="e#20639#20651#0" expanded="true" />
-                    <element signature="e#20693#20705#0" expanded="true" />
-                    <element signature="e#20747#20759#0" expanded="true" />
-                    <element signature="e#20852#20863#0" expanded="true" />
-                    <element signature="e#20905#20921#0" expanded="true" />
-                    <element signature="e#20963#20974#0" expanded="true" />
-                    <element signature="e#21016#21028#0" expanded="true" />
-                    <element signature="e#21070#21078#0" expanded="true" />
-                    <element signature="e#21120#21132#0" expanded="true" />
-                    <element signature="e#21174#21185#0" expanded="true" />
-                    <element signature="e#21227#21240#0" expanded="true" />
-                    <element signature="e#21336#21358#0" expanded="true" />
-                    <element signature="e#21400#21419#0" expanded="true" />
-                    <element signature="e#21461#21477#0" expanded="true" />
-                    <element signature="e#21519#21530#0" expanded="true" />
-                    <element signature="e#21572#21584#0" expanded="true" />
-                    <element signature="e#21626#21634#0" expanded="true" />
-                    <element signature="e#21676#21688#0" expanded="true" />
-                    <element signature="e#21730#21742#0" expanded="true" />
-                    <element signature="e#21775#21826#0" expanded="true" />
-                    <element signature="e#21930#21960#0" expanded="true" />
-                    <element signature="e#22002#22025#0" expanded="true" />
-                    <element signature="e#22067#22087#0" expanded="true" />
-                    <element signature="e#22129#22141#0" expanded="true" />
-                    <element signature="e#22183#22194#0" expanded="true" />
-                    <element signature="e#22236#22264#0" expanded="true" />
-                    <element signature="e#22306#22317#0" expanded="true" />
-                    <element signature="e#22359#22385#0" expanded="true" />
-                    <element signature="e#22418#22492#0" expanded="true" />
-                    <element signature="e#22571#22583#0" expanded="true" />
-                    <element signature="e#22625#22637#0" expanded="true" />
-                    <element signature="e#22679#22691#0" expanded="true" />
-                    <element signature="e#22733#22744#0" expanded="true" />
-                    <element signature="e#22786#22798#0" expanded="true" />
-                    <element signature="e#22895#22917#0" expanded="true" />
-                    <element signature="e#22959#22970#0" expanded="true" />
-                    <element signature="e#23012#23031#0" expanded="true" />
-                    <element signature="e#23073#23100#0" expanded="true" />
-                    <element signature="e#23142#23172#0" expanded="true" />
-                    <element signature="e#23214#23226#0" expanded="true" />
-                    <element signature="e#23311#23331#0" expanded="true" />
-                    <element signature="e#23373#23391#0" expanded="true" />
-                    <element signature="e#23433#23448#0" expanded="true" />
-                    <element signature="e#23490#23517#0" expanded="true" />
-                    <element signature="e#23559#23570#0" expanded="true" />
-                    <element signature="e#23654#23692#0" expanded="true" />
-                    <element signature="e#23734#23765#0" expanded="true" />
-                    <element signature="e#23807#24417#0" expanded="true" />
-                    <element signature="e#24455#24696#0" expanded="true" />
-                    <element signature="e#25057#25091#0" expanded="true" />
-                    <element signature="e#25132#26946#0" expanded="false" />
-                    <element signature="e#25263#25384#0" expanded="true" />
-                    <element signature="e#25420#25439#0" expanded="true" />
-                    <element signature="e#25479#25502#0" expanded="true" />
-                    <element signature="e#25535#25568#0" expanded="true" />
-                    <element signature="e#25607#25755#0" expanded="true" />
-                    <element signature="e#25788#25825#0" expanded="true" />
-                    <element signature="e#25859#25884#0" expanded="true" />
-                    <element signature="e#25917#25954#0" expanded="true" />
-                    <element signature="e#26033#26694#0" expanded="true" />
-                    <element signature="e#26731#26818#0" expanded="true" />
-                    <element signature="e#26852#26946#0" expanded="true" />
-                    <element signature="e#27166#29911#0" expanded="false" />
-                    <element signature="e#27219#27823#0" expanded="true" />
-                    <element signature="e#27859#27878#0" expanded="true" />
-                    <element signature="e#27911#27927#0" expanded="true" />
-                    <element signature="e#27960#27976#0" expanded="true" />
-                    <element signature="e#28014#28035#0" expanded="true" />
-                    <element signature="e#28077#28102#0" expanded="true" />
-                    <element signature="e#28144#28169#0" expanded="true" />
-                    <element signature="e#28207#28365#0" expanded="true" />
-                    <element signature="e#28418#28551#0" expanded="true" />
-                    <element signature="e#28587#28791#0" expanded="true" />
-                    <element signature="e#28829#28859#0" expanded="true" />
-                    <element signature="e#28903#28944#0" expanded="true" />
-                    <element signature="e#28992#29094#0" expanded="true" />
-                    <element signature="e#29144#29306#0" expanded="true" />
-                    <element signature="e#29343#29406#0" expanded="true" />
-                    <element signature="e#29440#29911#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -371,10 +125,10 @@
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/web.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/virtual.py" />
-        <option value="$PROJECT_DIR$/commons/pymodelio/gui.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/gui.py" />
       </list>
     </option>
   </component>
@@ -899,7 +653,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1698" height="1068" extended-state="6" />
+    <frame x="-9" y="-9" width="1698" height="1068" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1157,7 +911,7 @@
           <folding>
             <element signature="e#239#302#0" expanded="true" />
             <element signature="e#678#705#0" expanded="true" />
-            <element signature="e#735#1436#0" expanded="true" />
+            <element signature="e#1658#5305#0" expanded="true" />
             <element signature="e#1849#2249#0" expanded="true" />
             <element signature="e#2282#2596#0" expanded="true" />
             <element signature="e#2630#3079#0" expanded="true" />
@@ -1706,10 +1460,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="18.69697" vertical-offset="1586" max-vertical-offset="2040">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding>
+            <element signature="e#220#263#0" expanded="true" />
+            <element signature="e#1141#1312#0" expanded="true" />
+            <element signature="e#1371#1407#0" expanded="true" />
+            <element signature="e#1456#2041#0" expanded="true" />
+            <element signature="e#3216#3508#0" expanded="true" />
+            <element signature="e#3542#3596#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34907597" vertical-offset="0" max-vertical-offset="487">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/virtual.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="1275">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.33264887" vertical-offset="314" max-vertical-offset="1309">
+          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
           <folding>
             <element signature="e#1156#1496#0" expanded="true" />
             <element signature="e#1537#1826#0" expanded="true" />
@@ -1721,8 +1498,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/gui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.060606" vertical-offset="561" max-vertical-offset="6783">
-          <caret line="37" column="19" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.7378855" vertical-offset="6261" max-vertical-offset="6715">
+          <caret line="383" column="5" selection-start-line="383" selection-start-column="0" selection-end-line="383" selection-end-column="5" />
           <folding>
             <element signature="e#1181#1503#0" expanded="true" />
             <element signature="e#1550#1857#0" expanded="true" />
@@ -1747,46 +1524,23 @@
             <element signature="e#10010#10102#0" expanded="true" />
             <element signature="e#10138#10237#0" expanded="true" />
             <element signature="e#10276#10300#0" expanded="true" />
-            <element signature="e#10835#14593#0" expanded="true" />
+            <element signature="e#10835#14134#0" expanded="true" />
             <element signature="e#10874#11196#0" expanded="true" />
-            <element signature="e#11258#12269#0" expanded="true" />
-            <element signature="e#12376#13629#0" expanded="true" />
-            <element signature="e#13739#13957#0" expanded="true" />
+            <element signature="e#11258#12230#0" expanded="true" />
+            <element signature="e#12337#13273#0" expanded="true" />
+            <element signature="e#13383#13498#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="18.69697" vertical-offset="1586" max-vertical-offset="2040">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding>
-            <element signature="e#220#263#0" expanded="true" />
-            <element signature="e#1141#1312#0" expanded="true" />
-            <element signature="e#1371#1407#0" expanded="true" />
-            <element signature="e#1456#2041#0" expanded="true" />
-            <element signature="e#3216#3508#0" expanded="true" />
-            <element signature="e#3542#3596#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34907597" vertical-offset="0" max-vertical-offset="487">
-          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1374408" vertical-offset="2053" max-vertical-offset="2839">
-          <caret line="149" column="21" selection-start-line="149" selection-start-column="21" selection-end-line="149" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.33175355" vertical-offset="421" max-vertical-offset="2839">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="13" />
           <folding>
             <element signature="e#239#302#0" expanded="true" />
             <element signature="e#678#705#0" expanded="true" />
-            <element signature="e#735#1436#0" expanded="true" />
+            <element signature="e#1658#5305#0" expanded="true" />
             <element signature="e#1849#2249#0" expanded="true" />
             <element signature="e#2282#2596#0" expanded="true" />
             <element signature="e#2630#3079#0" expanded="true" />
