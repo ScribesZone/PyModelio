@@ -277,7 +277,13 @@ class PyModelioEnv(object):
         cls.MODELIO_HOME = getModelioHome()
         cls.MODELIO_IMPORT_FILE = getModelioImportFile()
         cls.MODELIO_JYTHON_JAR_FILE = getJythonJarFile()
-
+        cls.MODELIO_WEB = 'http://modelio.org'
+        cls.MODELIO_WEB_USER_MANUALS = 'http://modelio.org/documentation/user-manuals.html'
+        cls.MODELIO_WEB_DOC_ROOT = "http://modelio.org/documentation"
+        cls.MODELIO_WEB_DOC_JAVADOC = cls.MODELIO_WEB_DOC_ROOT \
+                                      + '/javadoc-' + cls.MODELIO_VERSION_SIMPLE
+        cls.MODELIO_WEB_DOC_METAMODEL = cls.MODELIO_WEB_DOC_ROOT \
+                                        + '/metamodel-' + cls.MODELIO_VERSION_SIMPLE
 
     @classmethod
     def __registerUserDirectoriesToProperties(cls):
