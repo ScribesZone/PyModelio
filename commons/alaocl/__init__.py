@@ -74,6 +74,27 @@ print a.select(Attribute.isModifiable)
 """
 
 
+__all__ = (
+    'floor',
+    'isUndefined',
+    'oclIsUndefined',
+    'Invalid',
+    'oclIsKindOf',
+    'oclIsTypeOf',
+    'Collection',
+    'Set',
+    'Bag',
+    'Seq',
+    'asSet',
+    'asBag',
+    'asSeq',
+    'isCollection',
+    'asCollection',
+    'emptyCollection',
+    'listAll',
+)
+
+
 
 
 from abc import ABCMeta,abstractmethod
@@ -235,8 +256,32 @@ def evaluatePredicate(value,predicate):
     else:
         return r
 
+
+def flatten(value):
+    """
+    Return an OCL collection with all the elements at the first level.
+
+    :param collection: The collection to be flatten
+    :rtype collection: iterable[iterable]
+    :return: A flatten collection.
+    :rtype: Seq
+    """
+    try:
+        return value.flatten()
+    except:
+        # print "-----flatten(%s)"%value
+        if isCollection(value):
+            #print "  collection"
+            flat = []
+            for e in value:
+                flat.extend(flatten(e))
+            # print "    -> %s" %flat
+            return flat
+        else:
+            return [value]
+
 #====================================================================================
-#                                Collections
+#                              Collections
 #====================================================================================
 
 
@@ -1785,7 +1830,6 @@ CONVERTER.registerConversionRules('ocl',oclConversionRules)
 
 
 
-
 def asCollection(anyCollection):
     """
     Convert any collection into the proper (OCL) collection.
@@ -1845,33 +1889,7 @@ def isCollection(value,language=None):
 #         pass
 
 
-def flatten(value):
-    """
-    Return an OCL collection with all the elements at the first level.
 
-    :param collection: The collection to be flatten
-    :rtype collection: iterable[iterable]
-    :return: A flatten collection.
-    :rtype: Seq
-    """
-    try:
-        return value.flatten()
-    except:
-    # print "-----flatten(%s)"%value
-        if isCollection(value):
-            #print "  collection"
-            flat = []
-            for e in value:
-                flat.extend(flatten(e))
-            # print "    -> %s" %flat
-            return flat
-        else:
-            return [value]
-#
-# def flatten(value):
-#     if isinstance(value,list):
-#         flat = []
-#         for e in list
 
 # execute tests if launched from command line
 if __name__ == "__main__":
