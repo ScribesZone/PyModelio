@@ -59,7 +59,7 @@ The parameter is one of the following key:
 import os
 import sys
 from pymodelio.core.plugins import Plugin,PluginExecution
-from pymodelio.core.misc import getConstantMap,ensureDirectory
+from pymodelio.core.misc import getConstantMap,ensureDirectory,findFile
 
 
 class PyModelioEnv(object):
@@ -243,9 +243,21 @@ class PyModelioEnv(object):
         self.TMP = tempfile.gettempdir()
     
     def __registerModelioProperties(self):
+
+        def getModelioHome():
+            # noinspection PyUnresolvedReferences
+            eclipse_home = sys.registry.getProperty('eclipse.home.location')
+            import urlparse
+            import urllib
+            return urllib.url2pathname(urlparse.urlsplit(eclipse_home).path)
+
+        def getModelioImportFile():
+            return findFile('initengine.py',self.MODELIO_HOME)
+
+        def getJythonJarFile():
+            return findFile('jython.jar',self.MODELIO_HOME)
         # noinspection PyUnresolvedReferences
         from org.modelio.api.modelio import Modelio
-
         context = Modelio.getInstance().getContext()
         workspaceDir = context.getWorkspacePath().toString()
         self.MODELIO_WORKSPACE = workspaceDir
@@ -253,7 +265,12 @@ class PyModelioEnv(object):
         version = context.getVersion().toString()
         self.MODELIO_VERSION_FULL= version
         self.MODELIO_VERSION_SIMPLE = ".".join(version.split(".")[0:2])
-        
+        self.MODELIO_HOME = getModelioHome()
+        self.MODELIO_IMPORT_FILE = getModelioImportFile()
+        self.MODELIO_JYTHON_JAR_FILE = getJythonJarFile()
+
+
+
     def __registerUserDirectoriesToProperties(self):
         self.USER_HOME = os.path.expanduser("~")            
         userModelio = os.path.join(self.USER_HOME,".modelio")
