@@ -269,7 +269,7 @@ def _getJavaMethods(javaClass,inherited=False,regexp=None,
                         else Seq.new(javaClass.getDeclaredMethods())
     except:
         # it seems that the code above fail in some case
-        javaMethods = []
+        javaMethods = Seq()
     if not natives:
         # remove methods starting with _ which seems to be natives ones
         # (should be improved using getModifiers instead ...)
