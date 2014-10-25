@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/alaocl/injector.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/alaocl/__init__.py" afterPath="$PROJECT_DIR$/commons/alaocl/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/__init__.py" afterPath="$PROJECT_DIR$/commons/pymodelio/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/core/env.py" afterPath="$PROJECT_DIR$/commons/pymodelio/core/env.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/alaocl/jython.py" afterPath="$PROJECT_DIR$/commons/alaocl/jython.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/core/misc.py" afterPath="$PROJECT_DIR$/commons/pymodelio/core/misc.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/alaocl/modelio.py" afterPath="$PROJECT_DIR$/commons/alaocl/modelio.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyModelio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,295 +35,60 @@
     <favorites_list name="PyModelio" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48579547">
+    <splitter split-orientation="horizontal" split-proportion="0.57954544">
       <split-first>
         <leaf>
-          <file leaf-file-name="virtual.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/virtual.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="477" max-vertical-offset="1309">
-                  <caret line="29" column="25" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="25" />
-                  <folding>
-                    <element signature="e#1537#1826#0" expanded="true" />
-                    <element signature="e#1855#1914#0" expanded="true" />
-                    <element signature="e#1956#2451#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="introspection.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="4496" max-vertical-offset="15249">
-                  <caret line="277" column="27" selection-start-line="277" selection-start-column="27" selection-end-line="277" selection-end-column="27" />
-                  <folding>
-                    <element signature="e#2128#2171#0" expanded="true" />
-                    <element signature="e#2866#2918#0" expanded="true" />
-                    <element signature="e#2966#3221#0" expanded="true" />
-                    <element signature="e#3349#3670#0" expanded="true" />
-                    <element signature="e#3697#3733#0" expanded="true" />
-                    <element signature="e#3781#4006#0" expanded="true" />
-                    <element signature="e#4035#4175#0" expanded="true" />
-                    <element signature="e#4333#4423#0" expanded="true" />
-                    <element signature="e#4466#5491#0" expanded="true" />
-                    <element signature="e#5534#5676#0" expanded="true" />
-                    <element signature="e#5748#7191#0" expanded="true" />
-                    <element signature="e#9366#9388#0" expanded="true" />
-                    <element signature="e#9494#10148#0" expanded="true" />
-                    <element signature="e#10431#10657#0" expanded="true" />
-                    <element signature="e#10695#10716#0" expanded="true" />
-                    <element signature="e#10749#10765#0" expanded="true" />
-                    <element signature="e#10798#10814#0" expanded="true" />
-                    <element signature="e#10851#10883#0" expanded="true" />
-                    <element signature="e#10925#10953#0" expanded="true" />
-                    <element signature="e#10992#11017#0" expanded="true" />
-                    <element signature="e#11053#11077#0" expanded="true" />
-                    <element signature="e#11141#11573#0" expanded="true" />
-                    <element signature="e#11632#11672#0" expanded="true" />
-                    <element signature="e#11709#11735#0" expanded="true" />
-                    <element signature="e#11769#11834#0" expanded="true" />
-                    <element signature="e#11946#12005#0" expanded="true" />
-                    <element signature="e#12043#12243#0" expanded="true" />
-                    <element signature="e#12308#12439#0" expanded="true" />
-                    <element signature="e#12720#12830#0" expanded="true" />
-                    <element signature="e#12868#12892#0" expanded="true" />
-                    <element signature="e#12934#12977#0" expanded="true" />
-                    <element signature="e#13103#13153#0" expanded="true" />
-                    <element signature="e#13216#13282#0" expanded="true" />
-                    <element signature="e#13508#14341#0" expanded="true" />
-                    <element signature="e#14456#14537#0" expanded="true" />
-                    <element signature="e#14570#14613#0" expanded="true" />
-                    <element signature="e#14658#14700#0" expanded="true" />
-                    <element signature="e#14743#14783#0" expanded="true" />
-                    <element signature="e#14824#14848#0" expanded="true" />
-                    <element signature="e#14938#15199#0" expanded="true" />
-                    <element signature="e#15233#15259#0" expanded="true" />
-                    <element signature="e#15296#15317#0" expanded="true" />
-                    <element signature="e#15386#15593#0" expanded="true" />
-                    <element signature="e#15720#16111#0" expanded="true" />
-                    <element signature="e#16178#16394#0" expanded="true" />
-                    <element signature="e#16725#17112#0" expanded="true" />
-                    <element signature="e#17152#17290#0" expanded="true" />
-                    <element signature="e#17359#17484#0" expanded="true" />
-                    <element signature="e#17523#18294#0" expanded="true" />
-                    <element signature="e#18316#18332#0" expanded="true" />
-                    <element signature="e#18356#18527#0" expanded="true" />
-                    <element signature="e#18563#18598#0" expanded="true" />
-                    <element signature="e#18622#18667#0" expanded="true" />
-                    <element signature="e#18692#18871#0" expanded="true" />
-                    <element signature="e#18900#18947#0" expanded="true" />
-                    <element signature="e#18981#19396#0" expanded="true" />
-                    <element signature="e#19527#19749#0" expanded="true" />
-                    <element signature="e#19803#20049#0" expanded="true" />
-                    <element signature="e#20106#20136#0" expanded="true" />
-                    <element signature="e#20407#20432#0" expanded="true" />
-                    <element signature="e#20589#20600#0" expanded="true" />
-                    <element signature="e#20642#20654#0" expanded="true" />
-                    <element signature="e#20696#20708#0" expanded="true" />
-                    <element signature="e#20750#20762#0" expanded="true" />
-                    <element signature="e#20855#20866#0" expanded="true" />
-                    <element signature="e#20908#20924#0" expanded="true" />
-                    <element signature="e#20966#20977#0" expanded="true" />
-                    <element signature="e#21019#21031#0" expanded="true" />
-                    <element signature="e#21073#21081#0" expanded="true" />
-                    <element signature="e#21123#21135#0" expanded="true" />
-                    <element signature="e#21177#21188#0" expanded="true" />
-                    <element signature="e#21230#21243#0" expanded="true" />
-                    <element signature="e#21339#21361#0" expanded="true" />
-                    <element signature="e#21403#21422#0" expanded="true" />
-                    <element signature="e#21464#21480#0" expanded="true" />
-                    <element signature="e#21522#21533#0" expanded="true" />
-                    <element signature="e#21575#21587#0" expanded="true" />
-                    <element signature="e#21629#21637#0" expanded="true" />
-                    <element signature="e#21679#21691#0" expanded="true" />
-                    <element signature="e#21733#21745#0" expanded="true" />
-                    <element signature="e#21778#21829#0" expanded="true" />
-                    <element signature="e#21933#21963#0" expanded="true" />
-                    <element signature="e#22005#22028#0" expanded="true" />
-                    <element signature="e#22070#22090#0" expanded="true" />
-                    <element signature="e#22132#22144#0" expanded="true" />
-                    <element signature="e#22186#22197#0" expanded="true" />
-                    <element signature="e#22239#22267#0" expanded="true" />
-                    <element signature="e#22309#22320#0" expanded="true" />
-                    <element signature="e#22362#22388#0" expanded="true" />
-                    <element signature="e#22421#22495#0" expanded="true" />
-                    <element signature="e#22574#22586#0" expanded="true" />
-                    <element signature="e#22628#22640#0" expanded="true" />
-                    <element signature="e#22682#22694#0" expanded="true" />
-                    <element signature="e#22736#22747#0" expanded="true" />
-                    <element signature="e#22789#22801#0" expanded="true" />
-                    <element signature="e#22898#22920#0" expanded="true" />
-                    <element signature="e#22962#22973#0" expanded="true" />
-                    <element signature="e#23015#23034#0" expanded="true" />
-                    <element signature="e#23076#23103#0" expanded="true" />
-                    <element signature="e#23145#23175#0" expanded="true" />
-                    <element signature="e#23217#23229#0" expanded="true" />
-                    <element signature="e#23314#23334#0" expanded="true" />
-                    <element signature="e#23376#23394#0" expanded="true" />
-                    <element signature="e#23436#23451#0" expanded="true" />
-                    <element signature="e#23493#23520#0" expanded="true" />
-                    <element signature="e#23562#23573#0" expanded="true" />
-                    <element signature="e#23657#23695#0" expanded="true" />
-                    <element signature="e#23737#23768#0" expanded="true" />
-                    <element signature="e#23810#24420#0" expanded="true" />
-                    <element signature="e#24458#24699#0" expanded="true" />
-                    <element signature="e#25060#25094#0" expanded="true" />
-                    <element signature="e#25135#26949#0" expanded="false" />
-                    <element signature="e#25266#25387#0" expanded="true" />
-                    <element signature="e#25423#25442#0" expanded="true" />
-                    <element signature="e#25482#25505#0" expanded="true" />
-                    <element signature="e#25538#25571#0" expanded="true" />
-                    <element signature="e#25610#25758#0" expanded="true" />
-                    <element signature="e#25791#25828#0" expanded="true" />
-                    <element signature="e#25862#25887#0" expanded="true" />
-                    <element signature="e#25920#25957#0" expanded="true" />
-                    <element signature="e#26036#26697#0" expanded="true" />
-                    <element signature="e#26734#26821#0" expanded="true" />
-                    <element signature="e#26855#26949#0" expanded="true" />
-                    <element signature="e#27169#29914#0" expanded="false" />
-                    <element signature="e#27222#27826#0" expanded="true" />
-                    <element signature="e#27862#27881#0" expanded="true" />
-                    <element signature="e#27914#27930#0" expanded="true" />
-                    <element signature="e#27963#27979#0" expanded="true" />
-                    <element signature="e#28017#28038#0" expanded="true" />
-                    <element signature="e#28080#28105#0" expanded="true" />
-                    <element signature="e#28147#28172#0" expanded="true" />
-                    <element signature="e#28210#28368#0" expanded="true" />
-                    <element signature="e#28421#28554#0" expanded="true" />
-                    <element signature="e#28590#28794#0" expanded="true" />
-                    <element signature="e#28832#28862#0" expanded="true" />
-                    <element signature="e#28906#28947#0" expanded="true" />
-                    <element signature="e#28995#29097#0" expanded="true" />
-                    <element signature="e#29147#29309#0" expanded="true" />
-                    <element signature="e#29346#29409#0" expanded="true" />
-                    <element signature="e#29443#29914#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="env.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="env.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/env.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.9216666" vertical-offset="2909" max-vertical-offset="4488">
-                  <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+                <state vertical-scroll-proportion="-8.333333" vertical-offset="3431" max-vertical-offset="7990">
+                  <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
                   <folding>
                     <element signature="e#2717#2726#0" expanded="true" />
-                    <element signature="e#3457#4701#0" expanded="true" />
-                    <element signature="e#10112#11244#0" expanded="true" />
-                    <element signature="e#10146#10391#0" expanded="true" />
-                    <element signature="e#10441#10491#0" expanded="true" />
-                    <element signature="e#10537#10584#0" expanded="true" />
-                    <element signature="e#16194#16480#0" expanded="true" />
-                    <element signature="e#17255#18110#0" expanded="true" />
-                    <element signature="e#18151#18836#0" expanded="true" />
+                    <element signature="e#3470#4893#0" expanded="true" />
+                    <element signature="e#4942#6391#0" expanded="true" />
+                    <element signature="e#6447#7200#0" expanded="true" />
+                    <element signature="e#7290#7557#0" expanded="true" />
+                    <element signature="e#7628#8305#0" expanded="true" />
+                    <element signature="e#8371#8597#0" expanded="true" />
+                    <element signature="e#8664#8884#0" expanded="true" />
+                    <element signature="e#9714#9863#0" expanded="true" />
+                    <element signature="e#10128#10267#0" expanded="true" />
+                    <element signature="e#10337#11460#0" expanded="true" />
+                    <element signature="e#10371#10616#0" expanded="true" />
+                    <element signature="e#10666#10715#0" expanded="true" />
+                    <element signature="e#10761#10807#0" expanded="true" />
+                    <element signature="e#11540#11893#0" expanded="true" />
+                    <element signature="e#11957#12646#0" expanded="true" />
+                    <element signature="e#12719#12871#0" expanded="true" />
+                    <element signature="e#12942#15048#0" expanded="true" />
+                    <element signature="e#15107#16377#0" expanded="true" />
+                    <element signature="e#16449#16732#0" expanded="true" />
+                    <element signature="e#16789#17203#0" expanded="true" />
+                    <element signature="e#17548#18403#0" expanded="true" />
+                    <element signature="e#18459#19140#0" expanded="true" />
+                    <element signature="e#19197#19231#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/alaocl/__init__.py">
+          <file leaf-file-name="plugins.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/plugins.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="2193" max-vertical-offset="8500">
-                  <caret line="4" column="32" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#6222#6432#0" expanded="true" />
-                    <element signature="e#7325#16636#0" expanded="false" />
-                    <element signature="e#7607#7962#0" expanded="true" />
-                    <element signature="e#16720#18325#0" expanded="false" />
-                    <marker date="1414258311983" expanded="true" signature="3707:3712" placeholder="..." />
-                    <marker date="1414258311983" expanded="true" signature="5350:5494" placeholder="..." />
-                    <marker date="1414258311983" expanded="true" signature="5406:5437" placeholder="..." />
-                    <marker date="1414258311983" expanded="true" signature="5465:5494" placeholder="..." />
-                    <marker date="1414258311983" expanded="true" signature="11680:11758" placeholder="..." />
-                    <marker date="1414258311983" expanded="true" signature="11723:11758" placeholder="..." />
-                    <marker date="1414258311983" expanded="true" signature="15310:15433" placeholder="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/pymodelio/__init__.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1190">
+                  <caret line="0" column="23" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/__init__.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+                <state vertical-scroll-proportion="0.025914634" vertical-offset="0" max-vertical-offset="656">
                   <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
                   <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="jython.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/alaocl/jython.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
-                  <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#32#45#0" expanded="true" />
-                    <element signature="e#636#2939#0" expanded="false" />
-                    <element signature="e#3028#3535#0" expanded="false" />
-                    <element signature="e#3625#4688#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="modelio.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/alaocl/modelio.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241">
-                  <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="injector.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/alaocl/injector.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
-                  <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#2027#5838#0" expanded="true" />
-                    <element signature="e#5335#5817#0" expanded="true" />
-                    <marker date="1414260962242" expanded="true" signature="3288:3357" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3319:3357" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3402:3590" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3444:3483" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3514:3590" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3894:3964" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3894:4101" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="3974:4010" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="4044:4101" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="4392:4466" placeholder="..." />
-                    <marker date="1414260962242" expanded="true" signature="4428:4466" placeholder="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="misc.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/misc.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="833">
-                  <caret line="30" column="12" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="12" />
-                  <folding>
-                    <element signature="e#16#25#0" expanded="true" />
-                    <element signature="e#709#831#0" expanded="true" />
-                    <element signature="e#867#1594#0" expanded="true" />
-                  </folding>
                 </state>
               </provider>
             </entry>
@@ -343,7 +100,7 @@
           <file leaf-file-name="explorer.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.43824026" vertical-offset="727" max-vertical-offset="2839">
+                <state vertical-scroll-proportion="0.43824026" vertical-offset="761" max-vertical-offset="2924">
                   <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
                   <folding>
                     <element signature="e#239#302#0" expanded="true" />
@@ -410,12 +167,12 @@
         <option value="$PROJECT_DIR$/commons/pymodelio/gui.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/core/misc.py" />
-        <option value="$PROJECT_DIR$/commons/pymodelio/core/env.py" />
         <option value="$PROJECT_DIR$/commons/alaocl/jython.py" />
         <option value="$PROJECT_DIR$/commons/alaocl/modelio.py" />
         <option value="$PROJECT_DIR$/commons/alaocl/__init__.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/__init__.py" />
         <option value="$PROJECT_DIR$/commons/alaocl/injector.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/core/env.py" />
       </list>
     </option>
   </component>
@@ -600,24 +357,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PyModelio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PyModelio" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commons" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="alaocl" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1047,13 +786,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/commons/pymodelio/core/env.py</url>
-          <line>64</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="13" />
     </breakpoint-manager>
   </component>
@@ -1545,14 +1277,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/plugins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.7300274" vertical-offset="2793" max-vertical-offset="3519">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/misc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.44444445" vertical-offset="1003" max-vertical-offset="1462">
@@ -1830,18 +1554,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/misc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="833">
-          <caret line="30" column="12" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="12" />
-          <folding>
-            <element signature="e#16#25#0" expanded="true" />
-            <element signature="e#709#831#0" expanded="true" />
-            <element signature="e#867#1594#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/alaocl/jython.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1802">
@@ -1872,13 +1584,13 @@
             <element signature="e#7325#16636#0" expanded="false" />
             <element signature="e#7607#7962#0" expanded="true" />
             <element signature="e#16720#18325#0" expanded="false" />
-            <marker date="1414258311983" expanded="true" signature="3707:3712" placeholder="..." />
-            <marker date="1414258311983" expanded="true" signature="5350:5494" placeholder="..." />
-            <marker date="1414258311983" expanded="true" signature="5406:5437" placeholder="..." />
-            <marker date="1414258311983" expanded="true" signature="5465:5494" placeholder="..." />
-            <marker date="1414258311983" expanded="true" signature="11680:11758" placeholder="..." />
-            <marker date="1414258311983" expanded="true" signature="11723:11758" placeholder="..." />
-            <marker date="1414258311983" expanded="true" signature="15310:15433" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414258311983" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1891,14 +1603,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/alaocl/injector.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
@@ -1906,36 +1610,79 @@
           <folding>
             <element signature="e#2027#5838#0" expanded="true" />
             <element signature="e#5335#5817#0" expanded="true" />
-            <marker date="1414260962242" expanded="true" signature="3288:3357" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3319:3357" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3402:3590" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3444:3483" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3514:3590" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3894:3964" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3894:4101" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="3974:4010" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="4044:4101" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="4392:4466" placeholder="..." />
-            <marker date="1414260962242" expanded="true" signature="4428:4466" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1414260962242" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/misc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3612805" vertical-offset="1" max-vertical-offset="833">
+          <caret line="30" column="12" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="12" />
+          <folding>
+            <element signature="e#16#25#0" expanded="true" />
+            <element signature="e#709#831#0" expanded="true" />
+            <element signature="e#867#1594#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/env.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.9216666" vertical-offset="2909" max-vertical-offset="4488">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        <state vertical-scroll-proportion="-8.333333" vertical-offset="3431" max-vertical-offset="7990">
+          <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
           <folding>
             <element signature="e#2717#2726#0" expanded="true" />
-            <element signature="e#3457#4701#0" expanded="true" />
-            <element signature="e#10112#11244#0" expanded="true" />
-            <element signature="e#10146#10391#0" expanded="true" />
-            <element signature="e#10441#10491#0" expanded="true" />
-            <element signature="e#10537#10584#0" expanded="true" />
-            <element signature="e#16194#16480#0" expanded="true" />
-            <element signature="e#17255#18110#0" expanded="true" />
-            <element signature="e#18151#18836#0" expanded="true" />
+            <element signature="e#3470#4893#0" expanded="true" />
+            <element signature="e#4942#6391#0" expanded="true" />
+            <element signature="e#6447#7200#0" expanded="true" />
+            <element signature="e#7290#7557#0" expanded="true" />
+            <element signature="e#7628#8305#0" expanded="true" />
+            <element signature="e#8371#8597#0" expanded="true" />
+            <element signature="e#8664#8884#0" expanded="true" />
+            <element signature="e#9714#9863#0" expanded="true" />
+            <element signature="e#10128#10267#0" expanded="true" />
+            <element signature="e#10337#11460#0" expanded="true" />
+            <element signature="e#10371#10616#0" expanded="true" />
+            <element signature="e#10666#10715#0" expanded="true" />
+            <element signature="e#10761#10807#0" expanded="true" />
+            <element signature="e#11540#11893#0" expanded="true" />
+            <element signature="e#11957#12646#0" expanded="true" />
+            <element signature="e#12719#12871#0" expanded="true" />
+            <element signature="e#12942#15048#0" expanded="true" />
+            <element signature="e#15107#16377#0" expanded="true" />
+            <element signature="e#16449#16732#0" expanded="true" />
+            <element signature="e#16789#17203#0" expanded="true" />
+            <element signature="e#17548#18403#0" expanded="true" />
+            <element signature="e#18459#19140#0" expanded="true" />
+            <element signature="e#19197#19231#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/plugins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1190">
+          <caret line="0" column="23" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.025914634" vertical-offset="0" max-vertical-offset="656">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
