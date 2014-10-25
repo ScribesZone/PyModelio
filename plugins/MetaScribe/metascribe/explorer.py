@@ -24,6 +24,11 @@ from metascribe.web import getMetaclassMetamodelURL,getMetaclassJavadocURL
 from pymodelio.gui import TreeWindow,HtmlWindow
 from virtual import registerVirtualMetaFeatures
 
+# from pymodelio import *
+# print A
+# print UseCase
+
+
 registerVirtualMetaFeatures()
 
 def getElementInfo(element):

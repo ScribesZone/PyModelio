@@ -56,6 +56,7 @@ The parameter is one of the following key:
 
 """
 
+
 import os
 import sys
 from pymodelio.core.plugins import Plugin,PluginExecution
@@ -102,7 +103,7 @@ class PyModelioEnv(object):
 
         # define the modelio global function on this very class
         for function in modelioGlobalFunctions:
-            setattr(cls,function.__name__,function)
+            setattr(cls,function.__name__,staticmethod(function))
 
         cls.restart()
 
@@ -209,6 +210,10 @@ class PyModelioEnv(object):
 
     @classmethod
     def loadPythonModule(cls,moduleNames,reload=False):
+
+        # TODO Check this page https://www.inkling.com/read/learning-python-mark-lutz-4th/chapter-24/transitive-module-reloads
+
+
         """ 
         Load/reload a (list of) module(s)
         
