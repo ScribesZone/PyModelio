@@ -31,13 +31,12 @@
 #
 #
 
-from java.lang                                    import Class as JavaClass
+# noinspection PyUnresolvedReferences
 from org.modelio.api.modelio                      import Modelio
-from org.modelio.metamodel                        import Metamodel
-from org.modelio.metamodel.uml.infrastructure     import Element
-from org.modelio.vcore.smkernel.mapi              import MClass
-from org.modelio.metamodel.analyst                import *
-from org.modelio.metamodel.mda                    import *
+# noinspection PyUnresolvedReferences
+from org.modelio.metamodel.analyst                import AnalystProject
+# noinspection PyUnresolvedReferences
+from org.modelio.metamodel.mda                    import Project,ModuleComponent
 
 
 def theSession():
@@ -46,56 +45,6 @@ def theSession():
   """
   return Modelio.getInstance().getModelingSession()
 
-  
-#----------------------------------------------------------------------------
-#   Access to model elements
-#----------------------------------------------------------------------------
-  
-def allInstances(classe):
-  """ Return the list of all instances of a given metaclass (or submetaclass)
-      for the given session. This includes not only the current project
-      but also libraries such as predefined types.
-      (MClass|Class|String) -> List(MObject) 
-      EXAMPLES:  
-        allInstances(UseCase)      # return all UseCase
-        allInstances(Element)      # return all Elements
-        allInstances("UseCase")    # return all UseCase
-  """
-  if isinstance(classe,basestring):
-    return allInstances(getMClass(classe))
-  else:
-    return theSession().findByClass(classe)
-
-def selectedInstances(classe,att,val):
-  """ Return the list of all the instances that have the 
-      property set to the given value. 
-      NOTE: Not sure how to deal with property that are not string.
-      (MClass|Class)*String*String -> List(MObject)
-      EXAMPLES
-        selectedInstances(DataType,"Name","string")
-  """
-  return theSession().findByAtt(classe,att,val)
-  
-def instancesNamed(classe,name):
-  """ Return the list of all instances of that have the given name.
-      (MClass|Class)*String -> List(MObject)
-      EXAMPLES
-        instancesNamed(DataType,"string")
-  """
-  return theSession().findByAtt(classe,"Name",name)
-
-def instanceNamed(classe,name):
-  """ Return the only instance that have the given name.
-      If there is more than one instance then raise an 
-      (MClass|Class)*String -> MObject|NameError
-  """
-  r = instancesNamed(classe,name)
-  if len(r)==1:
-    return r[0]
-  elif len(r)==0:
-    raise NameError("There is no element named '"+name+"'")
-  else:
-    raise NameError("There are "+str(len(r))+" elements named '"+name+"'") 
 
 #----------------------------------------------------------------------------
 #   Access to top level elements
@@ -160,104 +109,19 @@ def theAnalystFactory():
 
   
   
-#----------------------------------------------------------------------------
-#   Access to the metamodel
-#----------------------------------------------------------------------------
 
-from org.modelio.vcore.smkernel.meta import SmClass
-def allMClasses():
-  """ Return the list of all known metaclasses as MClass objects.
-      () -> [ MClass ]
-      EXAMPLE:
-        for m in allMClasses(): print m
-  """
-  return SmClass.getRegisteredClasses()
-
-  
-def allMInterfaces():
-  """ Return the list of all known metaclasses as Java interfaces.
-      () -> [ Class ]
-      EXAMPLE:
-        for m in allMClasses(): print m
-  """
-  return map(Metamodel.getJavaInterface,allMClasses())
-
-def getMClass(nameOrMInterfaceOrElement):
-  """ Return the MClass corresponding to a name, a java interface
-      or an element.
-      (Class | String | Element) -> MClass
-      EXAMPLES:
-        print getMClass(UseCase)
-        print getMClass("UseCase")
-        print getMClass(myUseCase1)
-  """
-  if isinstance(nameOrMInterfaceOrElement,Element):
-    return nameOrMInterfaceOrElement.getMClass()
-  else:
-    return Metamodel.getMClass(nameOrMInterfaceOrElement)
-  
-def getMInterface(nameOrMClassOrElement):
-  """ Return the Java Interface corresponding to a name or a MClass
-      (MClass | String) -> CLass
-      EXAMPLES
-        print getMInterface("UseCase")
-        print getMInterface(getMClass("UseCase"))
-        print getMInterface(instanceNamed(DataType,"string"))
-  """
-  if isinstance(nameOrMClassOrElement,Element):
-    return nameOrMClassOrElement.getMClass().getJavaInterface()
-  elif isinstance(nameOrMClassOrElement,basestring):
-    return getMClass(nameOrMClassOrElement).getJavaInterface()
-  else:
-    return nameOrMClassOrElement.getJavaInterface()
-  
-  
-def theMetamodelExtensions():
-  """ TODO, Warning this is not a list!
-  """
-  return theSession().getMetamodelExtensions()  
-  
-
-def isKindOf(element,mclassOrMInterface):
-  """ Check if the element is a direct  or indirect instance of a MClass 
-      or inteface. Use isTypeOf to test if the type is exactly
-      the one specified.
-      EXAMPLES
-        print isKindOf(instanceNamed(DataType,"string"),Element)
-        print isKindOf(instanceNamed(DataType,"string"),UseCase)
-  """
-  if isinstance(mclassOrMInterface,MClass):
-    mclassOrMInterface = mclassOrMInterface.getJavaInterface()
-  return isinstance(element,mclassOrMInterface)
-  
-def isTypeOf(element,mclassOrMInterface):
-  """ Check if the element has exactly the type specified, not one of
-      its subtype. Use isKindOf to test if the type is exactly the one 
-      specified.
-      EXAMPLES
-        print isTypeOf(instanceNamed(DataType,"string"),DataType)
-        print isTypeOf(instanceNamed(DataType,"string"),Element)
-  """
-  if isinstance(mclassOrMInterface,JavaClass):
-    mclassOrMInterface = Metamodel.getMClass(mclassOrMInterface)
-  return element.getMClass() is mclassOrMInterface
-  
 #----------------------------------------------------------------------------
 #   Access to diagram graphics
 #----------------------------------------------------------------------------  
 
+# noinspection PyUnresolvedReferences
 from org.modelio.api.diagram import IDiagramGraphic
+# noinspection PyUnresolvedReferences
 from org.modelio.api.diagram.dg import IDiagramDG
+# noinspection PyUnresolvedReferences
 from org.modelio.metamodel.diagrams import AbstractDiagram
 
-def allDiagrams(diagramclasse=AbstractDiagram):
-  """ Return all diagrams. If a subclass of AbstractDiagram is given then
-      return only diagrams of the given type.
-      EXAMPLES:
-        print allDiagrams()
-        print allDiagrams(ClassDiagram)
-  """
-  return allInstances(diagramclasse)
+
   
 
 def theDiagramService():
@@ -283,7 +147,7 @@ def getDisplayingDiagrams(element):
         print getDisplayingDiagrams(myclass)
   """
   selectedDiagrams = []
-  for diagram in allDiagrams():
+  for diagram in AbstractDiagram.allInstances():
     handle = getDiagramHandle(diagram)
     graphicElements = handle.getDiagramGraphics(element)
     if len(graphicElements)!=0:
@@ -302,7 +166,7 @@ def getDiagramGraphics(element,diagramOrDiagramsOrNone=None):
         print getDiagramGraphics(e,[diagram1,diagram2,diagram3])
   """
   if diagramOrDiagramsOrNone is None:
-    diagrams = allDiagrams()
+    diagrams = AbstractDiagram.allInstances()
   elif isinstance(diagramOrDiagramsOrNone,AbstractDiagram):
     diagrams = [ diagramOrDiagramsOrNone ]
   else: 
@@ -330,7 +194,7 @@ def saveDiagram(diagram,filename):
 def theEditionService():  
   """ The edition service
   """
-  return Modelio.getInstance().getEditionService()
+  return Modelio.getInstancalle().getEditionService()
   
 def openEditor(diagramOrArtifactOrExternDocument):
   """ Open an editor window for the given diagram, artifact
