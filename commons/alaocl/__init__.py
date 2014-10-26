@@ -1205,8 +1205,8 @@ class Bag(Collection):
         """
         return self.theCounter[value]
 
-    def __getitem__(self,key):
-        return self.theCounter[key]
+#    def __getitem__(self,key):
+#        return self.theCounter[key]
 
     def including(self,value):
         """
@@ -1431,7 +1431,7 @@ class Bag(Collection):
 
     def asSeq(self):
         # A list with duplicates is wanted, so use elements().
-        return Seq.new(list(self.elements()))
+        return Seq.new(list(self.theCounter.elements()))
 
     def __str__(self):
         return "Bag(%s)" % str(self.theCounter)
@@ -1465,7 +1465,7 @@ class Bag(Collection):
         return not self.__eq__(value)
 
     def __hash__(self):
-        return hash(frozenset(self.theCounter.items()))
+        return hash(self.theCounter.items())
 
     def __iter__(self):
         """ Make Bags iterable for pythonic usage.
@@ -1478,7 +1478,7 @@ class Bag(Collection):
             >>> sorted(list(Bag(1,1,"a","b",1)))
             [1, 1, 1, 'a', 'b']
         """
-        return self.theCounter.elements()
+        return self.theCounter.elements().__iter__()
 
     def __contains__(self,value):
         return self.theCounter[value] > 0
