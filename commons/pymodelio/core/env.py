@@ -422,7 +422,6 @@ class PyModelioEnv(object):
     @classmethod
     def __setPythonPath(cls):
         cls.__registerPathElements('PYTHON')
-        print 'Initial python path was: %s' % cls.INITIAL_PYTHON_PATH
         sys.path = list(cls.INITIAL_PYTHON_PATH)
         # noinspection PyUnresolvedReferences
         l = list(cls.PATH_PYTHON)
