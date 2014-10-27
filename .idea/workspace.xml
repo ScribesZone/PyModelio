@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/alaocl/__init__.py" afterPath="$PROJECT_DIR$/commons/alaocl/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/alaocl/modelio.py" afterPath="$PROJECT_DIR$/commons/alaocl/modelio.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/modelioscriptor.py" afterPath="$PROJECT_DIR$/commons/pymodelio/modelioscriptor.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyModelio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,7 +35,7 @@
     <favorites_list name="PyModelio" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.55182076">
+    <splitter split-orientation="horizontal" split-proportion="0.47588652">
       <split-first>
         <leaf>
           <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
@@ -210,22 +207,22 @@
           <file leaf-file-name="modelio.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/commons/alaocl/modelio.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.2337209" vertical-offset="4002" max-vertical-offset="4862">
-                  <caret line="127" column="34" selection-start-line="127" selection-start-column="34" selection-end-line="127" selection-end-column="34" />
+                <state vertical-scroll-proportion="0.20930232" vertical-offset="2642" max-vertical-offset="4692">
+                  <caret line="131" column="92" selection-start-line="131" selection-start-column="92" selection-end-line="131" selection-end-column="92" />
                   <folding>
                     <element signature="e#290#322#0" expanded="true" />
-                    <element signature="e#3698#3822#0" expanded="true" />
-                    <element signature="e#4207#4411#0" expanded="true" />
-                    <element signature="e#4440#4664#0" expanded="true" />
-                    <element signature="e#4880#5183#0" expanded="true" />
-                    <element signature="e#5212#5680#0" expanded="true" />
-                    <element signature="e#5731#6074#0" expanded="true" />
-                    <element signature="e#6603#6645#0" expanded="true" />
-                    <element signature="e#7070#7516#0" expanded="true" />
-                    <element signature="e#7565#8153#0" expanded="true" />
-                    <element signature="e#8190#8284#0" expanded="true" />
-                    <element signature="e#8683#9168#0" expanded="true" />
-                    <element signature="e#9217#9707#0" expanded="true" />
+                    <element signature="e#3780#3904#0" expanded="true" />
+                    <element signature="e#4289#4493#0" expanded="true" />
+                    <element signature="e#4522#4746#0" expanded="true" />
+                    <element signature="e#4962#5265#0" expanded="true" />
+                    <element signature="e#5294#5762#0" expanded="true" />
+                    <element signature="e#5813#6156#0" expanded="true" />
+                    <element signature="e#6630#6672#0" expanded="true" />
+                    <element signature="e#7084#7530#0" expanded="true" />
+                    <element signature="e#7579#8167#0" expanded="true" />
+                    <element signature="e#8204#8298#0" expanded="true" />
+                    <element signature="e#8697#9182#0" expanded="true" />
+                    <element signature="e#9231#9721#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -1881,22 +1878,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/commons/alaocl/modelio.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2337209" vertical-offset="4002" max-vertical-offset="4862">
-          <caret line="127" column="34" selection-start-line="127" selection-start-column="34" selection-end-line="127" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.20930232" vertical-offset="2642" max-vertical-offset="4692">
+          <caret line="131" column="92" selection-start-line="131" selection-start-column="92" selection-end-line="131" selection-end-column="92" />
           <folding>
             <element signature="e#290#322#0" expanded="true" />
-            <element signature="e#3698#3822#0" expanded="true" />
-            <element signature="e#4207#4411#0" expanded="true" />
-            <element signature="e#4440#4664#0" expanded="true" />
-            <element signature="e#4880#5183#0" expanded="true" />
-            <element signature="e#5212#5680#0" expanded="true" />
-            <element signature="e#5731#6074#0" expanded="true" />
-            <element signature="e#6603#6645#0" expanded="true" />
-            <element signature="e#7070#7516#0" expanded="true" />
-            <element signature="e#7565#8153#0" expanded="true" />
-            <element signature="e#8190#8284#0" expanded="true" />
-            <element signature="e#8683#9168#0" expanded="true" />
-            <element signature="e#9217#9707#0" expanded="true" />
+            <element signature="e#3780#3904#0" expanded="true" />
+            <element signature="e#4289#4493#0" expanded="true" />
+            <element signature="e#4522#4746#0" expanded="true" />
+            <element signature="e#4962#5265#0" expanded="true" />
+            <element signature="e#5294#5762#0" expanded="true" />
+            <element signature="e#5813#6156#0" expanded="true" />
+            <element signature="e#6630#6672#0" expanded="true" />
+            <element signature="e#7084#7530#0" expanded="true" />
+            <element signature="e#7579#8167#0" expanded="true" />
+            <element signature="e#8204#8298#0" expanded="true" />
+            <element signature="e#8697#9182#0" expanded="true" />
+            <element signature="e#9231#9721#0" expanded="true" />
           </folding>
         </state>
       </provider>

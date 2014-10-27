@@ -33,6 +33,8 @@ MODELIO_LISTS = [
     SmConstrainedList,
 ]
 
+print 'alaocl.modelio:'
+print '    Injecting Seq methods in Modelio list classes'
 alaocl.injector.addSuperclass(alaocl.jython.JavaListExtension,MODELIO_LISTS)
 
 # http://download.eclipse.org/modeling/emf/emf/javadoc/2.5.0/org/eclipse/emf/common/util/EList.html
@@ -127,12 +129,11 @@ def _selectByAttribute(cls,attribute,name):
 
 # for some reason it is not possible to inject elements intro MClasses
 
-print 'alaocl.modelio: Injecting class methods in all Modelio MInterfaces'
+print '    Injecting class methods in all Modelio MInterfaces (%s)'% allMInterfaces().size()
 for mi in allMInterfaces():
     mi.allInstances = classmethod(_allInstances)
     mi.named = classmethod(_named)
     mi.selectByAttribute = classmethod(_selectByAttribute)
-print "    Done. %s meta classes instrumented" % allMInterfaces().size()
 
 
 
@@ -145,7 +146,7 @@ from org.modelio.metamodel.uml.infrastructure import Element
 def _getMInterface(self):
     return self.getMClass().getJavaInterface()
 
-print "alaocl.modelio:: Adding object methods to Element"
+print "    Adding object methods to Element"
 Element.getMInterface = _getMInterface
 
 
