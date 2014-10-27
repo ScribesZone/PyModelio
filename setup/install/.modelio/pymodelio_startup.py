@@ -1,16 +1,50 @@
+# coding=utf-8
+
+_DEBUG_PYMODELIO_CORE = True
+
 #---------- get PYMODELIO_MAIN path -------------------------------------------------
 import os
 import sys
+# noinspection PyUnresolvedReferences
+import encodings # needed to avoid strange when loading some modules (due to modelio)
+
+if _DEBUG_PYMODELIO_CORE:   # make sure that the core is reloaded
+    try:
+        import pymodelio.core.misc
+        import pymodelio.core.plugins
+        import pymodelio.core.env
+        import alaocl
+        import alaocl.jython
+        import alaocl.modelio
+        reload (pymodelio.core.misc)
+        reload (pymodelio.core.plugins)
+        reload (pymodelio.core.env)
+        reload (alaocl)
+        reload (alaocl.jython)
+        reload (alaocl.modelio)
+    except Exception as e:
+        print e
 
 try:
     # Check if this variable is defined.
     # If yes, the framework has already been initialized.
     # So this file do don't do anything.
-    PYMODELIO_ENV
+
+    # noinspection PyStatementHasNoEffect PyUnboundLocalVariable
+    PYMODELIO_INITIALIZED
+
+    if _DEBUG_PYMODELIO_CORE:
+        raise Exception('Just to go to except part...')
 
 except:
     # This is the first time this file is executed, or at least it was never
     # executed completely because of errors.
+
+    # Set WITH_JYTHON
+    import platform
+    WITH_JYTHON = (platform.python_implementation() == 'Jython')
+
+    # Set WITH_MODELIO
     try:
         Modelio
     except NameError:
@@ -21,6 +55,26 @@ except:
         WITH_MODELIO = True
 
     PATHS_FILE = os.path.join(os.path.expanduser("~"),".modelio","pymodelio_paths.py")
+
+
+    #------------------------------------------------------------------------------------
+    # Define global functions that will enable accessing modelio global variable
+    # from modules at any time.
+    #------------------------------------------------------------------------------------
+
+    def getSelectedElements():
+        global selectedElements
+        return selectedElements
+
+    def getModelingSession():
+        global modelingSession
+        return modelingSession
+
+    def getSelection():
+        global selection
+        return selection
+
+    MODELIO_GLOBAL_FUNCTIONS = [getSelectedElements,getModelingSession,getSelection]
 
     #------------------------------------------------------------------------------------
     # Try to find and set PYMODELIO_MAIN path variable.
@@ -50,6 +104,7 @@ except:
     # If the user do not define the PYMODELIO_LOCAL variable, set it to None
     # A default value will be chosen by the environment PyModelioEnv
     try:
+        # noinspection PyUnboundLocalVariable
         PYMODELIO_LOCAL
     except:
         PYMODELIO_LOCAL = None
@@ -72,29 +127,42 @@ except:
     # Deal with first path adjustments
     #------------------------------------------------------------------------------------
     try:
+        # noinspection PyUnboundLocalVariable
         INITIAL_PYTHON_PATH
     except:
         # Save the path for further possible rollbacks
-        INITIAL_PYTHON_PATH = sys.path
+        INITIAL_PYTHON_PATH = list(sys.path)
     framework_commons = os.path.join(PYMODELIO_MAIN,"commons")
     if framework_commons not in sys.path:
         # add the directory containing the core of the PyModelio framework to the python path
-        sys.path.append(framework_commons)
+        sys.path.insert(0,framework_commons)
+
 
 
     #------------------------------------------------------------------------------------
     # Import the PyModelio environment and create it.
     #------------------------------------------------------------------------------------
+    print
     print "Loading pymodelio.core.env.PyModelioEnv from path %s" % framework_commons
     from pymodelio.core.env import PyModelioEnv
-    print "Initializing PyModelio environment ... "
-    PYMODELIO_ENV = PyModelioEnv(INITIAL_PYTHON_PATH,PYMODELIO_MAIN,PYMODELIO_LOCAL,WITH_MODELIO)
-    print "ok"
+    print "Initializing PyModelio environment."
+    PyModelioEnv.start(INITIAL_PYTHON_PATH,PYMODELIO_MAIN,PYMODELIO_LOCAL,
+                       MODELIO_GLOBAL_FUNCTIONS, WITH_MODELIO,WITH_JYTHON )
 
     #------------------------------------------------------------------------------------
-    # Import some modules for convenience in the python console (or for other reasons)
+    # Import modules to inject code and for convenience in the python console
     #------------------------------------------------------------------------------------
 
-    # noinspection PyUnresolvedReferences
-    import encodings # needed to avoid strange when loading some modules (due to modelio)
+    from pymodelio.core.env import *
 
+    # make alaocl features available at the top level
+    from alaocl import *
+    # install jython extensions. In particular instrument JDK collections.
+    import alaocl.jython
+    # install modelio extensions. In particular instrument modelio collections.
+    from alaocl.modelio import *
+
+    print "PyModelio environment successfully initialized. For more information 'print PyModelioEnv.show()'"
+    print
+
+    PYMODELIO_INITIALIZED=True
