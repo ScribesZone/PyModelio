@@ -9,3 +9,5 @@ libs/*
 *.py[cod]
 __pycache__/
 
+# PyCharm
+.idea/*

@@ -135,7 +135,7 @@ class PyModelioEnv(object):
         cls.__setDocsPath()
         # noinspection PyUnresolvedReferences
         print '    %i directories added to docs path' % len(cls.PATH_DOCS)
-        print '    Working directory is %s' % os.getcwd()
+        print '    Working directory set to %s' % os.getcwd()
 
     @classmethod
     def getPlugin(cls,name):
@@ -428,6 +428,11 @@ class PyModelioEnv(object):
         # reverse the list since the directories are added at the beginning.
         l.reverse()
         for directory in l:
+            cls.__addDirectoryToPythonPath(directory)
+        # TODO: should this be formalized and generalized? Not sure
+        FRIEND_PROJECTS = ['AlaOCL']
+        for friend in FRIEND_PROJECTS:
+            directory = os.path.join(cls.MAIN,'..',friend)
             cls.__addDirectoryToPythonPath(directory)
 
     @classmethod
