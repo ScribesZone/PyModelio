@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-======================================================================================
-                Startup of ModelioScribes Framework
-======================================================================================
+===============================================================================
+                PyModelio Environment
+===============================================================================
 
 Give access to the ModelioScribe framework.
 
@@ -13,23 +13,36 @@ development.
 
 This very small framework supports the following features:
 
-- support for code development/execution outside modelio workspace macro directory.
-- modular development of python modules with reloading features in development mode.
-- inclusion of regular python and java libraries thanks to python/java path management.
-- support for directory management allowing to develop code independently from execution.
-- finding the ModelioScribes directory where more features can be installed.
-- extension of the python path and java path to reuse existing python or java libraries.
-- access to modelio global variables (selection, selectedElements, modelingSession from
-  modules.
-- set the working directory to a local directory so that macros can read and write
-  in a well defined place. By default the local directory is Modelio installation
-  directory, which is definitively not a good place to write files.
+* support for code development/execution outside modelio workspace macro
+  directory.
+
+* modular development of python modules with reloading features in
+  development mode.
+
+* inclusion of regular python and java libraries thanks to python/java path
+  management.
+
+* support for directory management allowing to develop code independently
+  from execution.
+
+* finding the ModelioScribes directory where more features can be installed.
+
+* extension of the python path and java path to reuse existing python or
+  java libraries.
+
+* access to modelio global variables (selection, selectedElements,
+  modelingSession from modules.
+
+* set the working directory to a local directory so that macros can read and
+  write in a well defined place. By default the local directory is Modelio
+  installation directory, which is definitively not a good place to write
+  files.
 
 The framework provides 3 classes:
 
-- PyModelioEnv
-- Plugin
-- PluginExecution 
+* PyModelioEnv
+* Plugin
+* PluginExecution
 
 
 
@@ -45,72 +58,96 @@ The parameter is one of the following key:
 - "MODELIO_VERSION_FULL"        : modelio version like "3.2.02.0"
 - "MAIN"                        : ModelioScribes distribution directory
 - "LOCAL"                       : local directory for the user to add features
-- "PYMODELIO_PATHS_FILE"        : name of the .modelio/pymodelio_paths.py
+- "USER_CONFIG_FILE"            : name of the .modelio/pymodelio_config.py
 - "<ROOT>_LIBS_PYTHON"          : directory containing external python libs
 - "<ROOT>_LIBS_JAVA"            : directory containing external java libs
 - "<ROOT>_COMMONS"              : commons directory
 - "<ROOT>_PLUGINS"              : directory plugins
 - "<ROOT>_PLUGINS_NAMES"        : name of subdirectories in the plugin directories
-- "PLUGINS_MAP"               : list of names of all scribes found
-- "PYTHON_PATH_ADDED_DIRS"     : list of directories added to the py path
+- "PLUGINS_MAP"                 : list of names of all scribes found
+- "PYTHON_PATH_ADDED_DIRS"      : list of directories added to the py path
 
 """
 
 
 import os
 import sys
+import platform
 from pymodelio.core.plugins import Plugin,PluginExecution
 from pymodelio.core.misc import getConstantMap,ensureDirectory,findFile
 
-
 class PyModelioEnv(object):
-    """ 
-    Global Scribe environment, singleton made available as PYMODELIO_ENV top level variable.
-  
-    Once executed there will be only one instance for this class. It is created
-    at the beginning when any macro (using the framework) is launched for the first time. 
-    This environment is then available to later as "SCRIBE_ENV". 
-    (see the end of this file). 
     """
+    Global Scribe environment, singleton made available as PYMODELIO_ENV top
+    level variable.
+  
+    Once executed there will be only one instance for this class. It is
+    created at the beginning when any macro (using the framework) is
+    launched for the first time. This environment is then available to later
+    as "SCRIBE_ENV". (see the end of this file).
+    """
+    MAIN = None
+    LOCAL = None
+    LOCAL_WORKING_DIRECTORY = None
+    WITH_MODELIO = None
+    WITH_JYTHON = None
+
+    MODELIO_WORKSPACE = None
+    MODELIO_WORKSPACE_MACROS = None
+    MODELIO_VERSION_FULL = None
+    MODELIO_VERSION_SIMPLE = None
+    MODELIO_HOME = None
+    MODELIO_IMPORT_FILE = None
+    MODELIO_JYTHON_JAR_FILE = None
+    MODELIO_WEB = None
+    MODELIO_WEB_USER_MANUALS = None
+    MODELIO_WEB_DOC_ROOT = None
+    MODELIO_WEB_DOC_JAVADOC = None
+    MODELIO_WEB_DOC_METAMODEL = None
+
+    PLUGIN_NAMES = []
+    PLUGINS = {}
+    PLUGIN_EXECUTIONS = []
+    PATH_PYTHON = []
+    PATH_PYTHON_INITIAL = []
+    PATH_JAVA = []
+    PATH_JAVA_INITIAL_CLASS_LOADER = None
+    PATH_DOCS = []
+
+
+    TMP = None
+
+    USER_HOME = None
+    USER_MODELIO = None
+    USER_MODELIO_MACROS = None
+    USER_CONFIG_FILE = None
+
+    theLog = ""
+
 
     @classmethod
-    def start(cls, initialPythonPath, pyModelioMain, pyModelioLocal,
-                 modelioGlobalFunctions,
-                 withModelio=True, withJython=True):
+    def start(cls):
         """
-        Create the PyModelio environment with a bunch of constants towards relevant directories
-        and with correct values for Python & Java paths.
-        :param initialPythonPath:
-        :param pyModelioMain:
-        :param pyModelioLocal:
-        :param modelioGlobalFunctions:
-        :param withModelio:
-        :param withJython:
+        Create the PyModelio environment defining a bunch of constants.
+
+        These constants describe the property of this environment and
+        in particular relevant directories and paths for Python & Java paths.
         """
-        cls.INITIAL_PYTHON_PATH = initialPythonPath    #: Initial python path
-        cls.MAIN = pyModelioMain                       #: "PyModelio" Directory
-        # The following value will be processed in this class.
-        # It can have None currently but then a default place will be given.
-        cls.LOCAL = pyModelioLocal                     #: "PyModelioLocal" Directory
-        cls.WITH_MODELIO = withModelio                 #: Is the execution in the context of modelio?
-        cls.WITH_JYTHON =  withJython                  #: Is the execution on the Jython platform?
-        if cls.WITH_JYTHON:
-            # noinspection PyUnresolvedReferences
-            cls.INITIAL_JAVA_CLASS_LOADER = sys.getClassLoader()   #: Initial class loader
-        else:
-            cls.INITIAL_JAVA_CLASS_LOADER = None
+        this_directory = os.path.dirname(__file__)
+        cls.MAIN = \
+            os.path.realpath(os.path.join(this_directory,'..','..','..'))
+        cls.WITH_MODELIO = cls.hasPackage('org.modelio.api.modelio')
+        cls.WITH_JYTHON = (platform.python_implementation() == 'Jython')
+        cls.__setInitialPythonPath()
+        cls.__setInitialJavaClassLoader()
         # Many other constants are defined. See documentation
-
-        # define the modelio global function on this very class
-        for function in modelioGlobalFunctions:
-            setattr(cls,function.__name__,staticmethod(function))
-
         cls.restart()
 
     @classmethod
     def restart(cls):
-        """ 
-        Define constants and set the java and python paths according to the current environment.
+        """
+        Define constants and set the java and python paths according to the
+        current environment.
         
         Use this method if new directories, plugins, etc. are added.
         Otherwise these changes will not be taken into consideration.
@@ -120,30 +157,27 @@ class PyModelioEnv(object):
         if cls.WITH_MODELIO:
             cls.__registerModelioProperties()              # define constants
         cls.__registerUserDirectoriesToProperties()    # define constants
-        cls.__managePyModelioLocal()                   # constants + directory structure
+        cls.__managePyModelioLocal()
         cls.__registerRootsCommonsAndLibs()            # define constants
-        print '    Registering plugins'
+        cls.log('    Registering plugins')
         cls.__registerPlugins()                        # register all plugins
-        print '    %i plugin(s) registered' % len(cls.PLUGIN_NAMES)
+        cls.log('    %i plugin(s) registered' % len(cls.PLUGIN_NAMES))
         cls.__setPythonPath()
-        # noinspection PyUnresolvedReferences
-        print '    %i directories added to python path' % len(cls.PATH_PYTHON)
+        cls.log('    %i directories added to python path'%len(cls.PATH_PYTHON))
         if cls.WITH_JYTHON:
             cls.__setJavaPath()
-            # noinspection PyUnresolvedReferences
-            print '    %i jar files added to java path' % len(cls.PATH_JAVA)
+            cls.log('    %i jar files added to java path' % len(cls.PATH_JAVA))
         cls.__setDocsPath()
-        # noinspection PyUnresolvedReferences
-        print '    %i directories added to docs path' % len(cls.PATH_DOCS)
-        print '    Working directory set to %s' % os.getcwd()
+        cls.log('    %i directories added to docs path' % len(cls.PATH_DOCS))
+        cls.log('    Working directory set to %s' % os.getcwd())
 
     @classmethod
     def getPlugin(cls,name):
         """
         Get a plugin by name.
 
-        The given name can either be the PluginName (e.g. MetaScribe) or a lower
-        version of it.
+        The given name can either be the PluginName (e.g. MetaScribe) or a
+        lower version of it.
 
         :param name: The name of the plugin or a lowercase version of it.
         :type name: str
@@ -166,7 +200,7 @@ class PyModelioEnv(object):
     def execute(cls,entryFunctionName,modules=(),debug=False):
         name = entryFunctionName.split(".")[0]
         plugin = cls.getPlugin(name)
-        execution = PluginExecution(cls,plugin,entryFunctionName,modules,debug)
+        execution = PluginExecution(plugin,entryFunctionName,modules,debug)
         cls.PLUGIN_EXECUTIONS.append(execution)
         plugin._addExecution(execution)
         execution.run()
@@ -174,8 +208,8 @@ class PyModelioEnv(object):
     @classmethod
     def fromRoot(cls,root,pathElements=()):
         """
-        Return a path to a file or a directory relative to the PyModelio *root* directory,
-        *root* being either "LOCAL" or "MAIN".
+        Return a path to a file or a directory relative to the PyModelio
+        *root* directory, *root* being either "LOCAL" or "MAIN".
 
         If nothing is provided then return the *root* directory.
         :param "MAIN"|"ROOT" root: the root directory used as a reference.
@@ -192,8 +226,9 @@ class PyModelioEnv(object):
 
     @classmethod
     def fromMain(cls,pathElements=()):
-        """ 
-        Return a path to a file or a directory relative to the PyModelio main directory.
+        """
+        Return a path to a file or a directory relative to the PyModelio
+        main directory.
         
         If nothing is provided then return the main directory.
         """
@@ -202,7 +237,8 @@ class PyModelioEnv(object):
     @classmethod
     def fromLocal(cls,pathElements=()):
         """
-        Return a path to a file or a directory relative to the PyModelio local directory.
+        Return a path to a file or a directory relative to the PyModelio
+        local directory.
 
         If nothing is provided then return the local directory.
         """
@@ -211,13 +247,17 @@ class PyModelioEnv(object):
     @classmethod
     def loadPythonModule(cls,moduleNames,reload=False):
 
-        # TODO Check this page https://www.inkling.com/read/learning-python-mark-lutz-4th/chapter-24/transitive-module-reloads
+        # TODO Check this page:
+        # https://www.inkling.com/read/learning-python-mark-lutz-4th/
+        #                          chapter-24/transitive-module-reloads
 
 
         """ 
         Load/reload a (list of) module(s)
         
-        :param str|[str] moduleNames: either a string or a list of strings corresponding to module names.
+        :param str|[str] moduleNames: either a string or a list of strings
+        corresponding to module names.
+
         :param boolean reload: reload the module(s) if true.
             This parameter is useful for debugging purposes.
         """
@@ -232,9 +272,23 @@ class PyModelioEnv(object):
                 except:pass
             exec( "import "+moduleName )
 
+    @classmethod
+    def hasPackage(cls,packageName):
+        try:
+            exec('import %s'%packageName)
+            return True
+        except ImportError:
+            return False
+
+    @classmethod
+    def log(cls,message):
+        cls.theLog += message+'\n'
 
     @classmethod
     def show(cls):
+        print "PyModelioEnv initialization log:"
+        print cls.theLog
+        print
         print "PyModelioEnv"
         for (constant,value) in getConstantMap(cls).items():
             print "    %s = %s" % (constant,value)
@@ -246,6 +300,26 @@ class PyModelioEnv(object):
     #                          Class Implementation
     #====================================================================
 
+    @classmethod
+    def __setInitialPythonPath(cls):
+        if cls.PATH_PYTHON_INITIAL == []:
+            # remove the following directory from the path to get the real
+            # initial path.
+            framework_commons = os.path.join(cls.MAIN,"commons")
+            sys.path.remove(framework_commons)
+            cls.PATH_PYTHON_INITIAL = list(sys.path)
+
+    @classmethod
+    def __setInitialJavaClassLoader(cls):
+        if cls.WITH_JYTHON and cls.PATH_JAVA_INITIAL_CLASS_LOADER is None:
+            # noinspection PyUnresolvedReferences
+            cls.PATH_JAVA_INITIAL_CLASS_LOADER = sys.getClassLoader()
+
+
+    @classmethod
+    def addGlobalFunction(cls,function):
+        # define the modelio global function on this very class
+        setattr(cls,function.__name__,staticmethod(function))
 
     @classmethod
     def __registerSystemDirectories(cls):
@@ -283,12 +357,13 @@ class PyModelioEnv(object):
         cls.MODELIO_IMPORT_FILE = getModelioImportFile()
         cls.MODELIO_JYTHON_JAR_FILE = getJythonJarFile()
         cls.MODELIO_WEB = 'http://modelio.org'
-        cls.MODELIO_WEB_USER_MANUALS = 'http://modelio.org/documentation/user-manuals.html'
+        cls.MODELIO_WEB_USER_MANUALS = \
+            'http://modelio.org/documentation/user-manuals.html'
         cls.MODELIO_WEB_DOC_ROOT = "http://modelio.org/documentation"
-        cls.MODELIO_WEB_DOC_JAVADOC = cls.MODELIO_WEB_DOC_ROOT \
-                                      + '/javadoc-' + cls.MODELIO_VERSION_SIMPLE
-        cls.MODELIO_WEB_DOC_METAMODEL = cls.MODELIO_WEB_DOC_ROOT \
-                                        + '/metamodel-' + cls.MODELIO_VERSION_SIMPLE
+        cls.MODELIO_WEB_DOC_JAVADOC = \
+            cls.MODELIO_WEB_DOC_ROOT+'/javadoc-' + cls.MODELIO_VERSION_SIMPLE
+        cls.MODELIO_WEB_DOC_METAMODEL =\
+            cls.MODELIO_WEB_DOC_ROOT+'/metamodel-'+cls.MODELIO_VERSION_SIMPLE
 
     @classmethod
     def __registerUserDirectoriesToProperties(cls):
@@ -298,8 +373,9 @@ class PyModelioEnv(object):
         if cls.WITH_MODELIO:
             version = cls.MODELIO_VERSION_SIMPLE
             cls.USER_MODELIO_MACROS = \
-        cls.PYMODELIO_PATHS_FILE = \
-            os.path.join(userModelio,"pymodelio_paths.py")
+                os.path.join(userModelio,version,'macros')
+        cls.USER_CONFIG_FILE = \
+            os.path.join(userModelio,"pymodelio_config.py")
 
     @classmethod
     def __managePyModelioLocal(cls):
@@ -308,13 +384,27 @@ class PyModelioEnv(object):
 
         Set the working directory to LOCAL_WORKING_DIRECTORY.
         """
+        # TODO: register this directory in the path in a cleaner way
+        cls.__addDirectoryToPythonPath(cls.USER_MODELIO)
+        try:
+            import pymodelio_config
+        except Exception as e:
+            sys.stderr.write("ERROR: cannot import pymodelio_config")
+            raise
+        try:
+            # noinspection PyUnresolvedReferences
+            cls.LOCAL = pymodelio_config.PYMODELIO_LOCAL
+        except Exception as e:
+            print e
+            cls.LOCAL = None
         # check if there was a setting by the user in .modelio
         # otherwise use the directory .modelio/PyModelioLocal
         if cls.LOCAL is None:
             # The user has not specified any value in its file
             # By default this will be a directory in in the .modelio directory
             cls.LOCAL = os.path.join(cls.USER_MODELIO,"PyModelioLocal")
-        cls.LOCAL_WORKING_DIRECTORY = os.path.join(cls.LOCAL,'working_directory')
+        cls.LOCAL_WORKING_DIRECTORY = \
+            os.path.join(cls.LOCAL,'working_directory')
         cls.__ensurePyModelioLocalStructure()
         os.chdir(cls.LOCAL_WORKING_DIRECTORY)
 
@@ -335,7 +425,6 @@ class PyModelioEnv(object):
         :return:
         """
 
-
         # use to build the mapping between constants and paths
         # keep it to make evolution of mapping possible
         SUBDIRECTORY_MAP = {
@@ -348,7 +437,8 @@ class PyModelioEnv(object):
         }
 
         # initialize the different path element lists to []
-        path_keys = set([path_key for (x,path_key) in SUBDIRECTORY_MAP.values()
+        path_keys = set([path_key
+                         for (x,path_key) in SUBDIRECTORY_MAP.values()
                          if path_key is not None])
         path_elements = {}
         for path_key in path_keys:
@@ -358,14 +448,16 @@ class PyModelioEnv(object):
         for root in ["LOCAL", "MAIN"]:
             for path_key in path_keys:
                 path_elements[path_key]=[]
-            for (constant_suffix,(subdir,path_key)) in SUBDIRECTORY_MAP.items():
+            for (constant_suffix,(subdir,path_key)) \
+                    in SUBDIRECTORY_MAP.items():
                 constant = root+"_"+constant_suffix
                 directory = cls.fromRoot(root,subdir.split(" "))
                 setattr(cls,constant,directory)
                 # add the directory to the corresponding path if any
                 if path_key is not None:
                     if path_key=='JAVA':
-                        # In case of java, jar files are to be added, not the directory
+                        # In case of java, jar files are to be added,
+                        # not the directory
                         jar_files = cls._searchJarFiles(directory)
                         path_elements[path_key].extend(jar_files)
                     else:
@@ -379,7 +471,8 @@ class PyModelioEnv(object):
     @classmethod
     def __registerPlugins(cls):
         """
-        Register the various plugins with LOCAL plugins taking precedence over MAIN plugins.
+        Register the various plugins with LOCAL plugins taking precedence
+        over MAIN plugins.
         """
         # Add the directories in an order that make
         # that plugin defined locally will override
@@ -395,7 +488,7 @@ class PyModelioEnv(object):
             setattr(cls, root+"_PLUGINS_NAMES", plugin_names)
 
             for plugin_name in plugin_names:
-                plugin = Plugin(cls,root,plugin_name)
+                plugin = Plugin(root,plugin_name)
                 plugins[plugin_name] = plugin
 
             setattr(cls,root+"_PLUGINS",plugins)
@@ -422,8 +515,7 @@ class PyModelioEnv(object):
     @classmethod
     def __setPythonPath(cls):
         cls.__registerPathElements('PYTHON')
-        sys.path = list(cls.INITIAL_PYTHON_PATH)
-        # noinspection PyUnresolvedReferences
+        sys.path = list(cls.PATH_PYTHON_INITIAL)
         l = list(cls.PATH_PYTHON)
         # reverse the list since the directories are added at the beginning.
         l.reverse()
@@ -489,7 +581,8 @@ class PyModelioEnv(object):
         for jar_file in cls.PATH_JAVA:
             cls.__addDirectoryToPythonPath(jar_file)
             urls.append(java.net.URL("file:"+jar_file))
-        newClassLoader = java.net.URLClassLoader(urls,cls.INITIAL_JAVA_CLASS_LOADER)
+        newClassLoader = \
+            java.net.URLClassLoader(urls,cls.PATH_JAVA_INITIAL_CLASS_LOADER)
         # noinspection PyUnresolvedReferences
         sys.setClassLoader(newClassLoader)
 
@@ -500,3 +593,4 @@ class PyModelioEnv(object):
         cls.__registerPathElements('DOCS')
 
 
+PyModelioEnv.start()

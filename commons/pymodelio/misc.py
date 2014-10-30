@@ -4,28 +4,10 @@ Miscellaneous functions gathered here and waiting for some refactoring.
 
 .. moduleauthor:: jeanmariefavre
 
-This allows incremental development. This is necessary to avoid multiple reload import
 """
 
 
-#----- predicates -----------------------------------------------
-def isEmpty(x):    # OCL-
-  """ return True for empty strings, 0, empty lists, etc.
-  """
-  return not(x)
-  
-def notEmpty(x):   # OCL-
-  """ return False for not empty things
-  """
-  return not isEmpty(x)
-  
-def isString(x):
-  return isinstance(x,basestring)
-  
-def isNone(x):
-  """ return True only for None value
-  """
-  return x is None
+
 
 #----- String functions -----------------------------------------
   
@@ -33,23 +15,8 @@ def withCapital(s):
   if len(s)==0: return ""
   else: return s[0].capitalize()+s[1:]
 
-#----- Collection function
 
-def first(coll):
-  """ get the first element of a list, of a tuple, etc. 
-  """
-  return coll[0]  
-  
-def second(coll):
-   """ get the second element of a list, of a typle, etc.
-   """
-   return coll[1]
-   
-def rest(coll):
-   """ tail of the collection, that is everything except the first element.
-   """
-   return coll[1:]
-   
+
 #----- List functions -------------------------------------------
 
 # noinspection PyUnresolvedReferences
@@ -62,8 +29,6 @@ def isList(x):
   return isinstance(x,list) \
          or isinstance(x,JavaCollection)
   
-def excluding(list,elem):
-  return [x for x in list if x != elem]
 
 # FIXME: should be replaced by alaocl
 def flatten(colls):
@@ -105,29 +70,12 @@ def _getGroups(fun,coll):
     
 def groupedBy(fun,coll,style="nested"):
   groups = _getGroups(fun,coll)
-  return groups if style is "nested" else flatten(map(second,groups))
-
-
-# for sorting see https://wiki.python.org/moin/HowTo/Sorting/  
-   
-def reject(predicate,coll):
-  result = []
-  for e in coll:
-    if not predicate(e):
-      result = result + [e]
-  return result
-  
-import operator
-def forAll(predicate,coll):
-  return reduce(operator.and_, map(predicate,coll), True)
-  
-def exists(predicate,coll):
-  return reduce(operator.or_, map(predicate,coll), False)
+  return groups if style is "nested" else flatten(map(lambda (a,b):b,groups))
 
 
 #----- web  ---------------------------------------------------------
 
-
+# noinspection PyUnresolvedReferences
 from encodings import iso8859_1
 import urllib2
   
@@ -135,8 +83,7 @@ def getWebPage(url):
   """ read the content of the given url and throws an exception in case of error
   """
   return urllib2.urlopen(url).read()
-  
-  
 
-  
+
+# noinspection PyUnresolvedReferences
 print "module misc loaded from",__file__

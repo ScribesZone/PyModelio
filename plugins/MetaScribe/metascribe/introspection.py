@@ -208,7 +208,7 @@ def getSubMetaclasses(metaclass):
     """
     return METAMODEL_SERVICE.getInheritingMetaclasses(metaclass)
 
-import types
+#import types
 
 
 def getSuperMetaclasses(metaclass,inclusive=True):

@@ -11,7 +11,8 @@ def isConstant(name):
 
 def getConstantMap(entity):
     constants = filter(isConstant,(entity.__dict__.keys()))
-    return OrderedDict(sorted({c:getattr(entity,c) for c in constants}.items()))
+    return OrderedDict(sorted({c:getattr(entity,c)
+                               for c in constants}.items()))
 
 def ensureDirectory(directory):
     """
@@ -39,8 +40,8 @@ def findFiles(pattern,path):
     Find the list of files matching a given unix-like glob pattern.
 
     To search a particular file, do not includes wildcards in the pattern.
-    But in all cases, a set of files is returned (various files can have the same
-    name). Use findFile if only one file has to be returned.
+    But in all cases, a set of files is returned (various files can have the
+    same name). Use findFile if only one file has to be returned.
 
     :param pattern: A unix glob pattern (e.g. '*.py')
     :type pattern: str

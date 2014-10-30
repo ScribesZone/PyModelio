@@ -1,3 +1,4 @@
+# coding=utf-8
 #
 # gui
 #
@@ -186,8 +187,8 @@ class TextAreaWindow(object):
         class MyListener(Listener):
             def handleEvent(self,event):
                 # FIXME:!
-                if (event.widget == button):
-                    button.getShell().close()
+                if (event.widget == self.button1):
+                    self.button1.getShell().close()
 
         button1.addListener(SWT.Selection,MyListener())
         self.okButton = button1
