@@ -199,7 +199,7 @@ class PluginExecution(object):
         self.DEBUG = debug
 
         #-- load the list of modules specified (plus the entry modules)
-        self.modules = modules
+        self.modules = list(modules)
         if self.ENTRY_MODULE  not in modules:
             self.modules.append(self.ENTRY_MODULE)
         PyModelioEnv.loadPythonModule(self.modules, self.DEBUG)
