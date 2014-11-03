@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# modelioscriptor
 #
 # Simple module to make modelio scripting easier.
 # This module provides essentially shortcuts to Modelio API
-#
-# Author: jmfavre
-#
+##
 # Compatibility: Modelio 3.x
 # 
 # History
@@ -23,13 +20,7 @@
 #   Version 0.1 - November 28, 2013
 #      - first version 
 
-# In developement mode use the following snippet to reload this module each
-# time
-#
-# try: del sys.modules["modelioscriptor"] ; del modelioscriptor
-# except: pass
-# from modelioscriptor import * 
-#
+
 #
 
 # noinspection PyUnresolvedReferences
