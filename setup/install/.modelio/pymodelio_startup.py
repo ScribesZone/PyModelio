@@ -16,15 +16,19 @@ if _DEBUG_PYMODELIO_CORE:  # make sure that the core is reloaded
         import pymodelio.core.plugins
         import pymodelio.core.env
         import alaocl
+        import alaocl.injector
         import alaocl.jython
         import alaocl.modelio
+        import alaocl.jinja2
 
         reload(pymodelio.core.misc)
         reload(pymodelio.core.plugins)
         reload(pymodelio.core.env)
         reload(alaocl)
+        reload(alaocl.injector)
         reload(alaocl.jython)
         reload(alaocl.modelio)
+        reload(alaocl.jinja2)
     except Exception as e:
         print "Packages has not been defined yet."
         print e
@@ -54,7 +58,7 @@ except:
         WITH_MODELIO = True
 
     USER_CONFIG_FILE = os.path.join(os.path.expanduser("~"),
-                                    ".modelio","pymodelio_config.py")
+                                    ".modelio", "pymodelio_config.py")
 
 
     #--------------------------------------------------------------------------
@@ -98,18 +102,18 @@ except:
         msg = "In %s, PYMODELIO_MAIN is set to %s, but this is not a directory"
         current_value = PYMODELIO_MAIN  # keep it just to display it a below
         del PYMODELIO_MAIN  # Fundamental to force reload of PATHS_FILE later
-        raise Exception(msg % (PATHS_FILE,current_value))
+        raise Exception(msg % (PATHS_FILE, current_value))
 
 
 
     #--------------------------------------------------------------------------
     # Import the PyModelio environment and create it.
     #--------------------------------------------------------------------------
-    framework_commons = os.path.join(PYMODELIO_MAIN,"commons")
+    framework_commons = os.path.join(PYMODELIO_MAIN, "commons")
     if framework_commons not in sys.path:
         # Add the directory containing the core of the PyModelio framework
         # to the python path
-        sys.path.insert(0,framework_commons)
+        sys.path.insert(0, framework_commons)
     print "Starting pymodelio.core.env.PyModelioEnv from path %s" \
           % framework_commons
     from pymodelio.core.env import PyModelioEnv
@@ -151,6 +155,8 @@ except:
     import alaocl.jython
     # install modelio extensions. In particular instrument modelio collections.
     from alaocl.modelio import *
+
+    from pymodelio.simple import *
 
     print "PyModelio environment successfully initialized. " \
           "For more information 'print PyModelioEnv.show()'"
