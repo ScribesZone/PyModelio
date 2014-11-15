@@ -10,4 +10,4 @@ libs/*
 __pycache__/
 
 # PyCharm
-.idea/*
+.idea/

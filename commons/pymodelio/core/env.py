@@ -522,7 +522,7 @@ class PyModelioEnv(object):
         for directory in l:
             cls.__addDirectoryToPythonPath(directory)
         # TODO: should this be formalized and generalized? Not sure
-        FRIEND_PROJECTS = ['AlaOCL']
+        FRIEND_PROJECTS = ['PyAlaOCL']
         for friend in FRIEND_PROJECTS:
             directory = os.path.join(cls.MAIN,'..',friend)
             cls.__addDirectoryToPythonPath(directory)
