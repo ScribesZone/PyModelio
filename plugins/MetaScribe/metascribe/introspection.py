@@ -85,13 +85,13 @@ __all__ = [
 # noinspection PyUnresolvedReferences
 from org.modelio.api.modelio import Modelio
 
-from alaocl import Seq,asSeq
+from pyalaocl import Seq, asSeq
 # important as these modules instrument java classes
 # noinspection PyUnresolvedReferences
-import alaocl.jython # DO NOT REMOVE
+import pyalaocl.jython # DO NOT REMOVE
 # important as these modules instrument java classes
 # noinspection PyUnresolvedReferences
-import alaocl.modelio # DO NOT REMOVE
+import pyalaocl.modelio # DO NOT REMOVE
 
 # noinspection PyUnresolvedReferences
 from org.eclipse.core.runtime import IAdaptable
