@@ -5,7 +5,11 @@
 
 
 """
+import pymodelio.core.misc
 from pymodelio.core.misc import getConstantMap
+
+import pymodelio.core.env
+# importing pymodelio.core.env.PyModelioEnv can create  a cycle
 
 
 class Plugin(object):
@@ -50,8 +54,9 @@ class Plugin(object):
         """
         from pymodelio.core.env import PyModelioEnv
 
-        PyModelioEnv.log("        Registering plugin %s.%s ..."
-                         %(root,pluginName))
+        PyModelioEnv.log(
+            "        Registering plugin %s.%s ..."
+                         %(root,pluginName)),
         self.PLUGIN_ROOT = root
         self.PLUGIN_NAME = pluginName
         self.PLUGIN_CONSTANT_PREFIX = \
@@ -59,7 +64,8 @@ class Plugin(object):
         self.PLUGIN_EXECUTIONS = []
         self.__registerPluginDirectories(self,"PLUGIN")
         self.__registerPluginDirectories(
-            PyModelioEnv,self.PLUGIN_CONSTANT_PREFIX)
+            PyModelioEnv,
+            self.PLUGIN_CONSTANT_PREFIX)
         PyModelioEnv.log('done')
 
     def _addExecution(self,execution):
@@ -80,8 +86,7 @@ class Plugin(object):
         :return: the value of the constant
         :raise: KeyError if the constant is neither defined in this plugin nor the environment.
         """
-        from pymodelio.core.env import PyModelioEnv
-        return getattr(PyModelioEnv,constant)
+        return getattr(pymodelio.core.env.PyModelioEnv,constant)
 
     def __registerPluginDirectories(self,objectToChange,constantPrefix):
         """
@@ -97,7 +102,8 @@ class Plugin(object):
         :return: none
         """
 
-        from pymodelio.core.env import PyModelioEnv
+        # necessary to avoid cycle
+        from pymodelio.core.env import PyModelioEnv  #don't remove
 
         subdirectory_map = {
             # Constant Suffix directories path_key
@@ -125,7 +131,8 @@ class Plugin(object):
                 constant = constantPrefix+"_HOME"
                 subdir_elements = ['plugins',self.PLUGIN_NAME]
                 directory = \
-                    PyModelioEnv.fromRoot(self.PLUGIN_ROOT,subdir_elements)
+                    PyModelioEnv\
+                        .fromRoot(self.PLUGIN_ROOT,subdir_elements)
                 setattr(objectToChange,constant,directory)
                 setattr(objectToChange,
                         constantPrefix+'_PACKAGE',self.PLUGIN_NAME.lower())
@@ -190,8 +197,6 @@ class PluginExecution(object):
         :param debug: If true python modules will be reloaded
         :return: An execution object.
         """
-        from pymodelio.core.env import PyModelioEnv
-
         self.PLUGIN = plugin
         self.ENTRY_MODULE = '.'.join(entryFunctionName.split('.')[:-1])
         self.ENTRY_FUNCTION_NAME = entryFunctionName
@@ -202,7 +207,8 @@ class PluginExecution(object):
         self.modules = list(modules)
         if self.ENTRY_MODULE  not in modules:
             self.modules.append(self.ENTRY_MODULE)
-        PyModelioEnv.loadPythonModule(self.modules, self.DEBUG)
+        pymodelio.core.env.PyModelioEnv \
+            .loadPythonModule(self.modules, self.DEBUG)
 
 
     def run(self):

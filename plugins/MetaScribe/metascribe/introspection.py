@@ -160,11 +160,12 @@ def isEnumeration(x):
 # noinspection PyUnresolvedReferences
 from java.util import Collection as JavaCollection
 
-# TODO: Generalize this to alaocl any Collection
+# FIXME: Generalize this to alaocl any Collection
 def isList(x):
     # is it enough?
     return isinstance(x,list) \
-           or isinstance(x,JavaCollection)
+           or isinstance(x,JavaCollection) \
+           or isinstance(x,Seq)
 
 
 def getNameFromType(t,noPath=True):

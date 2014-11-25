@@ -1,6 +1,7 @@
 # coding=utf-8
 
-from misc import withCapital
+import pymodelio.misc
+from pymodelio.misc import withCapital
 
 # split a potentially prefixed string in two parts:
 # (1) the prefix (or "" if not found)

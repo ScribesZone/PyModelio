@@ -182,4 +182,3 @@ class TextualTreeReader(object):
       tree.addLine(-1,indent,comment,headline)
     return tree  
     
-print "module textual_tree loaded from",__file__

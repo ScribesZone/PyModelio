@@ -1,37 +1,53 @@
 # coding=utf-8
 
-_DEBUG_PYMODELIO_CORE = True
-
 #---------- get PYMODELIO_MAIN path -------------------------------------------
 import os
 import sys
 
 # To avoid strange when loading some modules (due to modelio)
 # noinspection PyUnresolvedReferences
-import encodings  # needed
+import encodings # needed
 
-if _DEBUG_PYMODELIO_CORE:  # make sure that the core is reloaded
-    try:
-        import pymodelio.core.misc
-        import pymodelio.core.plugins
-        import pymodelio.core.env
-        import alaocl
-        import alaocl.injector
-        import alaocl.jython
-        import alaocl.modelio
-        import alaocl.jinja2
 
-        reload(pymodelio.core.misc)
-        reload(pymodelio.core.plugins)
-        reload(pymodelio.core.env)
-        reload(alaocl)
-        reload(alaocl.injector)
-        reload(alaocl.jython)
-        reload(alaocl.modelio)
-        reload(alaocl.jinja2)
-    except Exception as e:
-        print "Packages has not been defined yet."
-        print e
+def __deleteCoreModules():
+    CoreModules = \
+        PyModelioEnv.FRIEND_PYALAOCL_MODULES \
+        + PyModelioEnv.MAIN_COMMONS_MODULES
+    for moduleName in CoreModules:
+        if moduleName in sys.modules:
+            # if moduleName == 'pyalaocl.modelio':
+            #     try:
+            #         pyalaocl.modelio.symbolGroups.deleteFromScope(globals())
+            #     except Exception as e:
+            #         print "pymodelio_startup: Can't finalize pyalaocl.modelio."
+            #         print "                  ", e
+            # if 'pyalaocl.modelio.profiles' in sys.modules:
+            #     try:
+            #         pyalaocl.modelio.profiles.symbolGroups.deleteFromScope(globals())
+            #     except Exception as e:
+            #         print "pymodelio_startup: Can't finalize pyalaocl.modelio.profiles"
+            #         print "                  ", e
+            try:
+                del sys.modules[moduleName]
+                print '%s module deleted from system' % moduleName,
+                if moduleName in globals():
+                    try:
+                        exec ( "del " + moduleName )
+                        print 'and scope.'
+                    except AttributeError:
+                        print '. It was not in scope (AttributeError)'
+                    except NameError:
+                        print '.'
+                else:
+                    print '.'
+            except Exception as e:
+                print 'deletion of %s failed' % moduleName
+                print "             ", e
+
+# make sure that the core is reloaded
+if 'DEBUG_PYMODELIO_CORE' in globals() \
+        and DEBUG_PYMODELIO_CORE:
+    __deleteCoreModules()
 
 try:
     # Check if this variable is defined.
@@ -41,7 +57,7 @@ try:
     # noinspection PyStatementHasNoEffect PyUnboundLocalVariable
     PYMODELIO_INITIALIZED
 
-    if _DEBUG_PYMODELIO_CORE:
+    if 'DEBUG_PYMODELIO_CORE' in globals():
         raise Exception('Just to go to except part...')
 
 except:
@@ -58,7 +74,7 @@ except:
         WITH_MODELIO = True
 
     USER_CONFIG_FILE = os.path.join(os.path.expanduser("~"),
-                                    ".modelio", "pymodelio_config.py")
+                                    ".modelio","pymodelio_config.py")
 
 
     #--------------------------------------------------------------------------
@@ -85,7 +101,7 @@ except:
         PYMODELIO_MAIN
     except Exception as e:
         msg = "The value PYMODELIO_MAIN must be defined in %s\n\n"
-        sys.stderr.write(msg % USER_CONFIG_FILE)
+        sys.stderr.write( msg % USER_CONFIG_FILE)
         raise
 
 
@@ -101,19 +117,19 @@ except:
     if not os.path.isdir(PYMODELIO_MAIN):
         msg = "In %s, PYMODELIO_MAIN is set to %s, but this is not a directory"
         current_value = PYMODELIO_MAIN  # keep it just to display it a below
-        del PYMODELIO_MAIN  # Fundamental to force reload of PATHS_FILE later
-        raise Exception(msg % (PATHS_FILE, current_value))
+        del PYMODELIO_MAIN # Fundamental to force reload of PATHS_FILE later
+        raise Exception( msg % (PATHS_FILE,current_value) )
 
 
 
     #--------------------------------------------------------------------------
     # Import the PyModelio environment and create it.
     #--------------------------------------------------------------------------
-    framework_commons = os.path.join(PYMODELIO_MAIN, "commons")
+    framework_commons = os.path.join(PYMODELIO_MAIN,"commons")
     if framework_commons not in sys.path:
         # Add the directory containing the core of the PyModelio framework
         # to the python path
-        sys.path.insert(0, framework_commons)
+        sys.path.insert(0,framework_commons)
     print "Starting pymodelio.core.env.PyModelioEnv from path %s" \
           % framework_commons
     from pymodelio.core.env import PyModelioEnv
@@ -124,22 +140,20 @@ except:
     #--------------------------------------------------------------------------
 
     if WITH_MODELIO:
+        from pyalaocl import asSeq
         def getSelectedElements():
             global selectedElements
-            return selectedElements
-
+            return asSeq(selectedElements)
         PyModelioEnv.addGlobalFunction(getSelectedElements)
 
         def getModelingSession():
             global modelingSession
             return modelingSession
-
         PyModelioEnv.addGlobalFunction(getModelingSession)
 
         def getSelection():
             global selection
-            return selection
-
+            return asSeq(selection)
         PyModelioEnv.addGlobalFunction(getModelingSession)
 
 
@@ -148,18 +162,16 @@ except:
     #--------------------------------------------------------------------------
 
     from pymodelio.core.env import *
-
-    # make alaocl features available at the top level
-    from alaocl import *
+    # make pyalaocl features available at the top level
+    from pyalaocl import *
     # install jython extensions. In particular instrument JDK collections.
-    import alaocl.jython
+    import pyalaocl.jython
     # install modelio extensions. In particular instrument modelio collections.
-    from alaocl.modelio import *
-
+    from pyalaocl.modelio import *
+    from pyalaocl.modelio.profiles import *
     from pymodelio.simple import *
 
-    print "PyModelio environment successfully initialized. " \
-          "For more information 'print PyModelioEnv.show()'"
-    print
+    print "  PyModelio environment successfully initialized. "
+    print "  For more information 'print PyModelioEnv.show()'"
 
-    PYMODELIO_INITIALIZED = True
+    PYMODELIO_INITIALIZED=True

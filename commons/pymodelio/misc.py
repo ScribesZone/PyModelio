@@ -84,6 +84,3 @@ def getWebPage(url):
   """
   return urllib2.urlopen(url).read()
 
-
-# noinspection PyUnresolvedReferences
-print "module misc loaded from",__file__

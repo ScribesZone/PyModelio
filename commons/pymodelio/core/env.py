@@ -5,38 +5,8 @@
                 PyModelio Environment
 ===============================================================================
 
-Give access to the ModelioScribe framework.
+Give access to the PyModelio framework.
 
-Modelio provides a lot of features for the development of plugin in java but no
-facilities is given for developing in python beyond simple monolithic macro
-development.
-
-This very small framework supports the following features:
-
-* support for code development/execution outside modelio workspace macro
-  directory.
-
-* modular development of python modules with reloading features in
-  development mode.
-
-* inclusion of regular python and java libraries thanks to python/java path
-  management.
-
-* support for directory management allowing to develop code independently
-  from execution.
-
-* finding the ModelioScribes directory where more features can be installed.
-
-* extension of the python path and java path to reuse existing python or
-  java libraries.
-
-* access to modelio global variables (selection, selectedElements,
-  modelingSession from modules.
-
-* set the working directory to a local directory so that macros can read and
-  write in a well defined place. By default the local directory is Modelio
-  installation directory, which is definitively not a good place to write
-  files.
 
 The framework provides 3 classes:
 
@@ -69,11 +39,19 @@ The parameter is one of the following key:
 
 """
 
+FRIEND_PROJECTS = ['PyAlaOCL']
 
 import os
 import sys
+import re
 import platform
+import types
+
+
+import pymodelio.core.plugins
 from pymodelio.core.plugins import Plugin,PluginExecution
+
+import pymodelio.core.misc
 from pymodelio.core.misc import getConstantMap,ensureDirectory,findFile
 
 class PyModelioEnv(object):
@@ -114,7 +92,10 @@ class PyModelioEnv(object):
     PATH_JAVA_INITIAL_CLASS_LOADER = None
     PATH_DOCS = []
 
-
+    PYTHON_INTERPRETER_GLOBAL_SCOPE = None
+    PYTHON_INTERPRETER_GLOBAL_SYMBOLS_BEFORE = set()
+    PYTHON_INTERPRETER_GLOBAL_SYMBOLS_AFTER = set()
+    PYTHON_INTERPRETER_GLOBAL_SYMBOLS_DEFINED = set()
     TMP = None
 
     USER_HOME = None
@@ -143,6 +124,9 @@ class PyModelioEnv(object):
         # Many other constants are defined. See documentation
         cls.restart()
 
+
+
+
     @classmethod
     def restart(cls):
         """
@@ -161,6 +145,7 @@ class PyModelioEnv(object):
         cls.__registerRootsCommonsAndLibs()            # define constants
         cls.log('    Registering plugins')
         cls.__registerPlugins()                        # register all plugins
+        cls.__registerFriendProjects()
         cls.log('    %i plugin(s) registered' % len(cls.PLUGIN_NAMES))
         cls.__setPythonPath()
         cls.log('    %i directories added to python path'%len(cls.PATH_PYTHON))
@@ -254,7 +239,7 @@ class PyModelioEnv(object):
 
         """ 
         Load/reload a (list of) module(s)
-        
+
         :param str|[str] moduleNames: either a string or a list of strings
         corresponding to module names.
 
@@ -269,8 +254,218 @@ class PyModelioEnv(object):
                 try: 
                     del sys.modules[moduleName]
                     exec( "del "+moduleName )
-                except:pass
+                except:
+                    pass
             exec( "import "+moduleName )
+
+    @classmethod
+    def listPythonModulesInDirectory(cls,rootDirectory):
+        modules = []
+        for root_dir, dirs, files in os.walk(rootDirectory):
+            if '__init__.py' in files:
+                package = \
+                    '.'.join(
+                        os.path.relpath(root_dir, rootDirectory).split(os.sep))
+                modules.append(package)
+                for file in files:
+                    if file.endswith('.py') and file != '__init__.py':
+                        module = package + '.' + file[:-len('.py')]
+                        modules.append(module)
+        return modules
+
+    @classmethod
+    def isPythonModule(cls, module):
+        return (
+            module is not None
+            and hasattr(module,'__dict__')
+            and hasattr(module,'__name__')
+            and hasattr(module,'__file__')
+            and (module.__file__ is not None)
+            and re.match(r'.*(\.py(c|d|o)?|\$py.class)$',module.__file__)
+        )
+
+    @classmethod
+    def isPythonDeveloperModule(cls, module):
+        return (
+            cls.isPythonModule(module)
+            and re.match('^__pyclasspath__/Lib/.*',module.__file__) is None
+        )
+
+    @classmethod
+    def __undoModule(cls, module):
+        if hasattr(module, 'unload'):
+            print ('UNDO PyModelioEnv: %s ' % module.__name__),
+            try:
+                module.unload()
+                print ('unloaded ')
+            except Exception as e:
+                print ("PyModelioEnv: unload %s failed: %s"
+                      % (module.__name__, e))
+
+
+    @classmethod
+    def __undoGlobalScope(cls):
+        import importlib
+
+        for symbol in cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_DEFINED:
+            if symbol != 'PyModelioEnv':
+                try:
+                    del cls.PYTHON_INTERPRETER_GLOBAL_SCOPE[symbol]
+                except:
+                    print 'PyModelioEnv.undo:  cannot delete %s' % symbol
+
+        #CoreModules = \
+        #    cls.FRIEND_PYALAOCL_MODULES \
+        #    + cls.MAIN_COMMONS_MODULES
+        # for some reasons it seems that toplevel modules
+        # should be imported for reloading submodules to work
+        import pymodelio  # useful
+        import pyalaocl  # useful
+        #
+        # for moduleName in CoreModules:
+        #     if moduleName in sys.modules:
+        #         module = sys.modules[moduleName]
+        #         if hasattr(module, 'unload'):
+        #             try:
+        #                 module.unload()
+        #             except Exception as e:
+        #                 print "PyModelioEnv.undo: unload %s failed: %s" \
+        #                       % (moduleName, e)
+        #     try:
+        #         exec ('reload(%s)' % moduleName)
+        #         print "PyModelioEnv.undo: %s reloaded" % moduleName
+        #     except Exception as e:
+        #         print 'PyModelioEnv.undo: Failed to reload(%s): %s ' \
+        #               % (moduleName, e)
+        #         importlib.import_module(moduleName)
+        #         print 'PyModelioEnv.undo: %s imported' % moduleName
+        #
+        #         #
+                # def __deleteAndImportCoreModules():
+                #     CoreModules = \
+                #         PyModelioEnv.FRIEND_PYALAOCL_MODULES \
+                #         + PyModelioEnv.MAIN_COMMONS_MODULES
+                #     for moduleName in CoreModules:
+                #         if moduleName in sys.modules:
+                #             module = sys.modules[moduleName]
+                #             if hasattr(module, 'unload'):
+                #                 try:
+                #                     module.unload()
+                #                 except Exception as e:
+                #                     print "unload %s: %s" % (moduleName,e)
+                #             # if moduleName == 'pyalaocl.modelio':
+                #             #      try:
+                #             #          pyalaocl.modelio.symbolGroups.deleteFromScope(globals())
+                #             #      except Exception as e:
+                #             #          print "pymodelio_startup: Can't finalize pyalaocl.modelio."
+                #             #          print "                  ", e
+                #             # if 'pyalaocl.modelio.profiles' in sys.modules:
+                #             #      try:
+                #             #          pyalaocl.modelio.profiles.symbolGroups.deleteFromScope(globals())
+                #             #      except Exception as e:
+                #             #          print "pymodelio_startup: Can't finalize pyalaocl.modelio.profiles"
+                #             #          print "                  ", e
+                #             try:
+                #                 del sys.modules[moduleName]
+                #                 print '%s module deleted from system' % moduleName,
+                #                 if moduleName in globals():
+                #                     try:
+                #                         exec ( "del " + moduleName )
+                #                         print 'and scope.'
+                #                     except AttributeError:
+                #                         print '. It was not in scope (AttributeError)'
+                #                     except NameError:
+                #                         print '.'
+                #                 else:
+                #                     print '.'
+                #             except Exception as e:
+                #                 print 'deletion of %s failed' % moduleName
+                #                 print "             ", e
+
+
+    @classmethod
+    def __reloadModule(cls, module):
+        print ('RELOAD PyModelioEnv: %s ' % module.__name__),
+        try:
+            reload(module)
+            print ('reloaded ')
+        except Exception as e:
+            print ('PyModelioEnv: reload %s failed: %s'
+                    % (module.__name__, e))
+
+
+
+    #@classmethod
+    #def reloadAllDeveloperPythonModules(cls):
+
+        # def dependentPythonModules(module, acceptModule):
+        #     if hasattr(module,'__dict__'):
+        #         return [value for value in module.__dict__.values()
+        #                 if type(value) == types.ModuleType
+        #                     and cls.isPythonModule(value)
+        #                     and acceptModule(value)]
+        #     else:
+        #         return []
+        #
+        # def transitiveReload(module, visited):
+        #     if (cls.isPythonModule(module)
+        #             and module not in visited
+        #             and acceptModule(module)):
+        #         visited[module] = True
+        #         for m in dependentPythonModules(module, acceptModule):
+        #             transitiveReload(m, visited)
+        #         cls.__reloadModule(module)
+        #
+        # visited = {}
+        # for module in modules:
+        #     if cls.isPythonModule(module) and acceptModule(module):
+        #         transitiveReload(module, visited)
+
+    @classmethod
+    def allModulesRecursively(cls, modules, acceptModule):
+        """ in inverse dependence order """
+        def dependentPythonModules(module):
+            if hasattr(module, '__dict__'):
+                return [value for value in module.__dict__.values()
+                        if type(value) == types.ModuleType
+                        and acceptModule(value)]
+            else:
+                return []
+
+        def dependentTransitive(module, visited):
+            if (cls.isPythonModule(module)
+                and module not in visited
+                and acceptModule(module)):
+                visited.append(module)
+                for m in dependentPythonModules(module):
+                    dependentTransitive(m, visited)
+
+        visited = []
+        for module in modules:
+            if acceptModule(module):
+                dependentTransitive(module, visited)
+        return list(reversed(visited))
+
+    @classmethod
+    def reboot(cls):
+        print
+        print '>'*80
+        print 'REBOOTING PyModelio'
+        orderedDeveloperModules = \
+            cls.allModulesRecursively(
+                sys.modules.values(),
+                cls.isPythonDeveloperModule)
+
+        print orderedDeveloperModules
+        cls.__undoGlobalScope()
+
+        for module in orderedDeveloperModules:
+            cls.__undoModule(module)
+
+        for module in list(reversed(orderedDeveloperModules)):
+            cls.__reloadModule(module)
+        print '<' * 80
+
 
     @classmethod
     def hasPackage(cls,packageName):
@@ -299,6 +494,26 @@ class PyModelioEnv(object):
     #====================================================================
     #                          Class Implementation
     #====================================================================
+
+    @classmethod
+    def _setPythonInterpreterGlobalScope(cls,globalScope):
+        cls.PYTHON_INTERPRETER_GLOBAL_SCOPE = globalScope
+
+    @classmethod
+    def _setPythonInterpreterGlobalSymbolsBefore(cls, symbols):
+        cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_BEFORE = set(list(symbols))
+
+    @classmethod
+    def _setPythonInterpreterGlobalSymbolsAfter(cls, symbols):
+        cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_AFTER = set(list(symbols))
+        cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_DEFINED = \
+            cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_AFTER \
+            - cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_BEFORE
+
+    #@classmethod
+    #def _setSymbolManager(cls):
+    #    cls.SYMBOL_MANAGER = pyalaocl.symbols.SymbolManager
+
 
     @classmethod
     def __setInitialPythonPath(cls):
@@ -460,6 +675,10 @@ class PyModelioEnv(object):
                         # not the directory
                         jar_files = cls._searchJarFiles(directory)
                         path_elements[path_key].extend(jar_files)
+                    elif path_key=='PYTHON':
+                        modules = cls.listPythonModulesInDirectory(directory)
+                        setattr(cls,constant+'_MODULES',modules)
+                        path_elements[path_key].append(directory)
                     else:
                         # In other cases, we add simply the directory
                         path_elements[path_key].append(directory)
@@ -503,6 +722,16 @@ class PyModelioEnv(object):
         for (name,plugin) in all_plugins.items():
             setattr(cls,'PLUGIN_'+(name.upper()),plugin)
 
+
+    @classmethod
+    def __registerFriendProjects(cls):
+        cls.FRIEND_PROJECTS = FRIEND_PROJECTS
+        for friend in FRIEND_PROJECTS:
+            directory = os.path.join(cls.MAIN, '..', friend)
+            setattr(cls,'FRIEND_'+friend.upper(),directory)
+            modules = cls.listPythonModulesInDirectory(directory)
+            setattr(cls,'FRIEND_'+friend.upper()+'_MODULES',modules)
+
     @classmethod
     def __registerPathElements(cls,pathKey):
         path_elements = []
@@ -522,9 +751,8 @@ class PyModelioEnv(object):
         for directory in l:
             cls.__addDirectoryToPythonPath(directory)
         # TODO: should this be formalized and generalized? Not sure
-        FRIEND_PROJECTS = ['PyAlaOCL']
-        for friend in FRIEND_PROJECTS:
-            directory = os.path.join(cls.MAIN,'..',friend)
+        for friend in cls.FRIEND_PROJECTS:
+            directory = getattr(cls,'FRIEND_'+friend.upper())
             cls.__addDirectoryToPythonPath(directory)
 
     @classmethod
@@ -592,5 +820,37 @@ class PyModelioEnv(object):
     def __setDocsPath(cls):
         cls.__registerPathElements('DOCS')
 
+    @classmethod
+    def __registerModelioStyles(cls):
+        pass
+        # TODO: add code to register styles
+        # import os
+        # import java.io
+        # import re
+        #
+        #
+        # def styleFileName(root, name):
+        #     return os.path.join(root, 'styles', name + '.style')
+        #     return java.io.File(style_file_name)
+        #
+        #
+        # def readStyleProperties(styleFileName):
+        #     properties = {}
+        #     for line in tuple(open(filename)):
+        #         m = re.match(r'^(?P<key>\w+) *=(?P<value>[^\n]*)', line)
+        #         if m:
+        #             properties[m.group('key')] = m.group('value')
+        #     return properties
+        #
+        #
+        # # print PyModelioEnv.show() # MAIN_ROOT
+        # filename = styleFileName(PyModelioEnv.MAIN, 'SRoot')
+        # properties = readStyleProperties(filename)
+        # print properties['stylename']
+        # print properties['basestyle']
 
 PyModelioEnv.start()
+
+
+
+

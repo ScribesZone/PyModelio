@@ -154,7 +154,9 @@ def explore(x,browser=False,emptySlots=False):
             mv = data.getModelValue()
             print "slot selected with model value:",mv
 
-    if not isList(x):
+    try:
+        len(x)
+    except:
         x = [x]
     TreeWindow(map(getElementInfo,x),_getChildren,_isLeaf,
                getTextFun=_getText,getImageFun=_getImage,

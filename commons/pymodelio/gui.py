@@ -381,5 +381,3 @@ class TreeWindow(object):
         height = max(300,size.y)
         self.window.setSize(self.window.computeSize(width,height))
         self.window.open()
-
-print "module gui loaded from",__file__
