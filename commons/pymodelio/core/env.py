@@ -8,11 +8,12 @@
 Give access to the PyModelio framework.
 
 
-The framework provides 3 classes:
+The framework provides 4 classes:
 
 * PyModelioEnv
 * Plugin
 * PluginExecution
+* PluginMacro
 
 
 
@@ -21,9 +22,7 @@ The parameter is one of the following key:
 - "TMP"                         : temporary directory
 - "USER_HOME"                   : home directory of user
 - "USER_MODELIO"                : directory .modelio in user home
-- "USER_MODELIO_MACROS"         : directory where user macros are stored
 - "MODELIO_WORKSPACE"           : workspace directory of modelio
-- "MODELIO_WORKSPACE_MACROS"    : macros directory in workspace
 - "MODELIO_VERSION_SIMPLE"      : modelio version like "3.2"
 - "MODELIO_VERSION_FULL"        : modelio version like "3.2.02.0"
 - "MAIN"                        : ModelioScribes distribution directory
@@ -54,6 +53,8 @@ from pymodelio.core.plugins import Plugin,PluginExecution
 import pymodelio.core.misc
 from pymodelio.core.misc import getConstantMap,ensureDirectory,findFile
 
+import pymodelio.core.macros
+
 class PyModelioEnv(object):
     """
     Global Scribe environment, singleton made available as PYMODELIO_ENV top
@@ -70,8 +71,16 @@ class PyModelioEnv(object):
     WITH_MODELIO = None
     WITH_JYTHON = None
 
+
+    MACROS_SYSTEM_DIRECTORY = None
+    MACROS_SYSTEM_CATALOG_FILE = None
+    MACROS_SYSTEM_CATALOG = None
+    MACROS_WORKSPACE_DIRECTORY = None
+    MACROS_WORKSPACE_CATALOG_FILE = None
+    MACROS_WORKSPACE_CATALOG = None
+
+    MODELIO_SYSTEM_DIRECTORY = None
     MODELIO_WORKSPACE = None
-    MODELIO_WORKSPACE_MACROS = None
     MODELIO_VERSION_FULL = None
     MODELIO_VERSION_SIMPLE = None
     MODELIO_HOME = None
@@ -101,6 +110,7 @@ class PyModelioEnv(object):
     USER_HOME = None
     USER_MODELIO = None
     USER_MODELIO_MACROS = None
+    USER_MODELIO_MACROS_CATALOG = None
     USER_CONFIG_FILE = None
 
     theLog = ""
@@ -153,6 +163,7 @@ class PyModelioEnv(object):
             cls.__setJavaPath()
             cls.log('    %i jar files added to java path' % len(cls.PATH_JAVA))
         cls.__setDocsPath()
+        cls.__registerMacros()
         cls.log('    %i directories added to docs path' % len(cls.PATH_DOCS))
         cls.log('    Working directory set to %s' % os.getcwd())
 
@@ -499,9 +510,11 @@ class PyModelioEnv(object):
     def _setPythonInterpreterGlobalScope(cls,globalScope):
         cls.PYTHON_INTERPRETER_GLOBAL_SCOPE = globalScope
 
+
     @classmethod
     def _setPythonInterpreterGlobalSymbolsBefore(cls, symbols):
         cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_BEFORE = set(list(symbols))
+
 
     @classmethod
     def _setPythonInterpreterGlobalSymbolsAfter(cls, symbols):
@@ -509,10 +522,6 @@ class PyModelioEnv(object):
         cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_DEFINED = \
             cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_AFTER \
             - cls.PYTHON_INTERPRETER_GLOBAL_SYMBOLS_BEFORE
-
-    #@classmethod
-    #def _setSymbolManager(cls):
-    #    cls.SYMBOL_MANAGER = pyalaocl.symbols.SymbolManager
 
 
     @classmethod
@@ -523,6 +532,7 @@ class PyModelioEnv(object):
             framework_commons = os.path.join(cls.MAIN,"commons")
             sys.path.remove(framework_commons)
             cls.PATH_PYTHON_INITIAL = list(sys.path)
+
 
     @classmethod
     def __setInitialJavaClassLoader(cls):
@@ -536,6 +546,7 @@ class PyModelioEnv(object):
         # define the modelio global function on this very class
         setattr(cls,function.__name__,staticmethod(function))
 
+
     @classmethod
     def __registerSystemDirectories(cls):
         """ add system directories to properties 
@@ -543,6 +554,7 @@ class PyModelioEnv(object):
         """
         import tempfile
         cls.TMP = tempfile.gettempdir()
+
 
     @classmethod
     def __registerModelioProperties(cls):
@@ -564,7 +576,6 @@ class PyModelioEnv(object):
         context = Modelio.getInstance().getContext()
         workspaceDir = context.getWorkspacePath().toString()
         cls.MODELIO_WORKSPACE = workspaceDir
-        cls.MODELIO_WORKSPACE_MACROS = os.path.join(workspaceDir,'macros')
         version = context.getVersion().toString()
         cls.MODELIO_VERSION_FULL= version
         cls.MODELIO_VERSION_SIMPLE = ".".join(version.split(".")[0:2])
@@ -580,6 +591,7 @@ class PyModelioEnv(object):
         cls.MODELIO_WEB_DOC_METAMODEL =\
             cls.MODELIO_WEB_DOC_ROOT+'/metamodel-'+cls.MODELIO_VERSION_SIMPLE
 
+
     @classmethod
     def __registerUserDirectoriesToProperties(cls):
         cls.USER_HOME = os.path.expanduser("~")
@@ -587,10 +599,10 @@ class PyModelioEnv(object):
         cls.USER_MODELIO = userModelio
         if cls.WITH_MODELIO:
             version = cls.MODELIO_VERSION_SIMPLE
-            cls.USER_MODELIO_MACROS = \
-                os.path.join(userModelio,version,'macros')
+            cls.MODELIO_SYSTEM_DIRECTORY = os.path.join(userModelio, version)
         cls.USER_CONFIG_FILE = \
             os.path.join(userModelio,"pymodelio_config.py")
+
 
     @classmethod
     def __managePyModelioLocal(cls):
@@ -623,11 +635,13 @@ class PyModelioEnv(object):
         cls.__ensurePyModelioLocalStructure()
         os.chdir(cls.LOCAL_WORKING_DIRECTORY)
 
+
     @classmethod
     def __ensurePyModelioLocalStructure(cls):
         """ Ensure that the PyModelioLocal directory structure is ok """
         ensureDirectory(cls.LOCAL)
         ensureDirectory(cls.LOCAL_WORKING_DIRECTORY)
+
 
     @classmethod
     def __registerRootsCommonsAndLibs(cls):
@@ -687,6 +701,7 @@ class PyModelioEnv(object):
                 path_constant = root+"_PATH_"+path_key
                 setattr(cls,path_constant,path_elements[path_key])
 
+
     @classmethod
     def __registerPlugins(cls):
         """
@@ -732,6 +747,7 @@ class PyModelioEnv(object):
             modules = cls.listPythonModulesInDirectory(directory)
             setattr(cls,'FRIEND_'+friend.upper()+'_MODULES',modules)
 
+
     @classmethod
     def __registerPathElements(cls,pathKey):
         path_elements = []
@@ -740,6 +756,7 @@ class PyModelioEnv(object):
         for root in ["LOCAL","MAIN"]:
             path_elements += getattr(cls,root+'_PATH_'+pathKey)
         setattr(cls,'PATH_'+pathKey,path_elements)
+
 
     @classmethod
     def __setPythonPath(cls):
@@ -754,6 +771,7 @@ class PyModelioEnv(object):
         for friend in cls.FRIEND_PROJECTS:
             directory = getattr(cls,'FRIEND_'+friend.upper())
             cls.__addDirectoryToPythonPath(directory)
+
 
     @classmethod
     def __addDirectoryToPythonPath(cls,directory):
@@ -815,10 +833,10 @@ class PyModelioEnv(object):
         sys.setClassLoader(newClassLoader)
 
 
-
     @classmethod
     def __setDocsPath(cls):
         cls.__registerPathElements('DOCS')
+
 
     @classmethod
     def __registerModelioStyles(cls):
@@ -848,6 +866,28 @@ class PyModelioEnv(object):
         # properties = readStyleProperties(filename)
         # print properties['stylename']
         # print properties['basestyle']
+
+
+    @classmethod
+    def __registerMacros(cls):
+        # get workspace macros
+        cls.MACROS_WORKSPACE_DIRECTORY = \
+            os.path.join(cls.MODELIO_WORKSPACE, 'macros')
+        cls.MACROS_WORKSPACE_CATALOG_FILE = \
+            os.path.join(cls.MACROS_WORKSPACE_DIRECTORY, '.catalog')
+        cls.MACROS_WORKSPACE_CATALOG = \
+            pymodelio.core.macros.MacroCatalog(
+                'workspace', cls.MACROS_WORKSPACE_CATALOG_FILE)
+
+        # register system macros
+        cls.MACROS_SYSTEM_DIRECTORY = \
+            os.path.join(cls.MODELIO_SYSTEM_DIRECTORY, 'macros')
+        cls.MACROS_SYSTEM_CATALOG_FILE = \
+            os.path.join(cls.MACROS_SYSTEM_DIRECTORY, '.catalog')
+        cls.MACROS_SYSTEM_CATALOG = \
+            pymodelio.core.macros.MacroCatalog(
+                'system', cls.MACROS_SYSTEM_CATALOG_FILE)
+
 
 PyModelioEnv.start()
 

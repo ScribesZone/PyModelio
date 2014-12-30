@@ -21,7 +21,7 @@ from metascribe.introspection import \
     isList,MetaFeatureSlot,ElementInfo, \
     getMetaclassInfo,isMetaclass,isElement
 from metascribe.web import getMetaclassMetamodelURL,getMetaclassJavadocURL
-from pymodelio.gui import TreeWindow,HtmlWindow
+from pymodelio.env.gui import TreeWindow,HtmlWindow
 from virtual import registerVirtualMetaFeatures
 # noinspection PyUnresolvedReferences
 from org.modelio.metamodel.uml.infrastructure import Element as ModelioElement

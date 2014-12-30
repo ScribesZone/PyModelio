@@ -1,4 +1,38 @@
-    #--------------------------------------------------------------------------- 
+import sys
+
+#--------------------------------------------------------
+# Helpers to redirect the output of print statements
+#--------------------------------------------------------
+
+# Save the console in order to be able to restore it
+if CONSOLE not in globals():
+    CONSOLE = sys.stdout
+
+def printGoToFile(filename, mode='w'):
+    """
+    After calling this function, all print statements will
+    write to the given file. Please note that modelio
+    restore the printing to the console whenever there is
+    a new interaction with the console.
+    For instance on windows
+    """
+    sys.stdout = open(filename, mode)
+
+def printGoToConsole():
+    """
+    Restore the output to the console.
+    Note that modelio always restore the console in
+    interactive mode.
+    """
+    sys.stdout = CONSOLE
+po
+
+
+
+
+
+
+    #---------------------------------------------------------------------------
     #  Localisation of ModelioScribes distribution directory
     #--------------------------------------------------------------------------  
 
@@ -119,4 +153,3 @@ an environment variable.
                     return
             _ScribeHomeHelpThenFail()
             
-    

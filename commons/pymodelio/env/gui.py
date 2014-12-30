@@ -185,10 +185,10 @@ class TextAreaWindow(object):
         button3.setText("KO")
 
         class MyListener(Listener):
-            def handleEvent(self,event):
+            def handleEvent(self, event):
                 # FIXME:!
-                if (event.widget == self.button1):
-                    self.button1.getShell().close()
+                if (event.widget == button1):
+                    button1.getShell().close()
 
         button1.addListener(SWT.Selection,MyListener())
         self.okButton = button1

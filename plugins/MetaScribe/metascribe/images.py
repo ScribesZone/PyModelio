@@ -13,7 +13,7 @@ __all__ = (
 # noinspection PyUnresolvedReferences
 from org.modelio.api.modelio import Modelio
 from metascribe.introspection import getNameFromType
-from pymodelio.gui import ImageProvider
+from pymodelio.env.gui import ImageProvider
 
 
 #---- Extension of the Modelio' Image Service -----------------------

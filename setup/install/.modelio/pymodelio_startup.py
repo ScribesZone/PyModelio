@@ -169,7 +169,7 @@ except:
     # install modelio extensions. In particular instrument modelio collections.
     from pyalaocl.modelio import *
     from pyalaocl.modelio.profiles import *
-    from pymodelio.simple import *
+    from pymodelio.modelio.simple import *
 
     print "  PyModelio environment successfully initialized. "
     print "  For more information 'print PyModelioEnv.show()'"

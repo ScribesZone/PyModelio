@@ -29,7 +29,7 @@ from pymodelio.core.env import PyModelioEnv
 from org.modelio.api.modelio import Modelio
 import re
 from metascribe.introspection import getNameFromMetaclass
-from pymodelio.misc import getWebPage
+from pymodelio.misc.misc import getWebPage
 
 
 
