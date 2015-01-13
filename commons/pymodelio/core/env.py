@@ -38,21 +38,20 @@ The parameter is one of the following key:
 
 """
 
+import logging
+log = logging.getLogger(__name__)
+
 FRIEND_PROJECTS = ['PyAlaOCL']
 
 import os
 import sys
-import re
 import platform
+import re
 import types
-
+import datetime
 
 import pymodelio.core.plugins
-from pymodelio.core.plugins import Plugin,PluginExecution
-
 import pymodelio.core.misc
-from pymodelio.core.misc import getConstantMap,ensureDirectory,findFile
-
 import pymodelio.core.macros
 
 class PyModelioEnv(object):
@@ -112,8 +111,7 @@ class PyModelioEnv(object):
     USER_MODELIO_MACROS = None
     USER_MODELIO_MACROS_CATALOG = None
     USER_CONFIG_FILE = None
-
-    theLog = ""
+    USER_ENVIRONMENT_FILE = None
 
 
     @classmethod
@@ -124,15 +122,21 @@ class PyModelioEnv(object):
         These constants describe the property of this environment and
         in particular relevant directories and paths for Python & Java paths.
         """
+        log.info('>>> PyModelioEnv.start()')
         this_directory = os.path.dirname(__file__)
         cls.MAIN = \
             os.path.realpath(os.path.join(this_directory,'..','..','..'))
         cls.WITH_MODELIO = cls.hasPackage('org.modelio.api.modelio')
         cls.WITH_JYTHON = (platform.python_implementation() == 'Jython')
+        log.debug('    MAIN = %s',cls.MAIN)
+        log.debug('    WITH_MODELIO = %s', cls.WITH_MODELIO)
+        log.debug('    WITH_JYTHON = %s', cls.WITH_JYTHON)
+
         cls.__setInitialPythonPath()
         cls.__setInitialJavaClassLoader()
         # Many other constants are defined. See documentation
         cls.restart()
+        log.debug('<<< PyModelioEnv.start()')
 
 
 
@@ -146,26 +150,30 @@ class PyModelioEnv(object):
         Use this method if new directories, plugins, etc. are added.
         Otherwise these changes will not be taken into consideration.
         """
+        log.info('>>> PyModelioEnv.restart()')
         cls.PLUGIN_EXECUTIONS = []
         cls.__registerSystemDirectories()              # define constants
         if cls.WITH_MODELIO:
-            cls.__registerModelioProperties()              # define constants
+            cls.__registerModelioProperties()          # define constants
         cls.__registerUserDirectoriesToProperties()    # define constants
         cls.__managePyModelioLocal()
         cls.__registerRootsCommonsAndLibs()            # define constants
-        cls.log('    Registering plugins')
         cls.__registerPlugins()                        # register all plugins
+        log.info('    %i plugin(s) registered', len(cls.PLUGIN_NAMES))
         cls.__registerFriendProjects()
-        cls.log('    %i plugin(s) registered' % len(cls.PLUGIN_NAMES))
         cls.__setPythonPath()
-        cls.log('    %i directories added to python path'%len(cls.PATH_PYTHON))
+        log.info('    %i directories added to python path',
+                 len(cls.PATH_PYTHON))
         if cls.WITH_JYTHON:
             cls.__setJavaPath()
-            cls.log('    %i jar files added to java path' % len(cls.PATH_JAVA))
+            log.info('    %i jar files added to java path', len(cls.PATH_JAVA))
         cls.__setDocsPath()
+        log.info('    %i directories in docs path', len(cls.PATH_DOCS))
         cls.__registerMacros()
-        cls.log('    %i directories added to docs path' % len(cls.PATH_DOCS))
-        cls.log('    Working directory set to %s' % os.getcwd())
+        cls.__registerSystemValues()
+        cls.__recordEnvironmentFile()
+        log.info('    Working directory set to %s' % os.getcwd())
+        log.info('<<< PyModelioEnv.restart()')
 
     @classmethod
     def getPlugin(cls,name):
@@ -194,12 +202,17 @@ class PyModelioEnv(object):
 
     @classmethod
     def execute(cls,entryFunctionName,modules=(),debug=False):
+        log.info('>>> execute(%s,%s,debug=%s',
+                 entryFunctionName, modules, debug)
         name = entryFunctionName.split(".")[0]
         plugin = cls.getPlugin(name)
-        execution = PluginExecution(plugin,entryFunctionName,modules,debug)
+        execution = pymodelio.core.plugins.PluginExecution(
+            plugin,entryFunctionName,modules,debug)
         cls.PLUGIN_EXECUTIONS.append(execution)
         plugin._addExecution(execution)
         execution.run()
+        log.info('<<< execute(%s,%s,debug=%s',
+            entryFunctionName, modules, debug)
 
     @classmethod
     def fromRoot(cls,root,pathElements=()):
@@ -305,13 +318,12 @@ class PyModelioEnv(object):
     @classmethod
     def __undoModule(cls, module):
         if hasattr(module, 'unload'):
-            print ('UNDO PyModelioEnv: %s ' % module.__name__),
+            log.info('__undoModule(%s)', module.__name__)
             try:
                 module.unload()
-                print ('unloaded ')
+                log.debug('__undoModule(%s) done', module.__name__)
             except Exception as e:
-                print ("PyModelioEnv: unload %s failed: %s"
-                      % (module.__name__, e))
+                log.exception('__undoModule(%s) failed', module.__name__)
 
 
     @classmethod
@@ -396,13 +408,12 @@ class PyModelioEnv(object):
 
     @classmethod
     def __reloadModule(cls, module):
-        print ('RELOAD PyModelioEnv: %s ' % module.__name__),
         try:
             reload(module)
-            print ('reloaded ')
+            log.info('__reloadModule(%s):RELOADED', module.__name__)
         except Exception as e:
-            print ('PyModelioEnv: reload %s failed: %s'
-                    % (module.__name__, e))
+            log.error('__reloadModule(%s):FAILED', module.__name__)
+            log.exception(e)
 
 
 
@@ -459,15 +470,13 @@ class PyModelioEnv(object):
 
     @classmethod
     def reboot(cls):
-        print
-        print '>'*80
-        print 'REBOOTING PyModelio'
+        log.info('>>> PyModelioEnv.reboot()')
         orderedDeveloperModules = \
             cls.allModulesRecursively(
                 sys.modules.values(),
                 cls.isPythonDeveloperModule)
 
-        print orderedDeveloperModules
+        log.debug('   orderedDeveloperModules = %s', orderedDeveloperModules)
         cls.__undoGlobalScope()
 
         for module in orderedDeveloperModules:
@@ -475,7 +484,7 @@ class PyModelioEnv(object):
 
         for module in list(reversed(orderedDeveloperModules)):
             cls.__reloadModule(module)
-        print '<' * 80
+        log.info('<<< PyModelioEnv.reboot()')
 
 
     @classmethod
@@ -486,17 +495,11 @@ class PyModelioEnv(object):
         except ImportError:
             return False
 
-    @classmethod
-    def log(cls,message):
-        cls.theLog += message+'\n'
 
     @classmethod
     def show(cls):
-        print "PyModelioEnv initialization log:"
-        print cls.theLog
-        print
         print "PyModelioEnv"
-        for (constant,value) in getConstantMap(cls).items():
+        for (constant,value) in pymodelio.core.misc.getConstantMap(cls).items():
             print "    %s = %s" % (constant,value)
 
 
@@ -557,6 +560,58 @@ class PyModelioEnv(object):
 
 
     @classmethod
+    def __registerSystemValues(cls):
+        """
+        :rtype: NoneType
+        """
+        import os
+        import sys
+        import platform
+        keys = {
+            sys:
+                'builtin_module_names filesystemencoding meta_path modules'
+                ' path platform prefix py3kwarning recursionlimit'
+                ' version',
+            platform:
+                'architecture() dist() java_ver() linux_distribution()'
+                ' mac_ver() machine node() platform() processor()'                            ' python_implementation() python_version()'
+                ' system() uname() version()',
+            os:
+                'environ name pardir pathsep sep'
+        }
+        for (module,key_list) in keys.items():
+            for key in key_list.split(' '):
+                expression = module.__name__+'.'+key
+                isFunction = key.endswith('()')
+                if isFunction:
+                    key = key[:-2]
+                constant = '_'.join([
+                    'SYSTEM',module.__name__.upper(),key.upper()])
+                try:
+                    value = getattr(module, key)
+                    if isFunction:
+                        value = value()
+                except Exception:
+                    log.debug('      %s not defined on this platform',
+                             expression)
+                else:
+                    log.debug('      %s = %s', constant, value)
+                    setattr(cls,constant,value)
+
+        if cls.WITH_JYTHON:
+            for key in sys.registry.keys():
+                constant = 'SYSTEM_JAVA_'+key.upper().replace('.','_')
+                try:
+                    value = sys.registry[key]
+                except Exception:
+                    log.debug('      java property %s is not defined',key)
+                else:
+                    log.debug('      %s = %s', constant, value)
+                    setattr(cls, constant, value)
+
+
+
+    @classmethod
     def __registerModelioProperties(cls):
 
         def getModelioHome():
@@ -567,10 +622,13 @@ class PyModelioEnv(object):
             return urllib.url2pathname(urlparse.urlsplit(eclipse_home).path)
 
         def getModelioImportFile():
-            return findFile('initengine.py',cls.MODELIO_HOME)
+            return pymodelio.core.misc.findFile(
+                'initengine.py',cls.MODELIO_HOME)
 
         def getJythonJarFile():
-            return findFile('jython.jar',cls.MODELIO_HOME)
+            return pymodelio.core.misc.findFile('jython.jar',cls.MODELIO_HOME)
+
+
         # noinspection PyUnresolvedReferences
         from org.modelio.api.modelio import Modelio
         context = Modelio.getInstance().getContext()
@@ -597,11 +655,14 @@ class PyModelioEnv(object):
         cls.USER_HOME = os.path.expanduser("~")
         userModelio = os.path.join(cls.USER_HOME,".modelio")
         cls.USER_MODELIO = userModelio
+        cls.USER_PYMODELIO_HOME = os.path.join(userModelio,'pymodelioprofile')
         if cls.WITH_MODELIO:
             version = cls.MODELIO_VERSION_SIMPLE
             cls.MODELIO_SYSTEM_DIRECTORY = os.path.join(userModelio, version)
         cls.USER_CONFIG_FILE = \
-            os.path.join(userModelio,"pymodelio_config.py")
+            os.path.join(cls.USER_PYMODELIO_HOME,"settings.py")
+        cls.USER_ENVIRONMENT_FILE = \
+            os.path.join(cls.USER_PYMODELIO_HOME,'environment.log')
 
 
     @classmethod
@@ -611,18 +672,16 @@ class PyModelioEnv(object):
 
         Set the working directory to LOCAL_WORKING_DIRECTORY.
         """
-        # TODO: register this directory in the path in a cleaner way
         cls.__addDirectoryToPythonPath(cls.USER_MODELIO)
-        try:
-            import pymodelio_config
-        except Exception as e:
-            sys.stderr.write("ERROR: cannot import pymodelio_config")
-            raise
+        import pymodelioprofile.settings
+
         try:
             # noinspection PyUnresolvedReferences
-            cls.LOCAL = pymodelio_config.PYMODELIO_LOCAL
+            cls.LOCAL = pymodelioprofile.settings.PYMODELIO_LOCAL
+            log.info('    LOCAL = %s', cls.LOCAL)
         except Exception as e:
-            print e
+            msg = '     pymodelioprofile.settings.PYMODELIO_LOCAL not defined'
+            log.warning(msg)
             cls.LOCAL = None
         # check if there was a setting by the user in .modelio
         # otherwise use the directory .modelio/PyModelioLocal
@@ -639,8 +698,8 @@ class PyModelioEnv(object):
     @classmethod
     def __ensurePyModelioLocalStructure(cls):
         """ Ensure that the PyModelioLocal directory structure is ok """
-        ensureDirectory(cls.LOCAL)
-        ensureDirectory(cls.LOCAL_WORKING_DIRECTORY)
+        pymodelio.core.misc.ensureDirectory(cls.LOCAL)
+        pymodelio.core.misc.ensureDirectory(cls.LOCAL_WORKING_DIRECTORY)
 
 
     @classmethod
@@ -659,7 +718,7 @@ class PyModelioEnv(object):
         SUBDIRECTORY_MAP = {
             "COMMONS": ("commons","PYTHON"),
             'RES'           : ('res',None),
-            'TESTS'         : ('tests','PYTHON'),
+            'TESTS'         : ('commons tests','PYTHON'),
             'DOCS'          : ('docs','DOCS'),
             "LIBS_PYTHON": ("libs python","PYTHON"),
             "LIBS_JAVA": ("libs java","JAVA"),
@@ -722,7 +781,7 @@ class PyModelioEnv(object):
             setattr(cls, root+"_PLUGINS_NAMES", plugin_names)
 
             for plugin_name in plugin_names:
-                plugin = Plugin(root,plugin_name)
+                plugin = pymodelio.core.plugins.Plugin(root,plugin_name)
                 plugins[plugin_name] = plugin
 
             setattr(cls,root+"_PLUGINS",plugins)
@@ -888,9 +947,17 @@ class PyModelioEnv(object):
             pymodelio.core.macros.MacroCatalog(
                 'system', cls.MACROS_SYSTEM_CATALOG_FILE)
 
+    @classmethod
+    def __recordEnvironmentFile(cls):
+        with open(cls.USER_ENVIRONMENT_FILE,'w') as out:
+            msg = 'GENERATED ON % s. DO NOT CHANGE' % datetime.datetime.now()
+            out.write('-'*80+'\n'+msg+'\n'+'-'*80+'\n'*4)
+            for (constant, value) in \
+                    pymodelio.core.misc.getConstantMap(cls).items():
+                out.write("    %s = %s\n" % (constant, value))
 
-PyModelioEnv.start()
 
+# PyModelioEnv.start()
 
 
 
