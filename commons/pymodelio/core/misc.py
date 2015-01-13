@@ -1,4 +1,10 @@
 # coding=utf-8
+"""
+Miscellaneous functions used by the core environment.
+"""
+import logging
+log = logging.getLogger(__name__)
+
 
 import os
 import fnmatch

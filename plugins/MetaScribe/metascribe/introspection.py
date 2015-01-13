@@ -82,10 +82,9 @@ __all__ = [
 #-----------------------------------------------------------------------------------
 #   Realisation
 #-----------------------------------------------------------------------------------
-# noinspection PyUnresolvedReferences
-from org.modelio.api.modelio import Modelio
 
-from pyalaocl import Seq, asSeq
+import pyalaocl
+
 # important as these modules instrument java classes
 # noinspection PyUnresolvedReferences
 import pyalaocl.jython # DO NOT REMOVE
@@ -98,14 +97,15 @@ from org.eclipse.core.runtime import IAdaptable
 
 
 
-MODELIO = Modelio.getInstance()
-METAMODEL_SERVICE = MODELIO.getMetamodelService()
-MODELING_SESSION = MODELIO.getModelingSession()
 
 # noinspection PyUnresolvedReferences
 from org.modelio.metamodel.uml.infrastructure import Element as ModelioElement
+# noinspection PyUnresolvedReferences
+from org.modelio.api.modelio import Modelio
 
-
+MODELIO = Modelio.getInstance()
+METAMODEL_SERVICE = MODELIO.getMetamodelService()
+MODELING_SESSION = MODELIO.getModelingSession()
 
 # useful for python introspection
 def _isPythonBuiltin(name):
@@ -147,7 +147,6 @@ def isMetaclass(x,justInterfaces=False):
            and getNameFromMetaclass(x) is not None \
            and (not justInterfaces or x.isInterface())
 
-
 def isEnumeration(x):
     """ return true if x is an enumeration type
     """
@@ -165,7 +164,7 @@ def isList(x):
     # is it enough?
     return isinstance(x,list) \
            or isinstance(x,JavaCollection) \
-           or isinstance(x,Seq)
+           or isinstance(x,pyalaocl.Seq)
 
 
 def getNameFromType(t,noPath=True):
@@ -266,11 +265,11 @@ def _getJavaMethods(javaClass,inherited=False,regexp=None,
         methodFilterFun : None or a predicate on a java.lang.reflect.Method object that will be used to filter methods
     """
     try:
-        javaMethods = Seq.new(javaClass.getMethods()) if inherited \
-                        else Seq.new(javaClass.getDeclaredMethods())
+        javaMethods = pyalaocl.Seq.new(javaClass.getMethods()) if inherited \
+                        else pyalaocl.Seq.new(javaClass.getDeclaredMethods())
     except:
         # it seems that the code above fail in some case
-        javaMethods = Seq()
+        javaMethods = pyalaocl.Seq()
     if not natives:
         # remove methods starting with _ which seems to be natives ones
         # (should be improved using getModifiers instead ...)
@@ -582,7 +581,7 @@ def getElementPath(element):
         If it is not possible to get the path, then return the id of the element.
     """
     try:
-        names = Seq.new(map(lambda x:x.getName(),
+        names = pyalaocl.Seq.new(map(lambda x:x.getName(),
                     getElementParents(element,inclusive=True,reverse=True)))
         if names.exists(lambda e:e==''):
             return unicode(getElementId(element))
@@ -636,7 +635,7 @@ def isElement(x):
 
 
 def isElementList(x):
-    return isList(x) and asSeq(x).forAll(isElement)
+    return isList(x) and pyalaocl.asSeq(x).forAll(isElement)
 
 
 def getElementId(element):
@@ -934,7 +933,7 @@ class MetaFeatureSlot(object):
 
 def getMetaFeatureSlots(element,inherited=True):
     metaclass = getMetaclass(element)
-    return Seq.new([MetaFeatureSlot(element,feature) for feature in getMetaFeatures(metaclass)])
+    return pyalaocl.Seq.new([MetaFeatureSlot(element,feature) for feature in getMetaFeatures(metaclass)])
 
 
 class ElementInfo(object):

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 #----------------------------------------------------------------------------
 # textual_tree
 #----------------------------------------------------------------------------
@@ -54,7 +57,8 @@ class TextualTree(Tree):
   def getLineNumber(self):          return self.lineNumber
 
   # update interface
-  def __init__(self,lineNumber=None,indent=None,comment=None,headline=None,children=[],parent=None):
+  def __init__(self,lineNumber=None,indent=None,comment=None,headline=None,
+               children=[],parent=None):
     Tree.__init__(self,headline,children,parent)
     self.indent  = indent
     self.comment = comment

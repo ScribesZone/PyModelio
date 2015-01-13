@@ -20,7 +20,7 @@ __all__ = [
 
 
 
-from pymodelio.core.env import PyModelioEnv
+import pymodelio.core.env
 
 
 
@@ -47,7 +47,8 @@ def getMetaclassJavadocURL(metaclass):
         name = metaclass.getCanonicalName()
         if name.startswith('org.modelio.'):
             return '%s/%s.html' \
-                   % (PyModelioEnv.MODELIO_WEB_DOC_JAVADOC,name.replace(".","/"))
+                   % (pymodelio.core.env.PyModelioEnv.MODELIO_WEB_DOC_JAVADOC,
+                      name.replace(".","/"))
         else:
             return None
     except:
@@ -74,7 +75,9 @@ def _getMetaclassNameToLocalPageMap():
     global METACLASS_NAME_TO_LOCAL_PAGE_MAP
     if METACLASS_NAME_TO_LOCAL_PAGE_MAP is None:
         regexpr = METAMODEL_ROOT_ENTRY_REGEXPR[getModelioSimpleVersion()]
-        html = getWebPage(PyModelioEnv.MODELIO_WEB_DOC_METAMODEL + '/modelbrowser.html')
+        html = getWebPage(
+            pymodelio.core.env.PyModelioEnv.MODELIO_WEB_DOC_METAMODEL
+                          + '/modelbrowser.html')
         METACLASS_NAME_TO_LOCAL_PAGE_MAP = {}
         for match in re.findall(regexpr,html):
             (local_url,metaclass_name) = match
@@ -93,6 +96,8 @@ def getMetaclassMetamodelURL(metaclass,relative=False):
             if relative:
                 return url
             else:
-                return "%s/%s" % (PyModelioEnv.MODELIO_WEB_DOC_METAMODEL,url)
+                return "%s/%s" % (
+                    pymodelio.core.env.PyModelioEnv.MODELIO_WEB_DOC_METAMODEL,
+                    url)
         else:
             return None

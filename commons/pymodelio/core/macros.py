@@ -1,4 +1,11 @@
 # coding=utf-8
+"""
+Management of modelio macros.
+"""
+
+import logging
+log = logging.getLogger(__name__)
+
 import os
 
 import xml.etree.ElementTree as ElementTree

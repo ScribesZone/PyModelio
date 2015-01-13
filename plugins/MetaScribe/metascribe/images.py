@@ -10,10 +10,11 @@ __all__ = (
     'getImageFromName',
 )
 
+import introspection
+import pymodelio.env.gui
+
 # noinspection PyUnresolvedReferences
 from org.modelio.api.modelio import Modelio
-from metascribe.introspection import getNameFromType
-from pymodelio.env.gui import ImageProvider
 
 
 #---- Extension of the Modelio' Image Service -----------------------
@@ -21,7 +22,7 @@ from pymodelio.env.gui import ImageProvider
 # Here we provide more images for other types.
 # This includes both basic types, but also graphics, etc.
 
-class ClassImageProvider(ImageProvider):
+class ClassImageProvider(pymodelio.env.gui.ImageProvider):
     """ Provide some images for types.
         We first try to check if there is an image corresponding exactly
         to the name of the type (unqualified). If this is not the case then
@@ -32,7 +33,7 @@ class ClassImageProvider(ImageProvider):
     """
 
     def __init__(self,resourcePath="",classSearchPath=()):
-        ImageProvider.__init__(self,resourcePath)
+        pymodelio.env.gui.ImageProvider.__init__(self,resourcePath)
         # the order in which one will select the image. Contains a list of classes
         self.classSearchPath = classSearchPath
 
@@ -41,7 +42,8 @@ class ClassImageProvider(ImageProvider):
 
     def getImageFromType(self,classe):
         # first try to get the image with the exact name of the type
-        image = self.getImageFromName(getNameFromType(classe,noPath=True))
+        image = self.getImageFromName(
+            introspection.getNameFromType(classe,noPath=True))
         if image is not None:
             return image
         else:
@@ -49,7 +51,7 @@ class ClassImageProvider(ImageProvider):
             for class_root in self.classSearchPath:
                 if issubclass(classe,class_root):
                     image = self.getImageFromName(
-                        getNameFromType(class_root,noPath=True))
+                        introspection.getNameFromType(class_root,noPath=True))
                     if image is not None:
                         return image
             return None

@@ -16,42 +16,37 @@ __all__ = (
     'exp,'
 )
 
-from metascribe.images import getImageFromType,getImageFromName
-from metascribe.introspection import \
-    isList,MetaFeatureSlot,ElementInfo, \
-    getMetaclassInfo,isMetaclass,isElement
-from metascribe.web import getMetaclassMetamodelURL,getMetaclassJavadocURL
-from pymodelio.env.gui import TreeWindow,HtmlWindow
-from virtual import registerVirtualMetaFeatures
+import images
+import introspection
+import metascribe.web
+import pymodelio.env.gui
+import virtual
 # noinspection PyUnresolvedReferences
 from org.modelio.metamodel.uml.infrastructure import Element as ModelioElement
 
-# from pymodelio import *
-# print A
-# print UseCase
 
-
-registerVirtualMetaFeatures()
+virtual.registerVirtualMetaFeatures()
 
 def getElementInfo(element):
-    return ElementInfo(element)
+    return introspection.ElementInfo(element)
 
 def show(x,html=False):
-    if isElement(x):
+    if introspection.isElement(x):
         print getElementInfo(x).getText()
-    elif isMetaclass(x):
+    elif introspection.isMetaclass(x):
         if html:
             ftempl = "<li>${mclass}.<b>${fname}</b> :"  \
                 + "<em>${ftype}</em>${fmult}</li>"
             fsep = ""
             mctempl = "<h3>$mcsig</h3><ul>$mcbody</ul>"
-            html = getMetaclassInfo(x).getText(html=True,fTemplate=ftempl,
-                                               mcTemplate=mctempl,
-                                               fsep="")
-            HtmlWindow(html,width=600,height=800)
+            html = introspection.getMetaclassInfo(x).getText(
+                html=True, fTemplate=ftempl,
+                mcTemplate=mctempl,
+                fsep="")
+            pymodelio.env.gui.HtmlWindow(html,width=600,height=800)
         else:
-            print getMetaclassInfo(x).getText(html=html)
-    elif isList(x):
+            print introspection.getMetaclassInfo(x).getText(html=html)
+    elif introspection.isList(x):
         for item in x:
             show(item)
     else:
@@ -66,13 +61,15 @@ from org.eclipse.swt.widgets import Display
 
 def explore(x,browser=False,emptySlots=False):
     if browser:
-        metamodelHtmlWindow = HtmlWindow(title="Modelio Metamodel Guide")
-        javadocHtmlWindow = HtmlWindow(title="Modelio API Javadoc")
+        metamodelHtmlWindow = \
+            pymodelio.env.gui.HtmlWindow(title="Modelio Metamodel Guide")
+        javadocHtmlWindow = \
+            pymodelio.env.gui.HtmlWindow(title="Modelio API Javadoc")
 
     def _getChildren(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             return data.getSlotList(emptySlots=emptySlots)
-        elif isinstance(data,MetaFeatureSlot):
+        elif isinstance(data,introspection.MetaFeatureSlot):
             mv = data.getModelValue()
             if mv.isElement():
                 return [getElementInfo(mv.getValue())]
@@ -82,9 +79,9 @@ def explore(x,browser=False,emptySlots=False):
                 return []
 
     def _isLeaf(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             return False
-        elif isinstance(data,MetaFeatureSlot):
+        elif isinstance(data, introspection.MetaFeatureSlot):
             mv = data.getModelValue()
             if mv.isElement():
                 return False
@@ -94,9 +91,9 @@ def explore(x,browser=False,emptySlots=False):
                 return True
 
     def _getText(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             return data.getSignature()
-        elif isinstance(data,MetaFeatureSlot):
+        elif isinstance(data, introspection.MetaFeatureSlot):
             mv = data.getModelValue()
             if mv.isAtomic():
                 return data.getText()
@@ -107,31 +104,31 @@ def explore(x,browser=False,emptySlots=False):
                 return "???" + unicode(mv)
 
     def _getImage(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             metaclass = data.getMetaclass()
-            image = getImageFromType(metaclass)
+            image = images.getImageFromType(metaclass)
             return image
-        elif isinstance(data,MetaFeatureSlot):
+        elif isinstance(data, introspection.MetaFeatureSlot):
             mv = data.getModelValue()
             if mv.isElement():
-                return getImageFromName("assoc-1")
+                return images.getImageFromName("assoc-1")
             elif mv.isElementList():
-                return getImageFromName("assoc-n")
+                return images.getImageFromName("assoc-n")
             elif mv.isScalar():
-                return getImageFromType(type(mv.getValue()))
+                return images.getImageFromType(type(mv.getValue()))
             elif mv.isEnumerationLiteral():
-                return getImageFromName("enumeration")
+                return images.getImageFromName("enumeration")
 
     def _getGrayed(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             return False
         else:
             return True
 
     def _getForeground(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             return Color(Display.getCurrent(),0,0,150)
-        elif isinstance(data,MetaFeatureSlot):
+        elif isinstance(data, introspection.MetaFeatureSlot):
             mv = data.getModelValue()
             if mv.isElement() or mv.isElementList():
                 return Color(Display.getCurrent(),0,100,0)
@@ -139,18 +136,20 @@ def explore(x,browser=False,emptySlots=False):
                 return Color(Display.getCurrent(),0,180,0)
 
     def onSelection(data):
-        if isinstance(data,ElementInfo):
+        if isinstance(data, introspection.ElementInfo):
             metaclass = data.getMetaclass()
             message = str(data)
             metamodelHtmlWindow.setLabel(message)
             javadocHtmlWindow.setLabel(message)
             if issubclass(metaclass,ModelioElement):
-                metamodelHtmlWindow.setURL(getMetaclassMetamodelURL(metaclass))
-                javadocHtmlWindow.setURL(getMetaclassJavadocURL(metaclass))
+                metamodelHtmlWindow.setURL(
+                    metascribe.web.getMetaclassMetamodelURL(metaclass))
+                javadocHtmlWindow.setURL(
+                    metascribe.web.getMetaclassJavadocURL(metaclass))
             else:
                 metamodelHtmlWindow.setText("")
                 javadocHtmlWindow.setText("")
-        elif isinstance(data,MetaFeatureSlot):
+        elif isinstance(data, introspection.MetaFeatureSlot):
             mv = data.getModelValue()
             print "slot selected with model value:",mv
 
@@ -158,7 +157,8 @@ def explore(x,browser=False,emptySlots=False):
         len(x)
     except:
         x = [x]
-    TreeWindow(map(getElementInfo,x),_getChildren,_isLeaf,
+    pymodelio.env.gui.TreeWindow(
+        map(getElementInfo,x),_getChildren,_isLeaf,
                getTextFun=_getText,getImageFun=_getImage,
                getGrayedFun=_getGrayed,
                getForegroundFun=_getForeground,

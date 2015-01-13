@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-
-
+"""
+Management of PyModelio Plugins
 """
 
+import logging
+log = logging.getLogger(__name__)
 
-"""
 import pymodelio.core.misc
-from pymodelio.core.misc import getConstantMap
-
 import pymodelio.core.env
 # importing pymodelio.core.env.PyModelioEnv can create  a cycle
 
@@ -52,11 +51,10 @@ class Plugin(object):
 
         :return: a Plugin object
         """
-        from pymodelio.core.env import PyModelioEnv
+        import pymodelio.core.env
 
-        PyModelioEnv.log(
-            "        Registering plugin %s.%s ..."
-                         %(root,pluginName)),
+
+        log.info('        Registering plugin %s.%s ...',root,pluginName)
         self.PLUGIN_ROOT = root
         self.PLUGIN_NAME = pluginName
         self.PLUGIN_CONSTANT_PREFIX = \
@@ -64,9 +62,8 @@ class Plugin(object):
         self.PLUGIN_EXECUTIONS = []
         self.__registerPluginDirectories(self,"PLUGIN")
         self.__registerPluginDirectories(
-            PyModelioEnv,
+            pymodelio.core.env.PyModelioEnv,
             self.PLUGIN_CONSTANT_PREFIX)
-        PyModelioEnv.log('done')
 
     def _addExecution(self,execution):
         """
@@ -103,7 +100,7 @@ class Plugin(object):
         """
 
         # necessary to avoid cycle
-        from pymodelio.core.env import PyModelioEnv  #don't remove
+        import pymodelio.core.env  #don't remove
 
         subdirectory_map = {
             # Constant Suffix directories path_key
@@ -131,7 +128,7 @@ class Plugin(object):
                 constant = constantPrefix+"_HOME"
                 subdir_elements = ['plugins',self.PLUGIN_NAME]
                 directory = \
-                    PyModelioEnv\
+                    pymodelio.core.env.PyModelioEnv \
                         .fromRoot(self.PLUGIN_ROOT,subdir_elements)
                 setattr(objectToChange,constant,directory)
                 setattr(objectToChange,
@@ -144,14 +141,16 @@ class Plugin(object):
                 subdir_elements = \
                     ['plugins',self.PLUGIN_NAME]+subdir_string.split(' ')
                 directory = \
-                    PyModelioEnv.fromRoot(self.PLUGIN_ROOT,subdir_elements)
+                    pymodelio.core.env.PyModelioEnv.fromRoot(
+                        self.PLUGIN_ROOT,subdir_elements)
                 setattr(objectToChange,constant,directory)
             # add the directory to the corresponding path if any
             if path_key is not None:
                 if path_key=='JAVA':
                     # In case of java, jar files are to be added, not the
                     # directory
-                    jar_files = PyModelioEnv._searchJarFiles(directory)
+                    jar_files=pymodelio.core.env.PyModelioEnv._searchJarFiles(
+                        directory)
                     path_elements[path_key].extend(jar_files)
                 else:
                     # In other cases, we add simply the directory
@@ -163,7 +162,8 @@ class Plugin(object):
 
     def __str__(self):
         r = "Plugin "+self.PLUGIN_ROOT+"."+self.PLUGIN_NAME+"(\n"
-        for (constant,value) in getConstantMap(self).items():
+        for (constant,value) in \
+                    pymodelio.core.misc.getConstantMap(self).items():
             if constant.startswith("PLUGIN_"):
                 r += "        %s = %s\n" % (constant,value)
         r += '        )'
