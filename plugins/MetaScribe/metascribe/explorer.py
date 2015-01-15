@@ -18,7 +18,7 @@ __all__ = (
 
 import images
 import introspection
-import metascribe.web
+import metascribe.webdoc
 import pymodelio.env.gui
 import virtual
 # noinspection PyUnresolvedReferences
@@ -143,9 +143,9 @@ def explore(x,browser=False,emptySlots=False):
             javadocHtmlWindow.setLabel(message)
             if issubclass(metaclass,ModelioElement):
                 metamodelHtmlWindow.setURL(
-                    metascribe.web.getMetaclassMetamodelURL(metaclass))
+                    metascribe.webdoc.getMetaclassMetamodelURL(metaclass))
                 javadocHtmlWindow.setURL(
-                    metascribe.web.getMetaclassJavadocURL(metaclass))
+                    metascribe.webdoc.getMetaclassJavadocURL(metaclass))
             else:
                 metamodelHtmlWindow.setText("")
                 javadocHtmlWindow.setText("")

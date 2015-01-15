@@ -6,6 +6,7 @@
 import os
 import sys
 import mock
+
 JYTHON_ONLY_MODULES = [
     'java','java.lang',
     'java.net',
