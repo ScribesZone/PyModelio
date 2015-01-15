@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/webpublisher.py" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\plugins\MetaScribe\metascribe\web.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/webdoc.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/docs/dev/conf.py" afterPath="$PROJECT_DIR$/docs/dev/conf.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/onlinepyscript.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/pymodelio/core/scripts.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/pymodelio/env/webbrowser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/core/env.py" afterPath="$PROJECT_DIR$/commons/pymodelio/core/env.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyModelio.iws" />
@@ -43,17 +44,106 @@
     <splitter split-orientation="horizontal" split-proportion="0.4917541">
       <split-first>
         <leaf>
-          <file leaf-file-name="patterns.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="patterns.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/commons/pymodelio/misc/patterns.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.82790697" vertical-offset="2" max-vertical-offset="952">
-                  <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
+                  <caret line="0" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
                   <folding>
                     <element signature="e#16#37#0" expanded="true" />
                     <element signature="e#257#390#0" expanded="true" />
                     <element signature="e#1004#1292#0" expanded="true" />
                     <element signature="e#2030#2089#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="scripts.py" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/scripts.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-0.43661973" vertical-offset="1778" max-vertical-offset="3383">
+                  <caret line="90" column="24" selection-start-line="90" selection-start-column="24" selection-end-line="90" selection-end-column="24" />
+                  <folding>
+                    <element signature="e#621#637#0" expanded="true" />
+                    <element signature="e#1031#1047#0" expanded="true" />
+                    <element signature="e#1076#1123#0" expanded="true" />
+                    <element signature="e#1349#1375#0" expanded="true" />
+                    <element signature="e#1448#1627#0" expanded="true" />
+                    <element signature="e#1657#1697#0" expanded="true" />
+                    <element signature="e#1726#1766#0" expanded="true" />
+                    <element signature="e#1800#1873#0" expanded="true" />
+                    <element signature="e#1925#2105#0" expanded="true" />
+                    <element signature="e#3091#3637#0" expanded="true" />
+                    <element signature="e#3667#4089#0" expanded="true" />
+                    <element signature="e#4120#4503#0" expanded="true" />
+                    <element signature="e#4532#4703#0" expanded="true" />
+                    <element signature="e#4924#5381#0" expanded="true" />
+                    <element signature="e#5415#5545#0" expanded="true" />
+                    <element signature="e#5586#6196#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="editor.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/editor.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+                  <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#314#968#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="filebrowser.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filebrowser.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+                  <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="filewatcher.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filewatcher.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+                  <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="gui.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/gui.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="589" max-vertical-offset="2023">
+                  <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+                  <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="plugins.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/plugins.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1292">
+                  <caret line="213" column="18" selection-start-line="213" selection-start-column="18" selection-end-line="213" selection-end-column="18" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -65,20 +155,75 @@
           <file leaf-file-name="conf.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/docs/dev/conf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="5474">
-                  <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="5474">
+                  <caret line="24" column="87" selection-start-line="24" selection-start-column="87" selection-end-line="24" selection-end-column="87" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="webpublisher.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="webpublisher.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/webpublisher.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6129808" vertical-offset="0" max-vertical-offset="1717">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
                   <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
                   <folding>
                     <element signature="e#25#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+                  <caret line="35" column="67" selection-start-line="35" selection-start-column="67" selection-end-line="35" selection-end-column="67" />
+                  <folding>
+                    <element signature="e#52#318#0" expanded="true" />
+                    <element signature="e#365#526#0" expanded="true" />
+                    <element signature="e#572#968#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="webbrowser.py" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/webbrowser.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.056572378" vertical-offset="0" max-vertical-offset="11917">
+                  <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+                  <folding>
+                    <element signature="e#124#133#0" expanded="true" />
+                    <element signature="e#553#787#0" expanded="true" />
+                    <element signature="e#815#1732#0" expanded="true" />
+                    <element signature="e#2016#2261#0" expanded="true" />
+                    <element signature="e#2287#2306#0" expanded="true" />
+                    <element signature="e#2336#2355#0" expanded="true" />
+                    <element signature="e#2407#3485#0" expanded="true" />
+                    <element signature="e#3554#3788#0" expanded="true" />
+                    <element signature="e#3831#4031#0" expanded="true" />
+                    <element signature="e#4059#4411#0" expanded="true" />
+                    <element signature="e#4590#4635#0" expanded="true" />
+                    <element signature="e#4690#4715#0" expanded="true" />
+                    <element signature="e#4754#4778#0" expanded="true" />
+                    <element signature="e#4821#4845#0" expanded="true" />
+                    <element signature="e#5019#5293#0" expanded="true" />
+                    <element signature="e#5348#5712#0" expanded="true" />
+                    <element signature="e#5893#6461#0" expanded="true" />
+                    <element signature="e#6823#8394#0" expanded="true" />
+                    <element signature="e#8449#9301#0" expanded="true" />
+                    <element signature="e#10806#12499#0" expanded="true" />
+                    <element signature="e#12745#13561#0" expanded="true" />
+                    <element signature="e#13602#13724#0" expanded="true" />
+                    <element signature="e#13779#13911#0" expanded="true" />
+                    <element signature="e#14098#15730#0" expanded="true" />
+                    <element signature="e#16574#16628#0" expanded="true" />
+                    <element signature="e#17142#17443#0" expanded="true" />
+                    <element signature="e#17619#17686#0" expanded="true" />
+                    <element signature="e#18326#18342#0" expanded="true" />
+                    <element signature="e#18405#19831#0" expanded="true" />
+                    <element signature="e#20857#21445#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -97,9 +242,15 @@
           <file leaf-file-name="env.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/env.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="11101" max-vertical-offset="16473">
-                  <caret line="653" column="49" selection-start-line="653" selection-start-column="49" selection-end-line="653" selection-end-column="49" />
-                  <folding />
+                <state vertical-scroll-proportion="-10.393939" vertical-offset="5012" max-vertical-offset="6562">
+                  <caret line="693" column="27" selection-start-line="693" selection-start-column="27" selection-end-line="693" selection-end-column="27" />
+                  <folding>
+                    <element signature="e#3509#4452#0" expanded="true" />
+                    <element signature="e#4504#5992#0" expanded="true" />
+                    <element signature="e#18933#18982#0" expanded="true" />
+                    <element signature="e#24175#24752#0" expanded="true" />
+                    <element signature="e#26103#26358#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -107,7 +258,7 @@
           <file leaf-file-name="misc.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/misc.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="1207">
+                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
                   <caret line="22" column="19" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="19" />
                   <folding />
                 </state>
@@ -184,8 +335,6 @@
         <option value="$PROJECT_DIR$/commons/pymodelio/env/__init__.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/core/__init__.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/misc/textual_tree.py" />
-        <option value="$PROJECT_DIR$/commons/pymodelio/core/env.py" />
-        <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/virtual.py" />
@@ -193,6 +342,12 @@
         <option value="$PROJECT_DIR$/docs/dev/conf.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/web.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/webpublisher.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/env/webbrowser.py" />
+        <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" />
+        <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/onlinepyscript.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/core/pyscripts.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/core/scripts.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/core/env.py" />
       </list>
     </option>
   </component>
@@ -279,6 +434,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MetaScribe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyModelio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyModelio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="plugins" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MetaScribe" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="metascribe" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -764,14 +945,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1698" height="1068" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32922733" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25867862" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13496932" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21104294" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21104294" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2254902" sideWeight="0.09107143" order="7" side_tool="false" content_ui="tabs" />
@@ -780,7 +962,6 @@
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="778" width="842" height="279" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25867862" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -832,36 +1013,21 @@
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="22" />
+      <option name="time" value="23" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filewatcher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1054">
-          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/modelio/todo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="629">
-          <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3553" max-vertical-offset="6613">
-          <caret line="209" column="16" selection-start-line="209" selection-start-column="6" selection-end-line="209" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/env.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="9809" max-vertical-offset="15368">
           <caret line="577" column="18" selection-start-line="577" selection-start-column="18" selection-end-line="577" selection-end-column="18" />
-          <folding />
+          <folding>
+            <element signature="e#3509#4452#0" expanded="true" />
+            <element signature="e#4504#5992#0" expanded="true" />
+            <element signature="e#18933#18982#0" expanded="true" />
+            <element signature="e#24175#24752#0" expanded="true" />
+            <element signature="e#26103#26358#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -946,7 +1112,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2975" max-vertical-offset="3927">
           <caret line="429" column="27" selection-start-line="429" selection-start-column="27" selection-end-line="429" selection-end-column="27" />
-          <folding />
+          <folding>
+            <element signature="e#3509#4452#0" expanded="true" />
+            <element signature="e#4504#5992#0" expanded="true" />
+            <element signature="e#18933#18982#0" expanded="true" />
+            <element signature="e#24175#24752#0" expanded="true" />
+            <element signature="e#26103#26358#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1024,7 +1196,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="7582" max-vertical-offset="8551">
           <caret line="446" column="0" selection-start-line="446" selection-start-column="0" selection-end-line="446" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#3509#4452#0" expanded="true" />
+            <element signature="e#4504#5992#0" expanded="true" />
+            <element signature="e#18933#18982#0" expanded="true" />
+            <element signature="e#24175#24752#0" expanded="true" />
+            <element signature="e#26103#26358#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1381,24 +1559,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.026771653" vertical-offset="0" max-vertical-offset="635">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/modelio/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="635">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/editor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1413,13 +1577,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1037">
           <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1444,13 +1601,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filebrowser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.021711366" vertical-offset="0" max-vertical-offset="783">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.532777" vertical-offset="3870" max-vertical-offset="10455">
@@ -1459,24 +1609,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filewatcher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.021711366" vertical-offset="0" max-vertical-offset="783">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/modelio/todo.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.25154132" vertical-offset="0" max-vertical-offset="811">
           <caret line="28" column="25" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4463625" vertical-offset="0" max-vertical-offset="2057">
-          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1508,41 +1644,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/plugins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.3575685" vertical-offset="0" max-vertical-offset="1326">
-          <caret line="213" column="18" selection-start-line="213" selection-start-column="18" selection-end-line="213" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/dev/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="6341">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/misc/misc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="41" max-vertical-offset="901">
           <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/misc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-          <caret line="22" column="19" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/env.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3536" max-vertical-offset="4981">
-          <caret line="653" column="49" selection-start-line="653" selection-start-column="49" selection-end-line="653" selection-end-column="49" />
           <folding />
         </state>
       </provider>
@@ -1555,10 +1660,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/webpublisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717">
+          <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
+          <folding>
+            <element signature="e#25#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="35" column="67" selection-start-line="35" selection-start-column="67" selection-end-line="35" selection-end-column="67" />
+          <folding>
+            <element signature="e#52#318#0" expanded="true" />
+            <element signature="e#365#526#0" expanded="true" />
+            <element signature="e#572#968#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/dev/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="5474">
+          <caret line="24" column="87" selection-start-line="24" selection-start-column="87" selection-end-line="24" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/commons/pymodelio/misc/patterns.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.82790697" vertical-offset="2" max-vertical-offset="952">
-          <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
+          <caret line="0" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
             <element signature="e#16#37#0" expanded="true" />
             <element signature="e#257#390#0" expanded="true" />
@@ -1568,12 +1703,146 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/webpublisher.py">
+    <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/onlinepyscript.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6129808" vertical-offset="0" max-vertical-offset="1717">
-          <caret line="30" column="12" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="807">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/misc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/editor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
-            <element signature="e#25#39#0" expanded="true" />
+            <element signature="e#314#968#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filebrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/filewatcher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/gui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="589" max-vertical-offset="2023">
+          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/plugins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1292">
+          <caret line="213" column="18" selection-start-line="213" selection-start-column="18" selection-end-line="213" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/scripts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.43661973" vertical-offset="1778" max-vertical-offset="3383">
+          <caret line="90" column="24" selection-start-line="90" selection-start-column="24" selection-end-line="90" selection-end-column="24" />
+          <folding>
+            <element signature="e#621#637#0" expanded="true" />
+            <element signature="e#1031#1047#0" expanded="true" />
+            <element signature="e#1076#1123#0" expanded="true" />
+            <element signature="e#1349#1375#0" expanded="true" />
+            <element signature="e#1448#1627#0" expanded="true" />
+            <element signature="e#1657#1697#0" expanded="true" />
+            <element signature="e#1726#1766#0" expanded="true" />
+            <element signature="e#1800#1873#0" expanded="true" />
+            <element signature="e#1925#2105#0" expanded="true" />
+            <element signature="e#3091#3637#0" expanded="true" />
+            <element signature="e#3667#4089#0" expanded="true" />
+            <element signature="e#4120#4503#0" expanded="true" />
+            <element signature="e#4532#4703#0" expanded="true" />
+            <element signature="e#4924#5381#0" expanded="true" />
+            <element signature="e#5415#5545#0" expanded="true" />
+            <element signature="e#5586#6196#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/core/env.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.393939" vertical-offset="5012" max-vertical-offset="6562">
+          <caret line="693" column="27" selection-start-line="693" selection-start-column="27" selection-end-line="693" selection-end-column="27" />
+          <folding>
+            <element signature="e#3509#4452#0" expanded="true" />
+            <element signature="e#4504#5992#0" expanded="true" />
+            <element signature="e#18933#18982#0" expanded="true" />
+            <element signature="e#24175#24752#0" expanded="true" />
+            <element signature="e#26103#26358#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/env/webbrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.056572378" vertical-offset="0" max-vertical-offset="11917">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+          <folding>
+            <element signature="e#124#133#0" expanded="true" />
+            <element signature="e#553#787#0" expanded="true" />
+            <element signature="e#815#1732#0" expanded="true" />
+            <element signature="e#2016#2261#0" expanded="true" />
+            <element signature="e#2287#2306#0" expanded="true" />
+            <element signature="e#2336#2355#0" expanded="true" />
+            <element signature="e#2407#3485#0" expanded="true" />
+            <element signature="e#3554#3788#0" expanded="true" />
+            <element signature="e#3831#4031#0" expanded="true" />
+            <element signature="e#4059#4411#0" expanded="true" />
+            <element signature="e#4590#4635#0" expanded="true" />
+            <element signature="e#4690#4715#0" expanded="true" />
+            <element signature="e#4754#4778#0" expanded="true" />
+            <element signature="e#4821#4845#0" expanded="true" />
+            <element signature="e#5019#5293#0" expanded="true" />
+            <element signature="e#5348#5712#0" expanded="true" />
+            <element signature="e#5893#6461#0" expanded="true" />
+            <element signature="e#6823#8394#0" expanded="true" />
+            <element signature="e#8449#9301#0" expanded="true" />
+            <element signature="e#10806#12499#0" expanded="true" />
+            <element signature="e#12745#13561#0" expanded="true" />
+            <element signature="e#13602#13724#0" expanded="true" />
+            <element signature="e#13779#13911#0" expanded="true" />
+            <element signature="e#14098#15730#0" expanded="true" />
+            <element signature="e#16574#16628#0" expanded="true" />
+            <element signature="e#17142#17443#0" expanded="true" />
+            <element signature="e#17619#17686#0" expanded="true" />
+            <element signature="e#18326#18342#0" expanded="true" />
+            <element signature="e#18405#19831#0" expanded="true" />
+            <element signature="e#20857#21445#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -691,6 +691,7 @@ class PyModelioEnv(object):
             cls.LOCAL = os.path.join(cls.USER_MODELIO,"PyModelioLocal")
         cls.LOCAL_WORKING_DIRECTORY = \
             os.path.join(cls.LOCAL,'working_directory')
+        cls.LOCAL_SCRIPTS = os.path.join(cls.LOCAL, 'scripts')
         cls.__ensurePyModelioLocalStructure()
         os.chdir(cls.LOCAL_WORKING_DIRECTORY)
 
@@ -700,6 +701,7 @@ class PyModelioEnv(object):
         """ Ensure that the PyModelioLocal directory structure is ok """
         pymodelio.core.misc.ensureDirectory(cls.LOCAL)
         pymodelio.core.misc.ensureDirectory(cls.LOCAL_WORKING_DIRECTORY)
+        pymodelio.core.misc.ensureDirectory(cls.LOCAL_SCRIPTS)
 
 
     @classmethod
