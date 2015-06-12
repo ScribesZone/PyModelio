@@ -6,8 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/libs/python" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/plugins/MetaScribe" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/plugins/OCLScribe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../PyModelioLocal/demos" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Jython 2.7b2 (C:\S\jython2.7b2\bin\jython.bat)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Jython 2.7.0 (C:\S\jython2.7.0\bin\jython.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PackageRequirementsSettings">
