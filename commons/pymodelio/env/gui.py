@@ -15,7 +15,7 @@
 import traceback
 
 
-#----- graphical user interface ---------------------------------------------------------
+#----- graphical user interface -----------------------------------------------
 
 # noinspection PyUnresolvedReferences
 from org.eclipse.swt import SWT
@@ -27,13 +27,560 @@ from org.eclipse.swt.widgets import ToolBar,ToolItem
 # noinspection PyUnresolvedReferences
 from org.eclipse.swt.browser import Browser
 # noinspection PyUnresolvedReferences
-from org.eclipse.swt.layout import GridData,GridLayout
+from org.eclipse.swt.layout import GridData,GridLayout,FillLayout
 
 import os
 # noinspection PyUnresolvedReferences
 from org.eclipse.swt.graphics import Color,Image
 # noinspection PyUnresolvedReferences
 from org.eclipse.swt.widgets import Display
+
+import re
+
+
+#---- workbench ---------------------------------------------------------------
+def getWorkbench():
+    """
+    Returns the Eclipse UI workbench.
+    ATTENTION: This method currently does not work with modelio 3 (BUG).
+    :return: The modelio workbench
+    :rtype: IWorkbench
+    """
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.ui import PlatformUI
+    return PlatformUI.getWorkbench()
+
+
+
+#---- display and shells  -----------------------------------------------------
+
+def getDisplay():
+    """
+    Return the default Eclipse display.
+    :return: The eclipse display.
+    :rtype: Display
+    """
+    return Display.getDefault()
+
+def getActiveShell():
+    """
+    Return the active shell.
+    :return: The active shell.
+    :rtype: Shell
+    """
+    return Display.getDefault().getActiveShell()
+
+def getShells():
+    """
+    Return the list of eclipse shells.
+    :return: The list of shells.
+    :rtype: list
+    """
+    return Display.getDefault().getShells()
+
+
+
+def getMainShell():
+    """
+    Returns the main modelio shell. This should be the only windowd that ends
+    with somethin like ' - Modelio 3.3'
+    :return: the main shell of modelio
+    :rtype: Shell
+    """
+    for shell in Display.getDefault().shells:
+        if re.match('.* - Modelio \d+\.\d+$', shell.text):
+            return shell
+    raise Exception('Error. Cannot find the main modelio window')
+
+
+
+def shell(  parent=getActiveShell(),
+            options=SWT.CLOSE | SWT.RESIZE,
+            layout = FillLayout):
+    """
+    Create a new shell.
+    :param parent:
+    :type parent:
+    :param options:
+    :type options:
+    :param layout:
+    :type layout:
+    :return:
+    :rtype:
+    """
+    s = Shell(parent, options)
+    layout = layout
+    return s
+
+
+
+
+
+
+
+
+
+
+#--- introspection ------------------------------------------------------------
+
+def _getAttributeValue(x, name):
+    """
+    Return tha value of the attribute if this is a simple attribute or
+    the result of the execution of the attribute if this is a function/method.
+    If no such attribute exist, an exception is raised.
+    If the function execution raise an error, raise it.
+    """
+    if not hasattr(x, name):
+        raise Exception(
+            "No attribute %s on %s"
+            % (name, x))
+    else:
+        attr = getattr(x, name)
+        if not hasattr(attr, '__call__'):
+            return attr
+        else:
+            return attr()
+
+def _succ(x, names):
+    _ = []
+    if isinstance(names, basestring):
+        names = [names]
+    for name in names:
+        if hasattr(x, name):
+            try:
+                output = _getAttributeValue(x, name)
+            except:
+                print("Warning. Exception for .%s/() on %s"
+                      % (name,x))
+                results = []
+            else:
+                try:
+                    # get a tuple if iterable
+                    results = [r for r in output]
+                except TypeError:
+                    # not iterable, make the tuple
+                    results = [output]
+            _.extend(results)
+    return _
+
+def _succ1(x, names):
+    successors = _succ(x, names)
+    size = len(successors)
+    if size == 0:
+        return None
+    elif size == 1:
+        return successors[0]
+    else:
+        raise Exception('ERROR: more than one successors for .%s on %s'
+            % (str(names),str(x)))
+
+
+def ancestors(x, names=('getParent', )):
+    ancestor = _succ1(x, names)
+    if ancestor is None:
+        return ()
+    else:
+        return ancestors(ancestor, names) + (ancestor, )
+
+
+def _checkItemKind(object, kind=None):
+    # if a string is provided then this is the fully qualified exact type
+    # of the object to get. For some strange reasons some java types do not
+    # have name attributes. It this case the type representation is used.
+    if kind is None:
+        return True
+    elif isinstance(kind, basestring):
+        t = type(object)
+        if hasattr(t,'name'):
+            type_name = t.name
+        else:
+            type_name = str(t)
+            # print "WARNING: The type has no name attribute %s" % type_name
+        return kind == type_name
+    else:
+        return isinstance(object, kind)
+
+def _checkItemAttribute(object, attribute=None, value=None):
+    if attribute is None:
+        return True
+    elif not hasattr(object, attribute):
+        return False
+    else:
+        try:
+            attribute_value = _getAttributeValue(object, attribute)
+        except:
+            return False
+        else:
+            return value == attribute_value
+
+def _checkItem(object, kind=None, attribute=None, value=None):
+    return (
+        _checkItemKind(object, kind=kind)
+        and _checkItemAttribute(object, attribute=attribute, value=value)
+    )
+
+
+
+
+
+
+
+
+
+def allWidgets(root=getMainShell(), kind=None, attribute=None, value=None,
+               successors=('getChildren', 'getItems', 'getContents')):
+    """
+    Return all the elements contained in the root element according to
+    the given successors, ('getChildren', 'getItems', 'getContents') by default.
+    """
+    _ = []
+    if _checkItem(root, kind=kind, attribute=attribute, value=value):
+        _.append(root)
+    for child in _succ(root, successors):
+        _.extend(allWidgets(
+            root=child, kind=kind, attribute=attribute, value=value,
+            successors=successors))
+    return _
+
+
+
+
+def printWidgetTree(root=getMainShell(),  indent='',
+                    successors=('getChildren', 'getItems', 'getContents')):
+    print indent, root, ':', type(root)
+    for child in _succ(root, successors):
+        printWidgetTree(root=child, indent=indent + '    ')
+
+
+# example: printWidgetTree(getModelioShell())
+
+
+def getMainMenu():
+    return getMainShell().menuBar
+
+def printMenuTree(shell=getMainShell()):
+    print '*** WARNING: works only for two levels for now (enough for modelio)'
+    print '*** WARNING: only works if submenu have been displayed before'
+    for menuItem in shell.menuBar.items:
+        print menuItem
+        if menuItem.menu is not None:
+            for subI in menuItem.menu.items:
+                print '    ', subI
+
+import inspect
+# noinspection PyUnresolvedReferences
+from org.eclipse.swt.events import SelectionListener
+
+def newMenuItem(text, fun, menu=getMainMenu()):
+    """
+    Add a new menu item into an existing menu (the main modelio menu by
+    default). Just provide a label and a call back function.
+    :param text: the label to be used for the menu item
+    :type text: basestring
+    :param fun: the function that will be called when the menu item is
+        selected. This function must have one or zero argument. In the later
+        case the event will be given as the first parameter.
+    :type fun: callable
+    :param menu: the menu where to insert to menu item. By default this is
+        the main menu of modelio.
+    :type menu: Menu
+    :return: the menu item just created.
+    :rtype: MenuItem
+    """
+    menu_item = MenuItem(menu, SWT.PUSH)
+    menu_item.setText(text)
+    #-- define the call back using fun and passing even/removing event as necessary
+    fun_args = inspect.getargspec(fun).args
+    if len(fun_args) == 0:
+        def call_back(event):
+            fun()
+    elif len(fun_args) == 1:
+        def call_back(event):
+            fun(event)
+    else:
+        raise Exception(
+            'The function provided has more that one argument:  %s' % str(
+                fun_args))
+
+    class _Listener(SelectionListener):
+        def widgetSelected(self, event):
+            call_back(event)
+
+        def widgetDefaultSelected(self, event):
+            call_back(event)
+
+    menu_item.addSelectionListener(_Listener())
+    return menu_item
+
+
+
+
+
+
+def getCTabItems():
+    """
+    Return the list of all CTabItem s. Use the .control attribute to get
+    the content of each tab.
+    :return: the list of all CTabItem widgets
+    :rtype: list(org.eclipse.swt.custom.CTabItem)
+    """
+    return allWidgets(
+        kind='org.eclipse.swt.custom.CTabItem')
+
+def getCTabItem(name):
+    """
+    Select a CTabItem by name. Raise an exception if there is no such tab
+    or more than one tab with this name.
+    :param name: the name that
+    :type name: str
+    :return: the selected CTabItem
+    :rtype: org.eclipse.swt.custom.CTabItem
+    """
+    ws = allWidgets(
+        kind='org.eclipse.swt.custom.CTabItem', attribute='text', value=name)
+    if len(ws) != 1:
+        raise Exception(
+                'Not exactly one getCTabItem: %s.'
+                'The windows might be closed or in another window'
+                % str(len(ws)))
+    return ws[0]
+
+
+def squatCTab(ctabName, newCTabName=None):
+    """
+    find by name a CTab to squat. Return the top control of this squat.
+    Rename the tab if newCTabName is given.
+    :param ctabName:
+    :type ctabName:
+    :param newCTabName:
+    :type newCTabName:
+    :return:
+    :rtype:
+    """
+    ctab = getCTabItem(ctabName)
+    top_control = ctab.control
+    if newCTabName is not None:
+        ctab.text = newCTabName
+    return top_control
+
+
+# squat = squatCTab('Audit')
+# b = Button(squat, SWT.PUSH)
+# b.text ="x"
+# squat.layout()
+# squat.children[0].hidden = True ?
+# squat.parent.pack()
+# squat.layout()
+
+
+
+
+#---- modelio script widget ---------------------------------------------------
+
+ # SashForm {} : <type 'org.eclipse.swt.custom.SashForm'>
+ #     OutputView {} : <type 'org.modelio.script.view.OutputView'>
+ #     Canvas {} : <type 'org.eclipse.swt.widgets.Canvas'>
+ #         StyledText {} : <type 'org.eclipse.swt.custom.StyledText'>
+ #         CompositeRuler$CompositeRulerCanvas {} : <type 'org.eclipse.jface.text.source.CompositeRuler$CompositeRulerCanvas'>
+ #             LineNumberRulerColumn$4 {} : <type 'org.eclipse.jface.text.source.LineNumberRulerColumn$4'>
+ #     Sash {} : <type 'org.eclipse.swt.widgets.Sash'>
+
+def getScriptCTabItem():
+    return getCTabItem('Script')
+
+def modelioScriptOutputWidget():
+    widgets = allWidgets(kind='org.modelio.script.view.OutputView')
+    return widgets[0]
+
+def modelioScriptWidget():
+    return modelioScriptOutputWidget().parent
+
+def modelioScriptInputWidget():
+    """
+    the textual part of the input (not the line number in another widget)
+    """
+    return allWidgets(modelioScriptWidget(),
+                      kind='org.eclipse.swt.custom.StyledText')[0]
+
+def modelioCTabFolderContainingScriptView():
+    return modelioScriptWidget().parent.parent.parent
+
+# scriptViewFolder = allWidgets(kind='org.eclipse.swt.custom.CTabFolder')[0]
+
+
+
+
+#------ views composites ------------------------------------------------------
+
+
+def getOutlineCTabItem():
+    """
+    Return the CTabItem of modelio "Outline" view.
+    :return:
+    :rtype: CTabItem
+    """
+    return getCTabItem('Outline')
+
+def getOutlineComposite():
+    return getOutlineCTabItem().control.children[0].children[0]
+
+
+def demoAddBrowserInOutlineView():
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.swt.widgets import Button
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.swt.browser import Browser
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.swt import SWT
+
+    c = getOutlineComposite()
+    b = Browser(c, SWT.BORDER)
+    b.setUrl('http://modelio.org/')
+    c.layout()
+
+
+# Button(sw,SWT.PUSH).setText("toto")
+
+
+#
+# x = allWidgets(kind=StaticDiagramFigure)
+# toolboxCanvas = x[0]
+# diagramCanvas = x[1]
+
+#x =allWidgets(kind="org.modelio.diagram.editor.statik.elements.staticdiagram.StaticDiagramFigure")
+#diagramFigure=x[0]
+#printWidgetTree(diagramFigure)
+#y = diagramFigure.children[1]
+#explore(y)
+
+
+
+
+
+
+#--- model tree ---------------------------------------------------------------
+
+# noinspection PyUnresolvedReferences
+import org.eclipse.swt.widgets
+
+def getModelTree():
+    """
+    Returns the eclipse SWT Tree displaying the model.
+    :return: The tree view corresponding to the model in the modelio
+    :rtype: org.eclipse.swt.widgets.Tree
+    """
+    modelCTab = getCTabItem('Model')
+    tree = modelCTab.control.children[0].children[0]
+    assert isinstance(tree, org.eclipse.swt.widgets.Tree)
+    return tree
+
+
+def getModelTreeSelection(typeFilter=None):
+    """
+    Returns the list of selected elements in the ModelTree. This may contains
+    model elements but also other kinds of elements such as fragments.
+    :return: The list of selected elements.
+    :rtype: list
+    """
+    _ = []
+    for item in getModelTree().selection:
+        if typeFilter is None or isinstance(item.data, typeFilter):
+            _.append(item.data)
+    return _
+
+# noinspection PyUnresolvedReferences
+import org.eclipse.swt.events
+
+
+class TreeSelectionListener(org.eclipse.swt.events.SelectionListener):
+    def __init__(self, processFun):
+        self.processFun = processFun
+
+    def widgetSelected(self, selectionEvent):
+        self.processFun(selectionEvent)
+
+    def widgetDefaultSelected(self, selectionEvent):
+        self.processFun(selectionEvent)
+
+
+def SampleListener(e):
+    print getModelTreeSelection()
+
+
+# x = TreeSelectionListener(SampleListener())
+# tree.addSelectionListener(x)
+
+
+
+#----- image ------------------------------------------------------------------
+
+def test():
+    # adapted from http://stackoverflow.com/questions/4447455/how-to-show-up-an-image-with-swt-in-java
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.swt.layout import GridData,GridLayout,FillLayout
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.swt.graphics import Image
+    # noinspection PyUnresolvedReferences
+    from org.eclipse.swt.widgets import \
+        Shell,Display,Label,Button,Listener,Text,Menu,MenuItem,FileDialog
+    s = shell(options=SWT.SHELL_TRIM | SWT.DOUBLE_BUFFERED | SWT.RESIZE)
+    img = Image(Display.getDefault(),'C:/DOWNLOADS/SCREENSHOTS/screenshot.002.jpg')
+    class mylistener(Listener):
+        def handleEvent(self, event):
+           gc = event.gc
+           gc.drawImage(img, 20, 20)
+           gc.dispose()
+
+    s.addListener(SWT.Paint, mylistener())
+    s.open()
+#
+# does not work inside figure. Where should it be done
+# ifig = ImageFigure(img)
+# diags = allWidgets(kind="org.modelio.diagram.editor.statik.elements.staticdiagram.StaticDiagramFigure")
+# diags[0].add(ifig)
+# diags[0].repaint()
+
+
+
+
+
+
+
+
+# noinspection PyUnresolvedReferences
+from org.eclipse.swt.graphics import Color, Rectangle, Point, GC
+
+
+
+def highlightWidget(widget, color=Color(Display.getDefault(), 255, 0, 0)):
+
+    gc = GC(widget)
+    gc.setLineWidth(4)
+    gc.setForeground(color)
+    size = widget.size
+    gc.drawRectangle(Rectangle(0, 0, size.x, size.y))
+    gc.dispose()
+
+
+
+# ----------------------------------------------
+# TO BE INTEGRATED - SEE DETAILS
+# http://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
+# from org.eclipse.swt import SWT
+# from org.eclipse.swt.widgets import Listener, Display
+#
+#
+# class KeyDownListener(Listener):
+#     def handleEvent(self, event):
+#         # IT SEEMS THAT THE CODE IS NOT A CHARACTER BUT AN INTEGER
+#         if event.stateMask & SWT.CTRL == SWT.CTRL and event.keyCode == ord('f'):
+#             print "Key", event.keyCode, event.stateMask
+#
+#
+# listener = KeyDownListener()
+# display = Display.getDefault()
+# display.addFilter(SWT.KeyDown, KeyDownListener())
+# print SWT.CTRL
 
 
 class ImageProvider(object):
