@@ -23,6 +23,8 @@
 
 # DO NOT DEFINE __all__: THIS WILL BREAK import * statements
 
+import os
+
 # noinspection PyUnresolvedReferences
 from org.modelio.api.modelio                      import Modelio
 # noinspection PyUnresolvedReferences
@@ -106,6 +108,7 @@ def theAnalystFactory():
 
 #----------------------------------------------------------------------------
 #   Access to diagram graphics
+# https://www.modelio.org/documentation/javadoc-3.3/index.html?overview-summary.html
 #----------------------------------------------------------------------------  
 
 # noinspection PyUnresolvedReferences
@@ -119,17 +122,48 @@ from org.modelio.metamodel.diagrams import AbstractDiagram
   
 
 def theDiagramService():
-  return Modelio.getInstance().getDiagramService()
-  
-def allStyleHandles():
-  """ TODO 
-  """
-  return theDiagramService().listStyles()
+    """
+    https://www.modelio.org/documentation/javadoc-3.3/index.html?overview-summary.html
+    """
+    return Modelio.getInstance().getDiagramService()
+
+
+
+#------ styles ------------
+def allStyles():
+    """ Return all diagram styles that are currently installed.
+    List<IStyleHandle>
+    """
+    return theDiagramService().listStyles()
+
+def registerStyles(styleName, baseStyleName, styleFile):
+    """
+    Register a new named style along with its 'data' file.
+    :param styleName: the name of the style to register.
+    :type styleName: str
+    :param baseStyleName: the cascaded style
+    :type baseStyleName: str
+    :param styleFile: the list of all properties defined in the style
+    :type styleFile: str
+    :return: Returns the newly created IStyleHandle or null if the style
+        could not be created. When the style already exists it is
+        simply returned.
+    :rtype: IStyleHandle
+    """
+    return theDiagramService().registerStyle(
+        styleName, baseStyleName, styleFile
+    )
+
+
+
   
 def theAutoDiagramFactory():
   """ TODO
   """
   return theDiagramService().getAutoDiagramFactory()
+
+
+#------- graphics ------------
   
 def getDiagramHandle(diagram):
   return theDiagramService().getDiagramHandle(diagram)
@@ -150,34 +184,42 @@ def getDisplayingDiagrams(element):
   return selectedDiagrams
 
 def getDiagramGraphics(element,diagramOrDiagramsOrNone=None):
-  """ Return all diagram graphics (i.e. DiagramLink, DiagramNode) that are used
-      to display the given element. If a second parameter is given then
-      only the search is restricted to the given diagram(s) 
-      (Element,(AbstractDiagram|[AbstractDiagram]|?) -> [ AbstractDiagram ]      
-      EXAMPLES
-        print getDiagramGraphics(e)
-        print getDiagramGraphics(e,mydiagram)
-        print getDiagramGraphics(e,[diagram1,diagram2,diagram3])
-  """
-  if diagramOrDiagramsOrNone is None:
-    diagrams = AbstractDiagram.allInstances()
-  elif isinstance(diagramOrDiagramsOrNone,AbstractDiagram):
-    diagrams = [ diagramOrDiagramsOrNone ]
-  else: 
-    diagrams = diagramOrDiagramsOrNone
-  diagramGraphics = []
-  for diagram in diagrams:
-    handle = getDiagramHandle(diagram)  
-    diagramGraphics.extend(handle.getDiagramGraphics(element))
-    handle.close()
-  return diagramGraphics
-  
-def saveDiagram(diagram,filename):
+    """ Return all diagram graphics (i.e. DiagramLink, DiagramNode) that are used
+        to display the given element. If a second parameter is given then
+        only the search is restricted to the given diagram(s)
+        (Element,(AbstractDiagram|[AbstractDiagram]|?) -> [ AbstractDiagram ]
+        EXAMPLES
+            print getDiagramGraphics(e)
+            print getDiagramGraphics(e,mydiagram)
+            print getDiagramGraphics(e,[diagram1,diagram2,diagram3])
+    """
+    if diagramOrDiagramsOrNone is None:
+        diagrams = AbstractDiagram.allInstances()
+    elif isinstance(diagramOrDiagramsOrNone,AbstractDiagram):
+        diagrams = [ diagramOrDiagramsOrNone ]
+    else:
+        diagrams = diagramOrDiagramsOrNone
+    diagramGraphics = []
+    for diagram in diagrams:
+        handle = getDiagramHandle(diagram)
+        diagramGraphics.extend(handle.getDiagramGraphics(element))
+        handle.close()
+    return diagramGraphics
+
+def saveDiagram(diagram, filename=None, directory=None):
     """ Save a given diagram in as an image file
     """
-    extension = filename[filename.rindex('.')+1:]
+    if filename is None:
+        extension = '.png'
+        filename = str(diagram.uuid) + extension
+    else:
+        extension = filename[filename.rindex('.')+1:]
+    if directory is None:
+        file = filename
+    else:
+        file = os.path.join(directory, filename)
     handle=getDiagramHandle(diagram)
-    handle.saveInFile(extension,filename,0)
+    handle.saveInFile(extension,file,0)
     handle.close()
 
   
@@ -236,7 +278,7 @@ from pyalaocl.modelio.profiles import *
 
 
 # noinspection PyUnresolvedReferences
-from pyalaocl.injector import readOnlyPropertyOf
+from pyalaocl.utils.injector import readOnlyPropertyOf
 # noinspection PyUnresolvedReferences
 from org.modelio.metamodel.uml.statik import Class as IClass
 # noinspection PyUnresolvedReferences
