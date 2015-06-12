@@ -5,30 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42f40348-30b2-4d41-bec7-8d7fba8423f4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/pymodelio/sandbox/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/test/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/test/pymodelio/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/test/pymodelio/misc/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/pymodelio/sandbox/browser_sandbox_map.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/test/testcases/textualTree-flat-empty-ok.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/test/pymodelio/misc/textual_tree.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commons/pymodelio/env/workspace.py" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\commons\tests\testcases\textualTree-flat-empty-ok.txt" afterPath="$PROJECT_DIR$/commons/pymodelio/sandbox/browser_sandbox.py" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\commons\tests\testcases\textualTree-flat-indent-ok.txt" afterPath="$PROJECT_DIR$/commons/test/testcases/textualTree-flat-indent-ok.txt" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\commons\tests\testcases\textualTree-flat1-ok.txt" afterPath="$PROJECT_DIR$/commons/test/testcases/textualTree-flat1-ok.txt" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\commons\tests\testcases\textualTree-nested-up-ok.txt" afterPath="$PROJECT_DIR$/commons/test/testcases/textualTree-nested-up-ok.txt" />
-      <change type="MOVED" beforePath="C:\DEV\PyModelio\commons\tests\testcases\textualTree-nested-updown-ok.txt" afterPath="$PROJECT_DIR$/commons/test/testcases/textualTree-nested-updown-ok.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/PyModelio.iml" afterPath="$PROJECT_DIR$/.idea/PyModelio.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/env/gui.py" afterPath="$PROJECT_DIR$/commons/pymodelio/env/gui.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" afterPath="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/modelio/simple.py" afterPath="$PROJECT_DIR$/commons/pymodelio/modelio/simple.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/commons/pymodelio/misc/textual_tree.py" afterPath="$PROJECT_DIR$/commons/pymodelio/misc/textual_tree.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyModelio.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -213,11 +193,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="introspection.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="introspection.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.76971215" vertical-offset="4366" max-vertical-offset="12954">
-              <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+            <state vertical-scroll-proportion="-21.727272" vertical-offset="4366" max-vertical-offset="12954">
+              <caret line="397" column="27" selection-start-line="397" selection-start-column="27" selection-end-line="397" selection-end-column="27" />
               <folding>
                 <element signature="e#6686#6863#0" expanded="true" />
                 <element signature="e#6907#7932#0" expanded="true" />
@@ -226,6 +206,16 @@
                 <element signature="e#29800#30404#0" expanded="true" />
                 <element signature="e#32021#32492#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/commons/pymodelio/sandbox/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="832">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -239,16 +229,6 @@
                 <element signature="e#239#252#0" expanded="true" />
                 <element signature="e#5737#5763#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="simple.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/commons/pymodelio/modelio/simple.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4539" max-vertical-offset="7582">
-              <caret line="267" column="0" selection-start-line="267" selection-start-column="0" selection-end-line="267" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -269,7 +249,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/commons/pymodelio/setup.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/env.py" />
         <option value="$PROJECT_DIR$/commons/pymodelio/plugins.py" />
         <option value="$PROJECT_DIR$/plugins/OCLScribe/oclscribe/__init__.py" />
@@ -370,6 +349,7 @@
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/explorer.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/images.py" />
         <option value="$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py" />
+        <option value="$PROJECT_DIR$/commons/pymodelio/sandbox/__init__.py" />
       </list>
     </option>
   </component>
@@ -571,6 +551,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="pymodelio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyModelio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyModelio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="commons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pymodelio" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sandbox" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1073,13 +1075,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/commons/pymodelio/TO_BE_REUSED.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="2737">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="21013" max-vertical-offset="23273">
@@ -1921,8 +1916,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plugins/MetaScribe/metascribe/introspection.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76971215" vertical-offset="4366" max-vertical-offset="12954">
-          <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
+        <state vertical-scroll-proportion="-21.727272" vertical-offset="4366" max-vertical-offset="12954">
+          <caret line="397" column="27" selection-start-line="397" selection-start-column="27" selection-end-line="397" selection-end-column="27" />
           <folding>
             <element signature="e#6686#6863#0" expanded="true" />
             <element signature="e#6907#7932#0" expanded="true" />
@@ -1931,6 +1926,14 @@
             <element signature="e#29800#30404#0" expanded="true" />
             <element signature="e#32021#32492#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commons/pymodelio/sandbox/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="832">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
