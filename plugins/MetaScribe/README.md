@@ -1,24 +1,28 @@
 Target audience
 ===============
-This modelio plugin is  mainly dedicated to developers who need to understand modelio Metamodel, for instance to develop scripts or modules. It allows the co-exploration of a model and the corresponding metamodel.
+This modelio plugin is  mainly dedicated to developers who need to understand
+modelio Metamodel, for instance to develop scripts or modules. It allows
+the co-exploration of a model and the corresponding metamodel.
 
 Description
 ===========
 This macro allows to explore the set of selected elements by navigating at the
-same time in the model and the metamodel. While Modelio' model explorer and property
-sheets presents a "user oriented" view of the model, the CoExplorer will present
-a view strictly in line with the actual metamodel. 
+same time in the model and the metamodel. While Modelio' model explorer and
+property sheets presents a "user oriented" view of the model, the CoExplorer
+will present a view strictly in line with the actual metamodel.
 The set of all (non empty) features associated with each element is displayed,
-allowing the navigation to continue. Note that the tree is virtually infinite and
-that there is currently no indication that an element has been already visited.
-The methods followed are those of the form getXXX(), isXXX() and toString() with no
-parameters. A few "virtual" methods which do not have direct correspondance in modelio
-are also added, in particular to enable navigation to and within diagrams.
-The co-explorer allows to navigate at the same time the model
-and discover a slice of the metamodel, the slice that is useful for the model at hand.
-The explorer not only allow to explore ModelElement, but also other Java entities,
-and interestingly enough the DiagramGraphic elements. In modelio graphical entities
-are not modeled, but the exploration is made possible.
+allowing the navigation to continue. Note that the tree is virtually infinite
+and that there is currently no indication that an element has been already
+visited.
+The methods followed are those of the form getXXX(), isXXX() and toString()
+with no parameters. A few "virtual" methods which do not have direct
+correspondance in modelio are also added, in particular to enable navigation
+to and within diagrams.
+The co-explorer allows to navigate at the same time the model and discover a
+slice of the metamodel, the slice that is useful for the model at hand.
+The explorer not only allow to explore ModelElement, but also other Java
+entities, and interestingly enough the DiagramGraphic elements. In modelio
+graphical entities are not modeled, but the exploration is made possible.
 
 History
 =======
