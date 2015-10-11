@@ -41,8 +41,8 @@ The parameter is one of the following key:
 import logging
 log = logging.getLogger(__name__)
 
-FRIEND_PROJECTS = ['PyAlaOCL']
-
+# FIXME. PyAlaOCL should be made regular python module in pypy.
+FRIEND_PROJECTS = ['PyAlaOCL','PyUseOCL']# PyUseOCL should be a dep of OCLScribe
 import os
 import sys
 import platform
@@ -344,6 +344,7 @@ class PyModelioEnv(object):
         # should be imported for reloading submodules to work
         import pymodelio  # useful
         import pyalaocl  # useful
+        import pyuseocl # useful?
         #
         # for moduleName in CoreModules:
         #     if moduleName in sys.modules:
@@ -878,6 +879,21 @@ class PyModelioEnv(object):
         # Having these import here instead that at the global level
         # avoid problems with importing this module in python rather
         # then jython. Useful for sphinx and so on.
+
+        # Just for the record and documentation of exact behavior
+        # This little snippet shows that jython class loader is not
+        # the changing the class loader used by java when loaded/
+        # The code can be typed on the console assuming that log4j have been
+        # added in the class loader (using this setJavaPath function for
+        # instance)
+        #   import sys
+        #   from java.lang import Class
+        #   from org.apache.log4j import Logger;
+        #   print "import from python: OK"
+        #   Class.forName("org.apache.log4j.Logger",True,sys.getClassLoader())
+        #   print "import from jython system class loader: OK"
+        #   Class.forName("org.apache.log4j.Logger")
+        #   print "import from initial java class loader: KO :("
 
         # noinspection PyUnresolvedReferences
         import java.net
