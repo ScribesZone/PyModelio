@@ -1,8 +1,8 @@
 While the open source environment Modelio allows to develop extensions in the
 form of so-called '**modules**' written in java, it does not provide support
 to develop non-trivial extensions in jython/python. This is exactly what
-the PyModelio framework is for: PyModelio allows to develop what we call 
-'**plugins**' in jython/python. 
+the PyModelio framework is for: PyModelio allows to develop in jython what we
+call '**plugins**' .
 
 PyModelio is based on of the best features of Modelio, the jython interpreter. 
 With modelio alone, one can write simple macros in jython. While this is
@@ -11,7 +11,7 @@ when complexity raises. PyModelio aims to solve this and make it possible to
 offer the developer wishing to entend modelio to choose between:
 
 * developing 'modules' in java, 
-* developing 'plugins' in jython/python. 
+* developing 'plugins' in jython.
 
 The term "plugin" (which is not a modelio  concept) is used here to refer to 
 consistent set of jython scripts with possibly additional resources. While 
