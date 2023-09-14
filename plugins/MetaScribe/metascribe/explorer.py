@@ -115,6 +115,7 @@ def explore(x,browser=False,emptySlots=False):
             elif mv.isElementList():
                 return images.getImageFromName("assoc-n")
             elif mv.isScalar():
+                print 'images isScalar',mv.getValue(),type(mv.getValue())
                 return images.getImageFromType(type(mv.getValue()))
             elif mv.isEnumerationLiteral():
                 return images.getImageFromName("enumeration")

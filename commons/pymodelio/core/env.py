@@ -41,7 +41,7 @@ The parameter is one of the following key:
 import logging
 log = logging.getLogger(__name__)
 
-# FIXME. PyAlaOCL should be made regular python module in pypy.
+# TODO. PyAlaOCL should be made regular python module in pypy.
 FRIEND_PROJECTS = ['PyAlaOCL','PyUseOCL']# PyUseOCL should be a dep of OCLScribe
 import os
 import sys
@@ -534,7 +534,8 @@ class PyModelioEnv(object):
             # remove the following directory from the path to get the real
             # initial path.
             framework_commons = os.path.join(cls.MAIN,"commons")
-            sys.path.remove(framework_commons)
+            if framework_commons in sys.path:
+                sys.path.remove(framework_commons)
             cls.PATH_PYTHON_INITIAL = list(sys.path)
 
 
@@ -678,7 +679,7 @@ class PyModelioEnv(object):
 
         try:
             # noinspection PyUnresolvedReferences
-            cls.LOCAL = pymodelioprofile.settings.PYMODELIO_LOCAL
+            cls.LOCAL = os.path.expanduser(pymodelioprofile.settings.PYMODELIO_LOCAL)
             log.info('    LOCAL = %s', cls.LOCAL)
         except Exception as e:
             msg = '     pymodelioprofile.settings.PYMODELIO_LOCAL not defined'
@@ -689,7 +690,8 @@ class PyModelioEnv(object):
         if cls.LOCAL is None:
             # The user has not specified any value in its file
             # By default this will be a directory in in the .modelio directory
-            cls.LOCAL = os.path.join(cls.USER_MODELIO,"PyModelioLocal")
+            cls.LOCAL = os.path.expanduser(os.path.join(cls.USER_MODELIO,"PyModelioLocal"))
+        print cls.LOCAL
         cls.LOCAL_WORKING_DIRECTORY = \
             os.path.join(cls.LOCAL,'working_directory')
         cls.LOCAL_SCRIPTS = os.path.join(cls.LOCAL, 'scripts')
@@ -719,12 +721,12 @@ class PyModelioEnv(object):
         # use to build the mapping between constants and paths
         # keep it to make evolution of mapping possible
         SUBDIRECTORY_MAP = {
-            "COMMONS": ("commons","PYTHON"),
+            "COMMONS"       : ("commons","PYTHON"),
             'RES'           : ('res',None),
             'TESTS'         : ('commons tests','PYTHON'),
             'DOCS'          : ('docs','DOCS'),
-            "LIBS_PYTHON": ("libs python","PYTHON"),
-            "LIBS_JAVA": ("libs java","JAVA"),
+            "LIBS_PYTHON"   : ("libs python","PYTHON"),
+            "LIBS_JAVA"     : ("libs java","JAVA"),
         }
 
         # initialize the different path element lists to []

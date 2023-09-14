@@ -23,30 +23,36 @@ from org.modelio.api.modelio import Modelio
 # This includes both basic types, but also graphics, etc.
 
 class ClassImageProvider(pymodelio.env.gui.ImageProvider):
-    """ Provide some images for types.
-        We first try to check if there is an image corresponding exactly
-        to the name of the type (unqualified). If this is not the case then
-        the we search in a class root path in a sequential order. The first
-        class which is a superclass of return the image. That is, the types
-        given as a path should be from the most specific one, to the most
-        general one.
+    """
+    Provide some images for types.
+    We first try to check if there is an image corresponding exactly
+    to the name of the type (unqualified). If this is not the case then,
+    one of its supertype might be registered in a path. That is if
+    the type provided is a subtype of a given class root, then this root is
+    selected.
+    The first class which is a superclass of the type return the image.
+    That is, the types given as a path should be from the most specific one,
+    to the most general one.
     """
 
-    def __init__(self,resourcePath="",classSearchPath=()):
+    def __init__(self, resourcePath='', classSearchPath=() ):
         pymodelio.env.gui.ImageProvider.__init__(self,resourcePath)
-        # the order in which one will select the image. Contains a list of classes
+        # the order in which one will select the image.
+        # This list contains a list of classes
         self.classSearchPath = classSearchPath
 
-    def appendClassesToSearchPath(self,classes):
+    def appendClassesToSearchPath(self, classes):
         self.classSearchPath.append(classes)
 
-    def getImageFromType(self,classe):
+    def getImageFromType(self, classe):
         # first try to get the image with the exact name of the type
-        image = self.getImageFromName(
-            introspection.getNameFromType(classe,noPath=True))
+        type_name = introspection.getNameFromType(classe, noPath=True)
+        image = self.getImageFromName(type_name)
+        print '??? ', type_name, image
         if image is not None:
             return image
         else:
+            print 'searching in path'
             # not found, then search in the class root path
             for class_root in self.classSearchPath:
                 if issubclass(classe,class_root):

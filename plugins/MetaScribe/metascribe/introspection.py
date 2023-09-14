@@ -1,5 +1,33 @@
 # coding=utf-8
 
+
+
+# FIXME
+# When selecting a element in a diagram the folowing code break
+# the explorer:
+#   x = selection.getFirstElement()
+#   print(x)
+#   print ":", type(x)
+#   print dir(x)
+# raise this exception:
+# AttributeError: type object 'java.util.List' has no attribute 'getActualTypeArguments' in <script> at line number 10
+# Traceback (most recent call last):
+#   File "<script>", line 10, in <module>
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 1146, in explore
+#     TreeWindow(map(getElementInfo,x),_getChildren,_isLeaf, \
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 1032, in getElementInfo
+#     info = ElementInfo(element)
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 964, in __init__
+#     self.metaclassInfo = getMetaclassInfo(self.metaclass)
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 626, in getMetaclassInfo
+#     info = MetaclassInfo(metaclass)
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 584, in __init__
+#     self.metaFeatures = getMetaFeatures(metaclass)
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 567, in getMetaFeatures
+#     javaMethodInfos = map(_getJavaMethodInfo,javaMethods )
+#   File "C:\DEV\Modelio3WorkspaceGenOCL-G99\macros\lib\introspection.py", line 431, in _getJavaMethodInfo
+#     if len(returnType.getActualTypeArguments()) != 0:
+# AttributeError: type object 'java.util.List' has no attribute 'getActualTypeArguments'
 #
 # metascribe_introspection
 #
@@ -112,10 +140,23 @@ def _isPythonBuiltin(name):
     return name.startswith('__') and name.endswith('__')
 
 
+
+
+#------------------------------------------------------------------------------
+#   Modelio metaclass (in fact meta interfaces) <--> string
+#------------------------------------------------------------------------------
+
 def getMetaclassFromName(metaclassName):
-    """ get the Modelio Metaclass inheriting from ModelioElement and
-       corresponding to the given name of a metaclass.
-       Return None if the name provided is not the name of a metaclass
+    """
+    Get the Modelio Metaclass inheriting from ModelioElement and
+    corresponding to the given name of a metaclass.
+    Return None if the name provided is not the name of a metaclass
+    :param metaclassName: the name of a modelio metaclass (e.g. "UseCase")
+        or an arbitrary string
+    :type metaclassName: str
+    :return: The java interface corresponding the metamclass (e.g. the
+        interface IUseCase) or None if the name is not valid.
+    :rtype:None|java.lang.Class
     """
     return METAMODEL_SERVICE.getMetaclass(metaclassName)
 
@@ -123,8 +164,11 @@ def getMetaclassFromName(metaclassName):
 from java.lang import Class as JavaLangClass
 
 
+
+
 def getNameFromMetaclass(metaclass):
-    """ get the name of a metaclass or a java class
+    """
+    Get the name of a metaclass or a java class or a type.
     """
     # TODO
     if issubclass(metaclass,ModelioElement):
@@ -132,7 +176,10 @@ def getNameFromMetaclass(metaclass):
     elif metaclass is JavaLangClass:
         name = "java.lang.Class"
     else:
-        name = unicode(metaclass.getCanonicalName())
+        try:
+            name = unicode(metaclass.getCanonicalName())
+        except:
+            name = unicode(str((metaclass)))
     return name
 
 
@@ -158,16 +205,21 @@ def isEnumeration(x):
 
 # noinspection PyUnresolvedReferences
 from java.util import Collection as JavaCollection
+from array import array
 
-# FIXME: Generalize this to alaocl any Collection
+# FIXME: Generalizationto alaocl any Collection
+# FIXME: support for array.array required
+#     solution: a.tolist() for the conversion
+#               a.typecode for the type of the component of the array
 def isList(x):
     # is it enough?
     return isinstance(x,list) \
            or isinstance(x,JavaCollection) \
-           or isinstance(x,pyalaocl.Seq)
+           or isinstance(x,pyalaocl.Seq) #\
+           #or isinstance(x,array.array)
 
 
-def getNameFromType(t,noPath=True):
+def getNameFromType(t, noPath=True):
     """ get name from a type, i.e. a metaclass or a basic type
     """
     if t is java.lang.String:
@@ -314,13 +366,32 @@ def _getJavaMethodInfo(javaMethod):
     # in which case this is a multivalued association end
     if javaMethod.getReturnType() in LIST_TYPES:
         multiple = True
-        if len(returnType.getActualTypeArguments()) != 0:
-            returnType = returnType.getActualTypeArguments()[0]
-        else:
-            returnType = javaMethod.getReturnType()[0].getBounds()[0]
+        try:
+            if len(returnType.getActualTypeArguments()) != 0:
+                returnType = returnType.getActualTypeArguments()[0]
+            else:
+                returnType = javaMethod.getReturnType()[0].getBounds()[0]
+        except:
+            returnType = None
     else:
         multiple = False
     return (classe,name,parameterTypes,returnType,multiple)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -602,7 +673,7 @@ def getElementPath(element):
 
 
 
-    #--------- model level ------------------------------------------
+#--------- model level ------------------------------------------
 
 
 def isNone(x):
@@ -651,7 +722,7 @@ def getElementId(element):
             try:
                 s = unicode(element.getId())
             except:
-                s = u"jythonId(" + unicode(id(element)) + u")"
+                s = u"jythonId#%s" % unicode(id(element))
     return s
 
 # noinspection PyUnresolvedReferences

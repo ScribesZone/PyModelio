@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/.modelio/.idea/.modelio.iml" filepath="$USER_HOME$/.modelio/.idea/.modelio.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PyModelio.iml" filepath="$PROJECT_DIR$/.idea/PyModelio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../ScribesZone/PyModelioLocal/.idea/PyModelioLocal.iml" filepath="$PROJECT_DIR$/../../ScribesZone/PyModelioLocal/.idea/PyModelioLocal.iml" />
     </modules>
   </component>
 </project>
-
